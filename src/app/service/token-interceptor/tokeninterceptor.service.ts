@@ -17,11 +17,11 @@ export class TokeninterceptorService implements HttpInterceptor {
 
     //get the jwt token which are present in the local storage
     
-    const token = JSON.parse(String(localStorage.getItem('token')));
+    // const token = JSON.parse(String(localStorage.getItem('token')));
 
-    if(token !=null){
-      this.token = this.service.decryptData(token);
-    }
+    // if(token !=null){
+    //   this.token = this.service.decryptData(token);
+    // }
  
     let tokenheader = req.clone({
       setHeaders: {

@@ -39,13 +39,16 @@ import { DatePipe } from '@angular/common';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { TokenExpiredDialogComponent } from './token-expired-dialog/token-expired-dialog.component';
 import { NgSelect2Module } from 'ng-select2';
+import { ApproveVisitorComponent } from './visitor-management/template/approve-visitor/approve-visitor.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
     InviteVisitorComponent,
-    TokenExpiredDialogComponent
+    TokenExpiredDialogComponent,
+    ApproveVisitorComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SharedComponent } from './shared/shared.component';
 import { InviteVisitorComponent } from './visitor-management/template/invite-visitor/invite-visitor.component';
 import { TokenExpiredDialogComponent } from './token-expired-dialog/token-expired-dialog.component';
+import { ApproveVisitorComponent } from './visitor-management/template/approve-visitor/approve-visitor.component';
 
 
 
@@ -33,6 +34,7 @@ const routes: Routes = [
     loadChildren:()=>import('./layout/layout.module').then(x=>x.LayoutModule)
   },
   {path:'invite-visitor',component:InviteVisitorComponent},
+  {path:'approve-visitor',component:ApproveVisitorComponent},
   {path: 'token-expired-dialog', component: TokenExpiredDialogComponent},
   {path: '**', component: PageNotFoundComponent }
 ];
