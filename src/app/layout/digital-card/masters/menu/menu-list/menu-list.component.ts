@@ -47,29 +47,29 @@ export class MenuListComponent implements OnInit {
     const stringArrayAction: string[] = this.actionName;
     const numberArrayAction: string[] = stringArrayAction[0].split(',');
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Insert'){
-        this.Insert = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Insert'){
+    //     this.Insert = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Update'){
-        this.Update = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Update'){
+    //     this.Update = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Delete'){
-        this.Delete = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Delete'){
+    //     this.Delete = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Select'){
-        this.Select = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Select'){
+    //     this.Select = true;
+    //   }
+    // }
     await this.getAllMenuList();
     await this.getAllStatus();
   }

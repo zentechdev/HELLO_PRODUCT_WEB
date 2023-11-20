@@ -56,6 +56,24 @@ import { MenuListComponent } from './menu/menu-list/menu-list.component';
 import { MenuDialogComponent } from './menu/menu-dialog/menu-dialog.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { UserListComponent } from './manage-user-list/user-list/user-list.component';
+import { PlanListComponent } from './plan/plan-list/plan-list.component';
+import { PlanDialogComponent } from './plan/plan-dialog/plan-dialog.component';
+import { ModuleListComponent } from './module/module-list/module-list.component';
+import { ModuleDialogComponent } from './module/module-dialog/module-dialog.component';
+import { WingListComponent } from './wing/wing-list/wing-list.component';
+import { WingDialogComponent } from './wing/wing-dialog/wing-dialog.component';
+import { FloorListComponent } from './floor/floor-list/floor-list.component';
+import { FloorDialogComponent } from './floor/floor-dialog/floor-dialog.component';
+import { UnitNumberListComponent } from './unit-number/unit-number-list/unit-number-list.component';
+import { UnitNumberDialogComponent } from './unit-number/unit-number-dialog/unit-number-dialog.component';
+import { UnitListComponent } from './unit/unit-list/unit-list.component';
+import { UnitDialogComponent } from './unit/unit-dialog/unit-dialog.component';
+import { SiteListComponent } from './site/site-list/site-list.component';
+import { SiteDialogComponent } from './site/site-dialog/site-dialog.component';
+import { OrganizationTypeListComponent } from './organization-type/organization-type-list/organization-type-list.component';
+import { OrganizationTypeDialogComponent } from './organization-type/organization-type-dialog/organization-type-dialog.component';
+import { TechnologyTypeListComponent } from './technology-type/technology-type-list/technology-type-list.component';
+import { TechnologyTypeDialogComponent } from './technology-type/technology-type-dialog/technology-type-dialog.component';
 
 
 
@@ -91,6 +109,24 @@ import { UserListComponent } from './manage-user-list/user-list/user-list.compon
     MenuListComponent,
     MenuDialogComponent,
     UserListComponent,
+    PlanListComponent,
+    PlanDialogComponent,
+    ModuleListComponent,
+    ModuleDialogComponent,
+    WingListComponent,
+    WingDialogComponent,
+    FloorListComponent,
+    FloorDialogComponent,
+    UnitNumberListComponent,
+    UnitNumberDialogComponent,
+    UnitListComponent,
+    UnitDialogComponent,
+    SiteListComponent,
+    SiteDialogComponent,
+    OrganizationTypeListComponent,
+    OrganizationTypeDialogComponent,
+    TechnologyTypeListComponent,
+    TechnologyTypeDialogComponent,
   ],
   imports: [
     CommonModule,

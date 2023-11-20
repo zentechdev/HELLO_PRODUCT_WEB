@@ -17,11 +17,11 @@ export class TokeninterceptorService implements HttpInterceptor {
 
     //get the jwt token which are present in the local storage
     
-    const token = JSON.parse(String(localStorage.getItem('token')));
+    // const token = JSON.parse(String(localStorage.getItem('token')));
 
-    if(token !=null){
-      this.token = this.service.decryptData(token);
-    }
+    // if(token !=null){
+    //   this.token = this.service.decryptData(token);
+    // }
  
     let tokenheader = req.clone({
       setHeaders: {
@@ -35,18 +35,22 @@ export class TokeninterceptorService implements HttpInterceptor {
             this.openDialog().then(navigate => {
               if (navigate) {
                 // this.alertify.success("Logout Successfull!!");
-                localStorage.removeItem('employeeName');
-                localStorage.removeItem('employeeCode');
-                localStorage.removeItem('emailId');
-                localStorage.removeItem('dateOfBirth');
+                localStorage.removeItem('memberId');
+                localStorage.removeItem('clientId');
+                localStorage.removeItem('siteId');
+                localStorage.removeItem('unitId');
+                localStorage.removeItem('unitNumber');
+                localStorage.removeItem('clientName');
+                localStorage.removeItem('siteName');
+                localStorage.removeItem('memberName');
+                localStorage.removeItem('roleName');
+                localStorage.removeItem('menuName');
                 localStorage.removeItem('mobileNumber');
-                localStorage.removeItem('department');
-                localStorage.removeItem('employeeName');
+                localStorage.removeItem('qrNumber');
                 localStorage.removeItem('image');
                 localStorage.removeItem('token');
-                localStorage.removeItem('roleName');
-                localStorage.removeItem('actionName');
-                localStorage.removeItem('branchList');
+                localStorage.removeItem('employeeTechAccessId');
+                localStorage.removeItem('visitorTechAccessId');
                 this.router.navigate(['/'])
               }
             });

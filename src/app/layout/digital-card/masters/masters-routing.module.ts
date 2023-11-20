@@ -29,6 +29,22 @@ import { StateComponent } from './state/state/state.component';
 import { StatusListComponent } from './status/status-list/status-list.component';
 import { StatusComponent } from './status/status/status.component';
 import { UserListComponent } from './manage-user-list/user-list/user-list.component';
+import { PlanListComponent } from './plan/plan-list/plan-list.component';
+import { PlanDialogComponent } from './plan/plan-dialog/plan-dialog.component';
+import { ModuleListComponent } from './module/module-list/module-list.component';
+import { ModuleDialogComponent } from './module/module-dialog/module-dialog.component';
+import { WingListComponent } from './wing/wing-list/wing-list.component';
+import { WingDialogComponent } from './wing/wing-dialog/wing-dialog.component';
+import { FloorListComponent } from './floor/floor-list/floor-list.component';
+import { FloorDialogComponent } from './floor/floor-dialog/floor-dialog.component';
+import { UnitListComponent } from './unit/unit-list/unit-list.component';
+import { UnitNumberDialogComponent } from './unit-number/unit-number-dialog/unit-number-dialog.component';
+import { UnitNumberListComponent } from './unit-number/unit-number-list/unit-number-list.component';
+import { UnitDialogComponent } from './unit/unit-dialog/unit-dialog.component';
+import { OrganizationTypeListComponent } from './organization-type/organization-type-list/organization-type-list.component';
+import { OrganizationTypeDialogComponent } from './organization-type/organization-type-dialog/organization-type-dialog.component';
+import { TechnologyTypeListComponent } from './technology-type/technology-type-list/technology-type-list.component';
+import { TechnologyTypeDialogComponent } from './technology-type/technology-type-dialog/technology-type-dialog.component';
 
 const routes: Routes = [
   {path:'color-code',component:ColorCodeComponent},
@@ -60,6 +76,22 @@ const routes: Routes = [
   {path:'menu-list',component:MenuListComponent},
   {path:'menu-dialog',component:MenuDialogComponent},
   {path:'user-list',component:UserListComponent},
+  {path:'plan-list', component:PlanListComponent},
+  {path:'plan-dialog', component:PlanDialogComponent},
+  {path:'module-list', component:ModuleListComponent},
+  {path:'module-dialog', component:ModuleDialogComponent},
+  {path:'wing-list', component:WingListComponent},
+  {path:'wing-dialog', component:WingDialogComponent},
+  {path:'floor-list', component:FloorListComponent},
+  {path:'floor-dialog', component:FloorDialogComponent},
+  {path:'unit-number-list', component:UnitNumberListComponent},
+  {path:'unit-number-dialog', component:UnitNumberDialogComponent},
+  {path:'unit-list',component:UnitListComponent},
+  {path:'unit-dialog', component:UnitDialogComponent},
+  {path:'organization-type-list', component:OrganizationTypeListComponent},
+  {path:'organization-type-dialog', component:OrganizationTypeDialogComponent},
+  {path:'technology-type-list', component:TechnologyTypeListComponent},
+  {path:'technology-type-dialog', component:TechnologyTypeDialogComponent}
 ];
 
 @NgModule({

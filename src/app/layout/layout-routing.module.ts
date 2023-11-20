@@ -10,10 +10,16 @@ import { SeatBookingComponent } from './seat-booking/seat-booking.component';
 import { MeetingBookingComponent } from './meeting-booking/meeting-booking.component';
 import { PermissionsComponent } from './permissions/permissions.component';
 import { DeviceManagementComponent } from './device-management/device-management.component';
+import { AddClientComponent } from './add-client/add-client.component';
 
 
 
 const routes: Routes = [
+  {
+    path:'add-client',
+    component:AddClientComponent,
+    loadChildren:()=>import('./add-client/add-client.module').then(x=>x.AddClientModule)
+  },
   {
     path:'dashboard',
     component:DashboardComponent,

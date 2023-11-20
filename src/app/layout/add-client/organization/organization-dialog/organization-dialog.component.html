@@ -1,0 +1,69 @@
+<div mat-dialog-content>
+    <h3 mat-dialog-title><b>Organization Details</b></h3>
+    <div class="container mb-5">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Organization Name</mat-label>
+                        <input formControlName="organizationName" matInput placeholder="Organization Name" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('organizationName')?.hasError('required')">
+                            Menu Name <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Orgnisation Type</mat-label>
+                        <input formControlName="orgnisationType" matInput placeholder="Orgnisation Type" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('orgnisationType')?.hasError('required')">
+                            Menu Url <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Visitor TechType</mat-label>
+                        <mat-select formControlName="visitorTechType" placeholder="Visitor TechType">
+                            <mat-option value="Parent">QR </mat-option>
+                            <mat-option value="Child">RFID</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('visitorTechType')?.hasError('required')">
+                            Visitor TechType <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Employee TechType</mat-label>
+                        <input formControlName="employeeTechType" matInput placeholder="Employee TechType" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('employeeTechType')?.hasError('required')">
+                            Parent Id <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Menu Icon</mat-label>
+                        <input formControlName="menuIcon" matInput placeholder="Menu Icon" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('menuIcon')?.hasError('required')">
+                            Menu Icon <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="isActive" placeholder="isActive">
+                            <mat-option *ngFor="let isActive of isActiveList"
+                                [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row" style="display: flex; justify-content: center">
+                <div class="col-md-6 col-lg-4 col-sm-12" >
+                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:45px">CANCEL</button>
+                    <button mat-flat-button class="button button4" color="primary"
+                        (click)="postData()" style="margin-left: 10px;">{{actionBtn}}</button>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>

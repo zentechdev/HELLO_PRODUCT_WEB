@@ -18,7 +18,7 @@ export class BrochureUploadService {
   }
 
   getBrochure() {
-    return this.http.get<any>(`${baseUrl}/api/Brochure/getAllBrochure`);
+    return this.http.get<any>(`${baseUrl}/api/InquiryOrganization/getAllInquiryOrganization`);
   }
 
   postBrochure(data: any) {

@@ -7,7 +7,7 @@ export const environment = {
 };
 // export const baseUrl=`http://192.168.0.152:5000`;
 // export const baseUrl=`http://192.168.0.152:5000`;
-export const baseUrl=`https://localhost:7010`;
+export const baseUrl=`https://helloproduct.azurewebsites.net`;
 
 // export const baseUrl=`https://helloadmin.azurewebsites.net`;
   //  export const baseUrl=`http://localhost:5000`;

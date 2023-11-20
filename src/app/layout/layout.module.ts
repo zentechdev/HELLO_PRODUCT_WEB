@@ -40,6 +40,7 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { DeviceManagementModule } from './device-management/device-management.module';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { NgSelect2Module } from 'ng-select2';
+import { AddClientModule } from './add-client/add-client.module';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { NgSelect2Module } from 'ng-select2';
         MeetingBookingModule,
         PermissionsModule,
         MatTableExporterModule,
-        NgSelect2Module
+        NgSelect2Module,
+        AddClientModule
     ]
 })
 export class LayoutModule { }

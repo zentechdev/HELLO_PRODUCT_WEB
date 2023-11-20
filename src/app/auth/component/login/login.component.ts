@@ -54,8 +54,8 @@ export class LoginComponent implements OnInit {
           next: (res) => {
             if (res.isSuccess == true) {
               //set token to local storage
-              const encryptedData = this.storageEncryptionService.encryptData(res.token);
-              localStorage.setItem('token', encryptedData);
+              const encryptedData15 = this.storageEncryptionService.encryptData(res.token);
+              localStorage.setItem('token', encryptedData15);
 
               //Decode string from JWT Token
               const helper = new JwtHelperService();
