@@ -1,0 +1,148 @@
+.mat-card .mat-card-content.info-card--success .card-icon-wrapper {
+    background-color: #183a59;
+    box-shadow: 0 0 10px 5px rgb(24 58 89 / 10%);
+}
+
+.mat-card .mat-card-content.info-card .card-icon-wrapper .mat-icon {
+    color: #fff;
+    font-size: 30px;
+}
+
+.mat-icon {
+    height: auto;
+    width: auto;
+    color: #66615b;
+}
+
+
+.mat-card .mat-card-content.info-card .card-icon-wrapper {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 57px;
+    height: 57px;
+    border-radius: 2px;
+    background-color: #183a59;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mat-card .mat-card-content.info-card--danger .card-icon-wrapper {
+    background-color: #183a59;
+    box-shadow: 0 0 10px 5px rgb(24 58 89 / 10%);
+}
+
+.mat-card .mat-card-content.info-card--primary .card-icon-wrapper {
+    background-color: #183a59;
+    box-shadow: 0 0 10px 5px rgb(24 58 89 / 10%);
+}
+
+.mat-card .mat-card-content.info-card--info .card-icon-wrapper {
+    background-color: #183a59;
+    box-shadow: 0 0 10px 5px rgb(24 58 89 / 10%);
+}
+
+table.mat-table {
+    width: 100%
+}
+
+.mat-card-title {
+    font-size: 15px;
+}
+
+.mat-card-subtitle,
+.mat-card-content {
+    font-size: 12px;
+}
+
+
+.dashboard_bg {
+    background-color: #f3f3f3;
+}
+
+.header_toolbar {
+    background: #fff;
+    /* box-shadow: 0px 0px 20px 0px rgb(0 0 0 / 5%); */
+}
+
+.dash_icon {
+    font-size: 68px;
+    color: #fbc658;
+}
+
+.dash_icon1 {
+    font-size: 68px;
+    color: #6bd098;
+}
+
+.dash_icon2 {
+    font-size: 68px;
+    color: #85c1f7;
+}
+
+.dash_icon3 {
+    font-size: 68px;
+    color: #ef8157;
+}
+
+.card_box {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0 10px;
+}
+
+.card_number {
+    font-size: 50px;
+    font-weight: 300;
+    margin: 20px 0 10px;
+    text-align: right;
+}
+
+.card_txt {
+    padding: 10px 0 0;
+}
+
+.card_main {
+    border-radius: 12px;
+    box-shadow: 0 6px 10px -4px rgb(0 0 0 / 15%);
+}
+
+.main-content .ng-star-inserted .container {
+    max-width: 100%;
+}
+
+.userName {
+    justify-content: center;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    color: #66615b;
+}
+
+@media screen and (max-width: 768px) {
+    /* .sideNavLogo {
+      display: none;
+    } */
+  
+    /* .mat-sidenav .open{
+      display:flex;
+    } */
+
+
+    /* @media screen and (min-width: 0px) and (max-width: 350px) {
+        .mat-sidenav{ display: block; }          
+      }
+      
+      @media screen and (min-width: 350px) and (max-width: 768px) {
+        .mat-sidenav { width: fit-content; }   
+      } */
+  }
+
+  @media (min-width: 350px) and (max-width: 768px) { 
+
+  }
+
+
+ 

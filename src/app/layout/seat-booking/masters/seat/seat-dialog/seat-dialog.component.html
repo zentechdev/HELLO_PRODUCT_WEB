@@ -1,0 +1,80 @@
+<div mat-dialog-content>
+    <h3 mat-dialog-title><b>SEAT</b></h3>
+    <div class="container mb-5">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- <mat-form-field appearance="outline">
+                        <mat-label>Branch Name</mat-label>
+                        <mat-select formControlName="branchId" placeholder="Branch Name">
+                            <mat-option *ngFor="let branch of branchList"
+                                [value]="branch.branchName">{{branch.branchName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+                            Branch Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field> -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Search Branch</mat-label>
+                        <input matInput placeholder="Search Branches" formControlName="branchId"
+                            (input)="filterBranches($event)" (focus)="showAllBranches()" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
+                                {{ branch.branchName }} || {{ branch.stateName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <!-- <mat-form-field appearance="outline">
+                        <mat-label>Asset Type</mat-label>
+                        <mat-select formControlName="assetTypeId" placeholder="Asset Type">
+                            <mat-option *ngFor="let assetType of assetTypeList"
+                                [value]="assetType.assetType">{{assetType.assetType}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('assetTypeId')?.hasError('required')">
+                            Asset Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field> -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Seat Number</mat-label>
+                        <input type="number" formControlName="seatNumber" matInput placeholder="Seat Number"
+                            autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('seatNumber')?.hasError('required')">
+                            Seat Number is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Seat Type</mat-label>
+                        <mat-select formControlName="seatTypeId" placeholder="Seat Type">
+                            <mat-option *ngFor="let seatType of seatTypeList"
+                                [value]="seatType.seatType">{{seatType.seatType}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('seatTypeId')?.hasError('required')">
+                            Seat Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="isActive" placeholder="isActive">
+                            <mat-option *ngFor="let isActive of isActiveList"
+                                [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row" style="display: flex; justify-content: center">
+                <div class="col-md-6 col-lg-4 col-sm-12">
+                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close
+                        style="margin-left:45px">CANCEL</button>
+                    <button mat-flat-button class="button button4" color="primary" (click)="postData()"
+                        style="margin-left: 10px;">{{actionBtn}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

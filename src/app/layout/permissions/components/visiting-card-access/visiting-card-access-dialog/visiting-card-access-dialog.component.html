@@ -1,0 +1,77 @@
+<div mat-dialog-content>
+    <h3 mat-dialog-title><b>VISITING CARD ACCESS</b></h3>
+    <div class="container mb-5">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Employee Code</mat-label>
+                        <input formControlName="employeeCode" matInput placeholder="Employee Code" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('employeeCode')?.hasError('required')">
+                            Employee Code is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Branch Name</mat-label>
+                        <input formControlName="branchName" matInput placeholder="Branch Name" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('branchName')?.hasError('required')">
+                            Branch Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="isActive" placeholder="isActive">
+                            <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col-md-6">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Employee Name</mat-label>
+                        <input formControlName="employeeName" matInput placeholder="Employee Name" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('employeeName')?.hasError('required')">
+                            Employee Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Department Name</mat-label>
+                        <input formControlName="departmentName" matInput placeholder="Department Name" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('departmentName')?.hasError('required')">
+                            Department Name <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-6">
+                    <div mat-dialog-actions [align]="'end'">
+                        <button mat-flat-button class="button button4" color="warn" mat-dialog-close>CANCEL</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div mat-dialog-actions [align]="'start'">
+                        <button mat-flat-button class="button button4" color="primary"
+                            (click)="putData()">{{actionBtn}}</button>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row" style="display: flex; justify-content: center">
+                <div class="col-md-6 col-lg-4 col-sm-12" >
+                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:25px">CANCEL</button>
+                    <button mat-flat-button class="button button4" color="primary"
+                    (click)="putData()" style="margin-left: 10px;">{{actionBtn}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="loginBox">
+    <div class="loginData">
+        <div class="loginHead">SEAT DETAILS</div>
+        <div class="container">
+            <div class="row">
+                <div class="mat-card col-md-12">
+                    <mat-card class="mat-card mat-focus-indicator">
+                        <mat-card-content class="p-2">
+                            <p><span>Branch Name: </span> {{branchName}}</p>
+                            <p><span>Seat Type: </span> {{seatType}}</p>
+                            <p><span>Seat Number: </span> {{seatNumber}}</p>
+                            <p><span>Seat Id: </span> {{seatId}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div mat-dialog-actions  [align]="'end'">
+                        <button mat-flat-button class="button button4" color="warn" mat-dialog-close>CANCEL</button>
+                    </div>
+                </div>
+                <div mat-dialog-actions  class="col-md-6">
+                    <div [align]="'start'">
+                        <button mat-flat-button class="button button4" style="background-color: black;"
+                            color="primary" (click)="occupiedSeat()">SUBMIT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

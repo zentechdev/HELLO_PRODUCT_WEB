@@ -1,0 +1,25 @@
+<ng-container>
+    <div class="sideNavLogo">
+        <img [src]="siteLogoImage" (click)="reload()">
+    </div>
+
+    <div *ngFor="let parent of parentMenuList" class="nav flex-column text-white w-100 mainSidenav">
+        <div class="noDropDown" *ngIf="parent.subMenuList?.length === 0" (click)="onClick(parent.menuName==''?'Dashboard':parent.menuName)" [routerLink]="parent.menuUrl" routerLinkActive="is-active">
+            <button mat-icon-button   class="m-r-5"><mat-icon>{{parent.menuIcon}}</mat-icon></button><b>{{parent.menuName}}</b>
+        </div>
+        <ngb-accordion #acc="ngbAccordion">
+            <ngb-panel *ngIf="parent.subMenuList && parent.subMenuList.length > 0">
+                <ng-template ngbPanelTitle>
+                    <button  mat-icon-button class="m-r-5"><mat-icon>{{parent.menuIcon}}</mat-icon></button><b>{{parent.menuName}}</b>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <ul class="btn-toggle-nav list-unstyled fw-normal small dropdownMenu"*ngIf="parent.subMenuList?.length > 0">
+                         <li *ngFor="let child of parent.subMenuList" class="nav-item nav-side" (click)="onClick(child.menuName)">
+                            <a [routerLink]="child.menuUrl" routerLinkActive="is-active">{{ child.menuName}}</a>
+                        </li>
+                    </ul>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
+</ng-container>

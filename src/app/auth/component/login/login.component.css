@@ -1,0 +1,55 @@
+.loginBox {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.loginBox::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 240px;
+    height: 240px;
+    background-image: url(../../../../assets/images/triangle-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.loginBox::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background-image: url(../../../../assets/images/hdfc-logo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.loginData {
+    width: 30%;
+    margin: auto;
+    background: #fff;
+    box-shadow: 0px 0px 20px 0px #ccc;
+    border-radius: 15px;
+}
+.loginHead {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    background: #d82a1b;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.formMain {
+    padding: 20px 12px;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,.12);
+}

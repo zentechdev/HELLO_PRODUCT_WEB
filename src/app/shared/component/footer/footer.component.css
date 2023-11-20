@@ -1,0 +1,13 @@
+footer {
+    background-color: #e9eaef;
+    padding: 0 20px;
+}
+@media (min-width: 840px)
+{
+.copyright {
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 24px;
+   
+}
+}

@@ -1,0 +1,27 @@
+.pageNotFound {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.pageNotFoundCon {
+    text-align: center;
+}
+.pageNotFoundCon h2 {
+    font-size: 100px;
+    font-weight: 600;
+    color: #ccc;
+    font-family: inherit;
+    margin-top: 40px;
+}
+.pageNotFoundCon p {
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333;
+    margin-top: 50px;
+    font-family: sans-serif;
+}
+.pageNotFoundCon img {
+    width: 80px;
+}

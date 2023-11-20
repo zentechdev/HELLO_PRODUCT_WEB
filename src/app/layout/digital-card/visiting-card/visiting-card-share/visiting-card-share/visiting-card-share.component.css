@@ -1,0 +1,124 @@
+mat-form-field{
+    width:100%;
+}
+
+.button {
+    border-radius: 50%;
+}
+
+.button {
+    background-color: primary;
+    border: none;
+    color: white;
+    padding: 2px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: auto;
+    margin: 4px 2px;
+}
+
+.button1 {
+    border-radius: 2px;
+}
+
+.button2 {
+    border-radius: 4px;
+}
+
+.button3 {
+    border-radius: 8px;
+}
+
+.button4 {
+    border-radius: 30px;
+}
+
+.button5 {
+    border-radius: 50%;
+}
+
+.hi{
+    width:50px;
+    height:50px;
+    background:black;
+    margin:10px; color:white;
+    padding:20px;
+  }
+  @media (min-width: 350px) { 
+    .mat-table .mat-cell {
+        font-size: 10px;
+        
+    }
+    .mat-table .mat-header-cell{
+        font-size: 10px;
+    }
+    .mat-table{
+        width: 100%;
+        overflow-x:scroll;
+    }
+    .row{
+        width: 100%;
+        overflow-x:auto;
+    }
+
+    
+  }
+
+  @media (min-width: 576px) { 
+    .mat-table .mat-cell {
+        font-size: 15px;
+        
+    }
+    .mat-table .mat-header-cell{
+        font-size: 15px;
+    }
+    .mat-table{
+        width: 100%;
+        overflow-x:scroll;
+    }
+    .row{
+        width: 100%;
+        overflow-x:auto;
+    }
+
+    
+  }
+
+  @media (min-width: 768px) {
+    .mat-table .mat-cell {
+        font-size: 15px;
+        
+        
+    }
+    .mat-table .mat-header-cell{
+        font-size: 15px;
+    }
+    .mat-table{
+        width: 100%;
+        overflow-x:scroll;
+    }
+    .row{
+        width: 100%;
+        overflow-x:auto;
+    }
+   }
+
+  @media (min-width: 992px) { 
+    .mat-table .mat-cell {
+        font-size: 15px;
+    }
+    .mat-table .mat-header-cell{
+        font-size: 15px;
+    }
+    .mat-table{
+        width: 100%;
+        overflow-x:scroll;
+    }
+    .row{
+        width: 100%;
+        overflow-x:auto;
+    }
+
+  }

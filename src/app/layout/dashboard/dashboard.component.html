@@ -1,0 +1,1456 @@
+<div id="content1" #content1 class="container">
+  <div *ngIf="condition1">
+    <div class="container">
+      <div class="row mb-3">
+        <div class="col-md-12 col-sm-6" style="display: flex;justify-content: space-around;">
+          <button mat-button [ngClass]="{ 'active': showSeatBooking }" (click)="toggleSeatBooking()">
+            Toggle Seat Booking
+          </button>
+          <button mat-button [ngClass]="{ 'active': showMeetingRoom }" (click)="toggleMeetingRoom()">
+            Toggle Meeting Room
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div *ngIf="showSeatBooking">
+        <div class="row">
+          <div class="col-sm-4 col-x4-4 col-md-3 mb-sm-3">
+            <div class="card" style="background-color: #d82a1b; height: 100px; color: white; font-size: 34px;">
+              <div class="card-body">
+                <h2>Total Seats</h2>
+                <p style="text-align: right;">{{totalSeatCount}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-3">
+            <div class="card" style="background-color: #d82a1b;  height: 100px; color: white; font-size: 34px; ">
+              <div class="card-body">
+                <h2>Booked Seats</h2>
+                <p style="text-align: right;">{{totalOccupiedSeatCount}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-3">
+            <div class="card" style="background-color: #d82a1b;  height: 100px; color: white; font-size: 34px;">
+              <div class="card-body">
+
+                <h2>Available Seats</h2>
+                <p style="text-align: right;">{{totalVacanteCount}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 col-md-3">
+            <div class="card" style="background-color: #d82a1b; height: 100px; color: white; font-size: 34px;">
+              <div class="card-body">
+
+                <h2>Total Used </h2>
+                <p style="text-align: right; ">{{usedPercentage}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding: unset;">
+          <div class="col-md-9">
+
+          </div>
+          <!-- <div class="col-md-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Select an option</mat-label>
+              <mat-select placeholder="Select  Option">
+                <mat-option value="1">Daily</mat-option>
+                <mat-option value="2">Weekly</mat-option>
+                <mat-option value="3">Monthly</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <form [formGroup]="formGroup">
+              <mat-form-field floatLabel='never' appearance="outline">
+                <mat-label>date range picker</mat-label>
+                <mat-date-range-input [rangePicker]="rangePicker">
+                  <input matStartDate placeholder="Start date" formControlName="DatePicker1">
+                  <input matEndDate placeholder="End date" formControlName="DatePicker2">
+                </mat-date-range-input>
+                <mat-datepicker-toggle matSuffix [for]="rangePicker">
+                </mat-datepicker-toggle>
+                <mat-date-range-picker #rangePicker>
+                  <mat-date-range-picker-actions>
+                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDateRangePickerApply>Apply</button>
+                  </mat-date-range-picker-actions>
+                </mat-date-range-picker>
+              </mat-form-field>
+            </form>
+          </div> -->
+          <!-- <div class="col-md-3">
+            <form [formGroup]="formGroup">
+              <mat-form-field appearance="outline">
+                <mat-label>Select Branch</mat-label>
+                <mat-select formControlName="branchId" placeholder="Select Branch"
+                  (selectionChange)="selectStatus($event)">
+                  <mat-option *ngFor="let branch of branchList" [value]="branch.branchId">
+                    {{branch.branchName}} || {{branch.stateName}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+                  Branch Name is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </form>
+          </div> -->
+          <!-- <div class="col-md-12">
+            <form [formGroup]="formGroup" >
+              <mat-form-field appearance="outline">
+                <mat-label>Search Branch</mat-label>
+                <input matInput placeholder="Search Branches" formControlName="branchId" (input)="filterBranches($event)" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectStatus($event)">
+                  <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
+                    {{ branch.branchName }} || {{ branch.stateName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+                Branch Name is <strong>required</strong>
+              </mat-error>
+            </form> -->
+
+          <!-- <form [formGroup]="formGroup">
+              <mat-form-field appearance="outline">
+                <mat-label>Search Branch</mat-label>
+                <input matInput placeholder="Search Branches" formControlName="branchId"
+                  (input)="filterBranches($event)" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectStatus($event)">
+                  <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
+                    {{ branch.branchName }} || {{ branch.stateName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+                Branch Name is <strong>required</strong>
+              </mat-error>
+            </form>
+             -->
+          <div class="col-md-3">
+            <form [formGroup]="formGroup">
+              <mat-form-field appearance="outline">
+                <mat-label>Search Branch</mat-label>
+                <input matInput placeholder="Search Branches" formControlName="branchId"
+                  (input)="filterBranches($event)" (focus)="showAllBranches()" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectStatus($event)">
+                  <mat-option value="None">None</mat-option>
+                  <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
+                    {{ branch.branchName }} || {{ branch.stateName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+                Branch Name is <strong>required</strong>
+              </mat-error>
+            </form>
+
+          </div>
+          <!-- <div class="col-md-3 p-2">
+            <button mat-raised-button color="primary" (click)="exportToPDF1()"  style="height: 48px;">Export to PDF</button>
+          </div> -->
+<!-- 
+          <div class="col-md-12" style="display: flex; justify-content: flex-end">
+            <button mat-raised-button color="primary" (click)="exportToPDF1()">Export to PDF</button>
+          </div>
+        </div><br> -->
+
+        <div>
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 style="display: flex; justify-content: center"><strong>Employee Category</strong></h3>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                  <tbody>
+                    <tr>
+                      <td colspan="2"><strong>Employee Category</strong></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Total Head Count</th>
+                      <td>{{onceAMonothTotal}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">WFO - All days in office( Cat 1)</th>
+                      <td>{{onceAMonothWFO}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">WFH – Twice a week in office(Cat 2)</th>
+                      <td colspan="2">{{onceAMonothTwice}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">WFH – Once a month in office(Cat 3)</th>
+                      <td colspan="2">{{onceAMonoth}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">WFH – No physical office location(Cat 4)</th>
+                      <td colspan="2">{{onceAMonothWFH}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <div class="report-section">
+                  <div id="chartOptions7">
+                    <apx-chart [series]="chartOptions7.series" [chart]="chartOptions7.chart"
+                      [labels]="chartOptions7.labels" [responsive]="chartOptions7.responsive"></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 style="display: flex; justify-content: center"><strong>Total Seat Booking</strong></h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <table class="table table-bordered border-primary">
+                  <tbody>
+
+                    <tr>
+                      <td colspan="2"><strong>Seat Booking</strong></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Total Seat Count</th>
+                      <td>{{totalSeatCount}}</td>
+
+                    </tr>
+                    <tr>
+                      <th scope="row">Available Count</th>
+                      <td>{{totalVacanteCount}}</td>
+
+                    </tr>
+                    <tr>
+                      <th scope="row">Occupied Count</th>
+                      <td colspan="2">{{totalOccupiedSeatCount}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-md-6 col-lg-6">
+                <div class="report-section">
+                  <div id="chartOptions">
+                    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                      [labels]="chartOptions.labels" [responsive]="chartOptions.responsive"></apx-chart>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 style="display: flex; justify-content: center"><strong>Seat Booking Type</strong></h3>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                  <tbody>
+                    <tr>
+                      <td colspan="2"><strong>Seat Booking Type</strong></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cabin Count</th>
+                      <td>{{cabinCount}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cubical Count</th>
+                      <td>{{cubicalCount}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">L-Type Count</th>
+                      <td colspan="2">{{lTypeCount}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Linear Count</th>
+                      <td colspan="2">{{linearCount}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">H-Type Count</th>
+                      <td colspan="2">{{hatWorkstationsCount}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <div class="report-section">
+                  <div id="chartOptions1">
+                    <apx-chart [series]="chartOptions1.series" [chart]="chartOptions1.chart"
+                      [labels]="chartOptions1.labels" [responsive]="chartOptions1.responsive"></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 style="display: flex; justify-content: center"><strong>Zone Wise Work Stations</strong></h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <table class="table table-bordered border-primary">
+                  <tbody>
+                    <tr>
+                      <td colspan="2"><strong>Zone Wise Work Stations</strong></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">East</th>
+                      <td>{{eastWorkStations}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">West</th>
+                      <td>{{westWorkStations}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">North</th>
+                      <td colspan="2">{{northWorkStations}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">South</th>
+                      <td colspan="2">{{southWorkStations}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Grand Total</th>
+                      <td colspan="2">{{totalWorkStations}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+
+              <div class="col-md-6 col-lg-6">
+                <div class="report-section">
+                  <div id="chartOptions8">
+                    <apx-chart [series]="chartOptions8.series" [chart]="chartOptions8.chart"
+                      [labels]="chartOptions8.labels" [responsive]="chartOptions8.responsive"></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 style="display: flex; justify-content: center"><strong>Types of Workstation</strong>
+                  </h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-bordered border-primary">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Seat Type</th>
+                        <th scope="row">East</th>
+                        <th scope="row">North</th>
+                        <th scope="row">South</th>
+                        <th scope="row">West</th>
+                        <th scope="row">Grand Total</th>
+                      </tr>
+                      <tr>
+                        <th scope="row">Senior Workstations</th>
+                        <td>{{eastWorkStationType}}</td>
+                        <td>{{northWorkStationType}}</td>
+                        <td>{{southWorkStationType}}</td>
+                        <td>{{westWorkStationType}}</td>
+                        <td>{{totalWorkStationType}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Cabin</th>
+                        <td>{{eastCabinWorkStationType}}</td>
+                        <td>{{northCabinWorkStationType}}</td>
+                        <td>{{southCabinWorkStationType}}</td>
+                        <td>{{westCabinWorkStationType}}</td>
+                        <td>{{totalCabinWorkStationType}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">HAT Workstations</th>
+                        <td>{{eastHatWorkStationType}}</td>
+                        <td>{{northHatWorkStationType}}</td>
+                        <td>{{southHatWorkStationType}}</td>
+                        <td>{{westHatWorkStationType}}</td>
+                        <td>{{totalHatWorkStationType}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Cubical</th>
+                        <td>{{eastCubicleWorkStationType}}</td>
+                        <td>{{northCubicleWorkStationType}}</td>
+                        <td>{{southCubicleWorkStationType}}</td>
+                        <td>{{westCubicleWorkStationType}}</td>
+                        <td>{{totalCubicleWorkStationType}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">L -type</th>
+                        <td>{{eastLtypeWorkStationType}}</td>
+                        <td>{{northLtypeWorkStationType}}</td>
+                        <td>{{southLtypeWorkStationType}}</td>
+                        <td>{{westLtypeWorkStationType}}</td>
+                        <td>{{totalLtypeWorkStationType}}</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row">Linear</th>
+                        <td>{{eastLinearWorkStationType}}</td>
+                        <td>{{northLinearWorkStationType}}</td>
+                        <td>{{southLinearWorkStationType}}</td>
+                        <td>{{westLinearWorkStationType}}</td>
+                        <td>{{totalLinearWorkStationType}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Grand Total</th>
+                        <td>{{eastTotalWorkStationType}}</td>
+                        <td>{{northTotalWorkStationType}}</td>
+                        <td>{{southTotalWorkStationType}}</td>
+                        <td>{{westTotalWorkStationType}}</td>
+                        <td>{{totalTotalWorkStationType}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+                <div class="col-md-6">
+                  <apx-chart [series]="chartOptions19.series" [chart]="chartOptions19.chart"
+                    [dataLabels]="chartOptions19.dataLabels" [plotOptions]="chartOptions19.plotOptions"
+                    [legend]="chartOptions19.legend" [fill]="chartOptions19.fill" [stroke]="chartOptions19.stroke"
+                    [tooltip]="chartOptions19.tooltip" [xaxis]="chartOptions19.xaxis"
+                    [responsive]="chartOptions19.responsive"></apx-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="col-md-12">
+                <h3 style="display: flex; justify-content: center"><strong>Zone Wise Total Seat Booking</strong></h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-sm-12 col-xs-12">
+                <table class="table table-bordered border-primary">
+                  <tbody>
+                    <tr>
+                      <td colspan="2"><strong>Zone Wise Total Seat Booking </strong></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">East Zone</th>
+                      <td>{{eastZoneTotal}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">North Zone</th>
+                      <td>{{northZoneTotal}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">South Zone</th>
+                      <td colspan="2">{{southZoneTotal}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">West Zone</th>
+                      <td colspan="2">{{westZoneTotal}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Grand Total</th>
+                      <td colspan="2">{{grandTotal}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+
+              <div class="col-md-6 col-lg-6">
+                <div class="report-section">
+                  <div id="chartOptions8">
+                    <apx-chart [series]="chartOptions9.series" [chart]="chartOptions9.chart"
+                      [labels]="chartOptions9.labels" [responsive]="chartOptions9.responsive"></apx-chart>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 style="display: flex; justify-content: center"><strong>Category Wise Seat booking</strong></h3>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+
+                  <table class="table table-bordered border-primary">
+                    <tbody>
+                      <tr>
+                        <td colspan="2"><strong>Category Wise Seat Booking</strong></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">All days in office( Cat 1)</th>
+                        <td colspan="2">{{allDayBooking}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Twice a week in office(Cat 2)</th>
+                        <td colspan="2">{{twiceBooking}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Once a month in office(Cat 3)</th>
+                        <td>{{onceMonthBooking}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">No physical office location(Cat 4)</th>
+                        <td>{{wfhBooking}}</td>
+                      </tr>
+
+                      <tr>
+                        <th scope="row">Total employee utilized </th>
+                        <td colspan="2">{{totalBooking}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <div class="report-section">
+                    <div id="chartOptions11">
+                      <apx-chart [series]="chartOptions11.series" [chart]="chartOptions11.chart"
+                        [labels]="chartOptions11.labels" [responsive]="chartOptions11.responsive"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <h3 style="display: flex; justify-content: center"><strong>Top Seat Booking Locations</strong></h3>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+
+                  <!-- <table class="table table-bordered border-primary">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Mumbai - Andheri LBP</th>
+                        <td>{{andheriTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Kolkata</th>
+                        <td>{{kolTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Mumbai - Thane</th>
+                        <td colspan="2">{{tnaTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Hyderabad - Banjara hills</th>
+                        <td colspan="2">{{hydTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">New Delhi - Noida 2</th>
+                        <td colspan="2">{{delTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Mumbai - Bhandup</th>
+                        <td>{{bhanTotal}}</td>
+                      </tr>
+  
+  
+                      <tr>
+                        <th scope="row">Bangalore - MG Road</th>
+                        <td>{{mgroadTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Chandigarh</th>
+                        <td colspan="2">{{chandigarhTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">New Delhi - Nehru Place</th>
+                        <td colspan="2">{{neharupalaceTotal}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Mumbai - Borivali</th>
+                        <td colspan="2">{{boravaliTotal}}</td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                  <table class="table table-bordered border-primary">
+                    <thead>
+                      <tr>
+                        <td colspan="2"><strong>Top Seat Booking Locations </strong></td>
+                      </tr>
+                      <tr>
+                        <th>Branch Name</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of topSeatBookingList">
+                        <td>{{ item.branchName }}</td>
+                        <td>{{ item.grandTotal }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <mat-card>
+                    <mat-card-content>
+                      <div class="report-section">
+                        <div id="chartOptions10" style="margin-left: 20px;">
+                          <apx-chart [series]="chartOptions10.series" [chart]="chartOptions10.chart"
+                            [labels]="chartOptions10.labels" [responsive]="chartOptions10.responsive"></apx-chart>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h3 style="display: flex; justify-content: center"><strong>Category Wise App Download -
+                        Pan India</strong></h3>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col-md-6">
+  
+                  <table class="table table-bordered border-primary">
+                    <tbody>
+                      <tr>
+                        <th scope="row">WFO - All days in office( Cat 1)</th>
+                        <td colspan="2">{{wfoAppDownload}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">WFH – Twice a week in office(Cat 2)</th>
+                        <td colspan="2">{{twiceAppDownload}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">WFH – Once a month in office(Cat 3)</th>
+                        <td>{{onceMonthAppDownload}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">WFH – No physical office location(Cat 4)</th>
+                        <td>{{allWfhOfficeAppDownload}}</td>
+                      </tr>
+  
+                      <tr>
+                        <th scope="row">Total Downloaded the App </th>
+                        <td colspan="2">{{totalAppDownload}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <div class="report-section">
+                    <div id="chartOptions11">
+                      <apx-chart [series]="chartOptions17.series" [chart]="chartOptions17.chart"
+                        [labels]="chartOptions17.labels" [responsive]="chartOptions17.responsive"></apx-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="card" style="padding: 15px;">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-12">
+                  <h3 style="display: flex; justify-content: center"><strong>Seat Booking QR code Scanning</strong>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <table class="table table-bordered border-primary">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Zone</th>
+                      <th scope="row">Total Booking</th>
+                      <th scope="row">Canceled</th>
+                      <th scope="row">Occupied</th>
+                      <th scope="row">Pending</th>
+
+                    </tr>
+                    <tr>
+                      <th scope="row">East</th>
+                      <td>{{totalSeatBookingQr}}</td>
+                      <td>{{canceledSeatCountQr}}</td>
+                      <td>{{occupiedSeatCountQr}}</td>
+                      <td>{{pendingSeatCountQr}}</td>
+
+                    </tr>
+                    <tr>
+                      <th scope="row">North</th>
+                      <td>{{totalSeatBookingQrNorth}}</td>
+                      <td>{{canceledSeatCountQrNorth}}</td>
+                      <td>{{occupiedSeatCountQrNorth}}</td>
+                      <td>{{northpendingSeatCountQr}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">South</th>
+                      <td>{{totalSeatBookingQrSouth}}</td>
+                      <td>{{occupiedSeatCountQrSouth}}</td>
+                      <td>{{canceledSeatCountQrSouth}}</td>
+                      <td>{{southpendingSeatCountQr}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">West</th>
+                      <td>{{totalSeatBookingQrWest}}</td>
+                      <td>{{occupiedSeatCountQrWest}}</td>
+                      <td>{{canceledSeatCountQrWest}}</td>
+                      <td>{{westpendingSeatCountQr}}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Grand Total</th>
+                      <td>{{totalSeatQr}}</td>
+                      <td>{{totalSeatQrOccupied}}</td>
+                      <td>{{totalSeatQrCanceled}}</td>
+                      <td>{{totalSeatQrPending}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+              <div class="col-md-6">
+                <apx-chart [series]="chartOptions18.series" [chart]="chartOptions18.chart"
+                  [dataLabels]="chartOptions18.dataLabels" [plotOptions]="chartOptions18.plotOptions"
+                  [legend]="chartOptions18.legend" [fill]="chartOptions18.fill" [stroke]="chartOptions18.stroke"
+                  [tooltip]="chartOptions18.tooltip" [responsive]="chartOptions18.responsive"
+                  [xaxis]="chartOptions18.xaxis"></apx-chart>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div id="content" #content class="container">
+  <div *ngIf="showMeetingRoom">
+
+    <div class="row">
+      <div class="col-sm-4 col-x4-4 col-md-3 mb-sm-3">
+        <div class="card" style="background-color: #d82a1b; height: 100px; color: white; font-size: 34px;">
+          <div class="card-body">
+            <h2>Total Meetings</h2>
+            <p style="text-align: right;">{{totalMeetingRoomCount}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-3">
+        <div class="card" style="background-color: #d82a1b;  height: 100px; color: white; font-size: 34px; ">
+          <div class="card-body">
+            <h2>Booked Meetings</h2>
+            <p style="text-align: right;">{{totalOccupiedMeetingRoomCount}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-3">
+        <div class="card" style="background-color: #d82a1b;  height: 100px; color: white; font-size: 34px;;">
+          <div class="card-body">
+
+            <h2>Available Rooms</h2>
+            <p style="text-align: right;">{{vacanteCountMeeting}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-md-3">
+        <div class="card" style="background-color: #d82a1b; height: 100px; color: white; font-size: 34px;">
+          <div class="card-body">
+
+            <h2>Total Used</h2>
+            <p style="text-align: right; ">{{usedPercentageMetting}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="padding: unset;">
+      <div class="col-md-12" *ngIf="condition1">
+        <!-- <form [formGroup]="formGroup">
+          <mat-form-field appearance="outline">
+            <mat-label>Select Branch</mat-label>
+            <mat-select formControlName="branchId" placeholder="Select Branch" (selectionChange)="selectStatus($event)">
+              <mat-option *ngFor="let branch of branchList" [value]="branch.branchId">
+                {{branch.branchName}} || {{branch.stateName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+              Branch Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </form> -->
+        <form [formGroup]="formGroup">
+          <mat-form-field appearance="outline">
+            <mat-label>Search Branch </mat-label>
+            <input matInput placeholder="Search Branches" formControlName="branchId" (input)="filterBranches($event)"
+              (focus)="showAllBranches()" [matAutocomplete]="auto">
+            <!-- <mat-icon matSuffix>search</mat-icon> -->
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectStatus($event)">
+              <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
+                <!-- <mat-icon>arrow_drop_down</mat-icon> -->
+                {{ branch.branchName }} || {{ branch.stateName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+            Branch Name is <strong>required</strong>
+          </mat-error>
+        </form>
+      </div>
+    </div>
+    <!-- <div class="col-md-12" style="display: flex; justify-content: flex-end">
+      <button mat-raised-button color="primary" (click)="exportToPDF()">Export to PDF</button>
+    </div><br> -->
+
+    <div id="meetingRoomBookingReport" class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 style="display: flex; justify-content: center"><strong>Meeting Room Booking</strong>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <tbody>
+
+              <tr>
+                <td colspan="2"><strong>Meeting Room Booking</strong></td>
+              </tr>
+              <tr>
+                <th scope="row">Total Meeting Room</th>
+                <td>{{totalMeetingRoomCount}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Total Occupied Count</th>
+                <td>{{totalOccupiedMeetingRoomCount}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Total Available Count</th>
+                <td colspan="2">{{vacanteCountMeeting}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <mat-card>
+            <mat-card-content>
+              <div class="report-section">
+                <div id="chartOptions3">
+                  <apx-chart [series]="chartOptions3.series" [chart]="chartOptions3.chart"
+                    [labels]="chartOptions3.labels" [responsive]="chartOptions3.responsive"></apx-chart>
+                </div>
+
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 style="display: flex; justify-content: center"><strong>Meeting Room Type</strong>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <tbody>
+              <tr>
+                <td colspan="2"><strong>Meeting Room type</strong></td>
+              </tr>
+              <tr>
+                <th scope="row">Meeting Room</th>
+                <td>{{meetingRoomCount}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Conference Room</th>
+                <td>{{conferenceRoomCount}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Training Room</th>
+                <td colspan="2">{{trainingRoomCount}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Board Room</th>
+                <td colspan="2">{{boardRoomCount}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <mat-card>
+            <mat-card-content>
+              <div class="report-section">
+                <div id="chartOptions4">
+                  <apx-chart [series]="chartOptions4.series" [chart]="chartOptions4.chart"
+                    [labels]="chartOptions4.labels" [responsive]="chartOptions4.responsive"></apx-chart>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 style="display: flex; justify-content: center"><strong>Meeting Room Zone Wise</strong>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <tbody>
+              <tr>
+                <td colspan="2"><strong>Meeting Room Zone Wise</strong></td>
+              </tr>
+              <tr>
+                <th scope="row">East Zone</th>
+                <td>{{eastZoneTotalRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">North Zone</th>
+                <td>{{northZoneTotalRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">South Zone</th>
+                <td colspan="2">{{southZoneTotalRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">West Zone</th>
+                <td colspan="2">{{westZoneTotalRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Grand Total</th>
+                <td colspan="2">{{grandTotalRoom}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <mat-card>
+            <mat-card-content>
+              <div class="report-section">
+                <div id="chartOptions12">
+                  <apx-chart [series]="chartOptions12.series" [chart]="chartOptions12.chart"
+                    [labels]="chartOptions12.labels" [responsive]="chartOptions12.responsive"></apx-chart>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 style="display: flex; justify-content: center"><strong>Top Meeting Room Booking Locations</strong>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <!-- <table class="table table-bordered border-primary">
+                <tbody>
+                  <tr>
+                    <th scope="row">Mumbai - Bhandup</th>
+                    <td>{{bhandupTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">New Delhi - Nehru Place</th>
+                    <td>{{delNeharuTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mumbai - Andheri LBP</th>
+                    <td colspan="2">{{andheriMumTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Bangalore - MG Road</th>
+                    <td colspan="2">{{bangMGTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Mumbai - Churchgate</th>
+                    <td colspan="2">{{churchgateTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hyderabad - Banjara hills</th>
+                    <td>{{hydrabadTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Kolkata</th>
+                    <td>{{kolkataTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">New Delhi - Noida 2</th>
+                    <td colspan="2">{{delhiTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Chandigarh</th>
+                    <td colspan="2">{{chandigarTotal}}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Ahmedabad</th>
+                    <td colspan="2">{{ahmedabadTotal}}</td>
+                  </tr>
+                </tbody>
+              </table> -->
+          <table class="table table-bordered border-primary">
+            <thead>
+              <tr>
+                <th>Branch Name</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of topMeetingRoomList">
+                <td>{{ item.branchName }}</td>
+                <td>{{ item.grandTotal }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <mat-card>
+            <mat-card-content>
+              <div class="report-section">
+                <div id="chartOptions13">
+                  <apx-chart [series]="chartOptions13.series" [chart]="chartOptions13.chart"
+                    [labels]="chartOptions13.labels" [responsive]="chartOptions13.responsive"></apx-chart>
+                </div>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 style="display: flex; justify-content: center"><strong>Meeting Room Zone Wise Pan India</strong>
+          </h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <tbody>
+              <tr>
+                <td colspan="2"><strong>Meeting Room Pan India</strong></td>
+              </tr>
+              <tr>
+                <th scope="row">East Zone</th>
+                <td>{{eastPanZoneTotal}}</td>
+              </tr>
+              <tr>
+                <th scope="row">North Zone</th>
+                <td>{{northPanZoneTotal}}</td>
+              </tr>
+              <tr>
+                <th scope="row">South Zone</th>
+                <td colspan="2">{{southPanZoneTotal}}</td>
+              </tr>
+              <tr>
+                <th scope="row">West Zone</th>
+                <td colspan="2">{{westPanZoneTotal}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Grand Total</th>
+                <td colspan="2">{{grandPanTotal}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-md-6">
+          <mat-card>
+            <mat-card-content>
+              <div class="report-section">
+                <div id="chartOptions14">
+                  <apx-chart [series]="chartOptions14.series" [chart]="chartOptions14.chart"
+                    [labels]="chartOptions14.labels" [responsive]="chartOptions14.responsive"></apx-chart>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 style="display: flex; justify-content: center"><strong>Category Wise Meeting booking</strong>
+            </h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+
+            <table class="table table-bordered border-primary">
+              <tbody>
+                <tr>
+                  <td colspan="2"><strong>Category Wise Meeting Booking</strong></td>
+                </tr>
+                <tr>
+                  <th scope="row">WFH – Once a month in office</th>
+                  <td colspan="2">{{onceInWeek}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">WFH – Twice a week in office</th>
+                  <td colspan="2">{{twiceInWeek}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">WFO - All days in office</th>
+                  <td colspan="2">{{allDayOffice}}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Total Booking</th>
+                  <td>{{catTotalBooking}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-md-6">
+            <mat-card>
+              <mat-card-content>
+                <div class="report-section">
+                  <div id="chartOptions15">
+                    <apx-chart [series]="chartOptions15.series" [chart]="chartOptions15.chart"
+                      [labels]="chartOptions15.labels" [responsive]="chartOptions15.responsive"></apx-chart>
+                  </div>
+                </div>
+
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 style="display: flex; justify-content: center"><strong>Meeting Room Type Zone Wise </strong>
+          </h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <tbody>
+              <tr>
+                <th scope="row">Seat Type</th>
+                <th scope="row">East</th>
+                <th scope="row">North</th>
+                <th scope="row">South</th>
+                <th scope="row">West</th>
+                <th scope="row">Grand Total</th>
+              </tr>
+              <tr>
+                <th scope="row">Discussion Room</th>
+                <td>{{eastZoneWiseType}}</td>
+                <td>{{northZoneWiseType}}</td>
+                <td>{{southZoneWiseType}}</td>
+                <td>{{westZoneWiseType}}</td>
+                <td>{{discussionRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Reception Cabin For Customer</th>
+                <td>{{eastCabinZoneWiseType}}</td>
+                <td>{{northCabinZoneWiseType}}</td>
+                <td>{{southCabinZoneWiseType}}</td>
+                <td>{{westCabinZoneWiseType}}</td>
+                <td>{{receptionCabin}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Conference Room</th>
+                <td>{{eastConferenceZoneWiseType}}</td>
+                <td>{{northConferenceZoneWiseType}}</td>
+                <td>{{southConferenceZoneWiseType}}</td>
+                <td>{{westConferenceZoneWiseType}}</td>
+                <td colspan="2">{{conferenceRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Board Room</th>
+                <td>{{eastBoardZoneWiseType}}</td>
+                <td>{{northBoardZoneWiseType}}</td>
+                <td>{{southBoardZoneWiseType}}</td>
+                <td>{{westBoardZoneWiseType}}</td>
+                <td colspan="2">{{boardRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Training Room</th>
+                <td>{{eastTrainingZoneWiseType}}</td>
+                <td>{{northTrainingZoneWiseType}}</td>
+                <td>{{southTrainingZoneWiseType}}</td>
+                <td>{{westTrainingZoneWiseType}}</td>
+                <td colspan="2">{{trainingRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Meeting Room</th>
+                <td>{{eastMeetingZoneWiseType}}</td>
+                <td>{{northMeetingZoneWiseType}}</td>
+                <td>{{southMeetingZoneWiseType}}</td>
+                <td>{{westMeetingZoneWiseType}}</td>
+                <td colspan="2">{{meetingRoom}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Total Room</th>
+                <td>{{eastTotalZoneWiseType}}</td>
+                <td>{{northTotalZoneWiseType}}</td>
+                <td>{{southTotalZoneWiseType}}</td>
+                <td>{{westTotalZoneWiseType}}</td>
+                <td colspan="2">{{totalRoom}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-md-6">
+          <mat-card>
+            <mat-card-content>
+              <div class="report-section">
+                <div id="chartOptions16">
+                  <apx-chart [series]="chartOptions16.series" [chart]="chartOptions16.chart"
+                    [labels]="chartOptions16.labels" [responsive]="chartOptions16.responsive"></apx-chart>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 style="display: flex; justify-content: center"><strong>Meeting Room QR Code Scaning </strong>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <tbody>
+              <tr>
+                <th scope="row">Zone</th>
+                <th scope="row">Total Booking</th>
+                <th scope="row">Canceled</th>
+                <th scope="row">Occupied</th>
+                <th scope="row">Pending</th>
+              </tr>
+              <tr>
+                <th scope="row">East</th>
+                <td>{{totalBookingQr}}</td>
+                <td>{{canceledCountQr}}</td>
+                <td>{{occupiedCountQr}}</td>
+                <td>{{pendingMeetingCountQr}}</td>
+              </tr>
+              <tr>
+                <th scope="row">North</th>
+                <td>{{totalBookingQrNorth}}</td>
+                <td>{{canceledCountQrNorth}}</td>
+                <td>{{occupiedCountQrNorth}}</td>
+                <td>{{northPendingMeetingCountQr}}</td>
+              </tr>
+              <tr>
+                <th scope="row">South</th>
+                <td>{{totalBookingQrSouth}}</td>
+                <td>{{occupiedCountQrSouth}}</td>
+                <td>{{canceledCountQrSouth}}</td>
+                <td>{{southPendingMeetingCountQr}}</td>
+              </tr>
+              <tr>
+                <th scope="row">West</th>
+                <td>{{totalBookingQrWest}}</td>
+                <td>{{occupiedCountQrWest}}</td>
+                <td>{{canceledCountQrWest}}</td>
+                <td>{{westPendingMeetingCountQr}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Grand Total</th>
+                <td>{{totalQr}}</td>
+                <td>{{totalQrOccupied}}</td>
+                <td>{{totalQrCanceled}}</td>
+                <td>{{totalPendingMeetingCountQr}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="col-md-6">
+          <apx-chart [series]="chartOptions5.series" [chart]="chartOptions5.chart"
+            [dataLabels]="chartOptions5.dataLabels" [plotOptions]="chartOptions5.plotOptions"
+            [legend]="chartOptions5.legend" [fill]="chartOptions5.fill" [stroke]="chartOptions5.stroke"
+            [tooltip]="chartOptions5.tooltip" [xaxis]="chartOptions5.xaxis"
+            [responsive]="chartOptions5.responsive"></apx-chart>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="condition">
+  <div class="row">
+    <div class="col-sm-4 col-x4-4 col-md-3 mb-sm-3">
+      <div class="card" style="background-color: #d82a1b; height: 120px; color: white; font-size: 30px;">
+        <div class="card-body">
+          <h2>All Invited Visitor</h2>
+          <p style="text-align: right;">{{allInvitedVisitor}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 col-md-3">
+      <div class="card" style="background-color: #d82a1b;  height: 120px; color: white; font-size: 30px; ">
+        <div class="card-body">
+          <h2>Todays Invited Visitor</h2>
+          <p style="text-align: right;">{{todayInvitedVisitor}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 col-md-3">
+      <div class="card" style="background-color: #d82a1b;  height: 120px; color: white; font-size: 30px;">
+        <div class="card-body">
+
+          <h2>All Non-Invited Visitors</h2>
+          <p style="text-align: right;">{{allNonInvitedVisitor}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 col-md-3">
+      <div class="card" style="background-color: #d82a1b; height: 120px; color: white; font-size: 30px;">
+        <div class="card-body">
+
+          <h2>Todays Non Invited Visitors</h2>
+          <p style="text-align: right; ">{{todayNonInvitedVisitor}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="padding: unset;">
+    <div class="col-md-12">
+      <form [formGroup]="formGroup">
+        <mat-form-field appearance="outline">
+          <mat-label>Select Branch</mat-label>
+          <mat-select formControlName="branchId" placeholder="Select Branch" (selectionChange)="selectStatus($event)">
+            <mat-option *ngFor="let branch of branchList" [value]="branch.branchId">
+              {{branch.branchName}} || {{branch.stateName}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+            Branch Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+
+  <div class="card" style="padding: 15px;">
+    <div class="row">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 style="display: flex; justify-content: center"><strong>All Visitors Details</strong></h3>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <table class="table table-bordered border-primary">
+          <tbody>
+            <tr>
+              <th scope="row">Todays Invited Visitors</th>
+              <td>{{todayInvitedVisitor}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Todays Non invited Visitors</th>
+              <td>{{todayNonInvitedVisitor}}</td>
+            </tr>
+            <tr>
+              <th scope="row">All Invited Visitors</th>
+              <td>{{allInvitedVisitor}}</td>
+            </tr>
+            <tr>
+              <th scope="row">All Non invited Visitors</th>
+              <td>{{allNonInvitedVisitor}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Total All Visitors</th>
+              <td>{{allVisitor}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <div class="report-section">
+          <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [labels]="chartOptions2.labels"
+            [responsive]="chartOptions2.responsive"></apx-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

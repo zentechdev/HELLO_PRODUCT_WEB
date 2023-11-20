@@ -1,0 +1,98 @@
+<html>
+
+<head>
+    <title>Visitor Information System</title>
+    <style type="text/css">
+        body {
+            /* border: 5px solid black; */
+            font-family: 'Open Sans', Arial, sans-serif;
+            font-size: 18px;
+            color: #0d1121;
+            text-align: center;
+        }
+
+        .header {
+            height: 250px;
+            width: auto;
+            position: relative;
+        }
+
+        .header #bottom-center {
+            position: absolute;
+            bottom: 1%;
+            text-align: center;
+            color: #ffffff;
+            width: 100%;
+        }
+
+        .center {
+            position: relative;
+            display: block;
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+        }
+
+        .img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row" *ngIf="valid">
+        <div class="col-md-12 ">
+            <div class="container">
+                <!-- <img [src]="QrImage" alt="QRCODE" > -->
+                <ngx-qrcode [elementType]="elementType" height="300" [width]="300"
+                    [errorCorrectionLevel]="correctionLevel" [value]="value" alt="Demo QR Code"></ngx-qrcode>
+                <p style="font-size:25px;padding:1px 80px;"></p>
+                <p>Please scan the QR Code to enter the given premises.</p>
+                <hr>
+                <p>Have a Nice Day!</p>
+                <p>Powered By <a href="https://www.zentechinfo.com/">Visitor Information System</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="invalid">
+        <div class="col-md-12 " style="filter:blur(10px) ;">
+            <div class="container">
+                <img src="../../../assets\images\qr-image-sample.png">
+                <!-- <ngx-qrcode [elementType]="elementType" height="300" [width]="300"
+                    [errorCorrectionLevel]="correctionLevel" [value]="value" alt="Demo QR Code"></ngx-qrcode> -->
+                <p style="font-size:25px;padding:1px 80px;"></p>
+                <p>Please scan the QR Code to enter the given premises.</p>
+                <hr>
+                <p>Have a Nice Day!</p>
+                <p>Powered By <a href="https://www.zentechinfo.com/">Visitor Information System</a></p>
+            </div>
+        </div>
+        <div class="bg-text">
+            <h1 style="font-size:60px; color: red;">Expired</h1>
+        </div>
+    </div>
+    <div class="row" *ngIf="notActivated">
+        <div class="col-md-12 " style="filter:blur(10px) ;">
+            <div class="container">
+                <img src="../../../assets\images\qr-image-sample.png">
+                <!-- <ngx-qrcode [elementType]="elementType" height="300" [width]="300"
+                    [errorCorrectionLevel]="correctionLevel" [value]="value" alt="Demo QR Code"></ngx-qrcode> -->
+                <p style="font-size:25px;padding:1px 80px;"></p>
+                <p>Please scan the QR Code to enter the given premises.</p>
+                <hr>
+                <p>Have a Nice Day!</p>
+                <p>Powered By <a href="https://www.zentechinfo.com/">Visitor Information System</a></p>
+            </div>
+        </div>
+        <div class="bg-text">
+            <h3
+                style="font-size:40px;font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: rgb(231, 17, 17);">
+                Pass Activation Time Is <br /><span
+                    style="font-size:20px; color: rgb(183, 35, 35);"><b>{{expectedEntryTime}}</b></span></h3>
+        </div>
+    </div>
+</body>
+
+</html>

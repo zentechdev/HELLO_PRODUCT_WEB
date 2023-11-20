@@ -1,0 +1,36 @@
+
+.loginHead {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    background: #d82a1b;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.formMain {
+    padding: 20px 12px;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,.12);
+}
+@media (min-width: 350px) and (max-width: 575px) { 
+
+    .button {
+        line-height: 15px;
+        background-color: primary;
+        border: none;
+        color: white;
+        padding: 0px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 10px;
+        /* width: 25%; */
+        margin: 0px;
+    }
+}  

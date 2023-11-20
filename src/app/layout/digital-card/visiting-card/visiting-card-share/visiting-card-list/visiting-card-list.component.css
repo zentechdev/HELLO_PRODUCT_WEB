@@ -1,0 +1,123 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.button {
+    border-radius: 50%;
+}
+
+.button {
+    background-color: primary;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 10%;
+    margin: 4px 2px;
+}
+
+.button1 {
+    border-radius: 2px;
+}
+
+.button2 {
+    border-radius: 4px;
+}
+
+.button3 {
+    border-radius: 8px;
+}
+
+.button4 {
+    border-radius: 30px;
+}
+
+.button5 {
+    border-radius: 50%;
+}
+
+/* .mat-table {
+    table-layout: fixed;
+  } */
+
+.mat-cell,
+.mat-header-cell {
+    flex-grow: 1;
+    text-align: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    padding: 8px;
+}
+
+@media (min-width: 350px) and (max-width: 575px) {
+    .row {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .mat-raised-button {
+        line-height: 20px;
+        margin-right: 10px;
+        width: 110px;
+    }
+}
+
+@media (min-width: 576px) {
+    .row {
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .row {
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .row {
+        width: 100%;
+        overflow-x: auto;
+    }
+    .col-lg-4 {
+        /* flex: 0 0 auto; */
+        width: 33.33333333%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      
+    }
+}
+
+@media (min-width: 576px) and (max-width: 990px) {
+    .row {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .button.btn_primary {
+        color: #fff;
+        font-size: 10px;
+        /* padding: 4px 18px; */
+        text-transform: uppercase;
+        background: #d82a1b;
+        border-radius: 30px;
+        padding: 0;
+        transition: all .3s ease-in;
+    }
+
+    .mat-raised-button {
+        line-height: 20px;
+        /* margin-right: 10px; */
+        width: 100px;
+        padding: 5px;
+        font-size: 10px;
+        margin-left: 5px;
+        margin-top: 8px;
+    }
+}

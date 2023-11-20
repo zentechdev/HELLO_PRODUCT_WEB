@@ -1,0 +1,17 @@
+<div class="row" style="align-items: center;">
+  <!-- <div id="sign-in-button"></div> -->
+  <div class="col-md-8 col-sm-4">
+    <h6 class="userName">WELCOME, {{this.userDisplayName}}</h6>
+  </div>
+  <div class="col-md-2">
+    <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5">
+      <img [src]="image?image:'../../../../../../../../assets/images/blank-profile-picture.png'" height="20" width="20"
+        alt="user" class="profile-pic">
+    </button>
+    <mat-menu #profile="matMenu" class="mymegamenu">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>Sign Out
+      </button>
+    </mat-menu>
+  </div>
+</div>

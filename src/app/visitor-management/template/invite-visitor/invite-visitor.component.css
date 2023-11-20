@@ -1,0 +1,17 @@
+/* Position text in the middle of the page/image */
+.bg-text {
+    background-color:#ffff; /* Fallback color */
+    background-color:#ffff; /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 5px solid red;
+    border-radius: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width:auto;
+    padding: 20px;
+    text-align: center;
+  }

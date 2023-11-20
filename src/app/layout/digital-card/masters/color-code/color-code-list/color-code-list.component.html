@@ -1,0 +1,96 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <div class="row" style="justify-content: space-around;">
+                <div class="col-md-4">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <form [formGroup]="formGroup">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Select Status</mat-label>
+                          <mat-select formControlName="isActiveId" placeholder="isActive" (selectionChange)="selectStatus($event)">
+                            <mat-option [value]="0">None</mat-option>
+                            <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActive">{{ isActive.isActive }}</mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="formGroup.get('isActiveId')?.hasError('required')">isActive Type is <strong>required</strong></mat-error>
+                        </mat-form-field>
+                      </form>
+                </div>
+                <div class="col-md-4 col-lg-4 col-sm-12 p-2" *ngIf="Insert" >
+                    <button class="btn_primary " mat-raised-button (click)="openDialog()" style="margin-left: 20px;">
+                        ADD NEW
+                    </button>
+                    <button (click)="exporter.exportTable('xlsx')" class="btn_primary float-end" mat-raised-button
+                        style="margin-left: 10px;">
+                        EXPORT TO EXCEL
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="mat-card mat-focus-indicator">
+                <mat-card-content class="">
+                    <div class="mat-elevation-z8">
+                        <table mat-table matTableExporter #exporter="matTableExporter" [dataSource]="dataSource" matSort>
+                            <!-- Id Column -->
+                            <ng-container matColumnDef="colorCodeId">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
+                                <td mat-cell *matCellDef="let row;let i = index;">{{i+1}}</td>
+                            </ng-container>
+
+                            <!-- colorCode Column -->
+                            <ng-container matColumnDef="colorCode">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>COLOR CODE</b></th>
+                                <td mat-cell *matCellDef="let row"> {{row.colorCode}} </td>
+                            </ng-container>
+
+                            <!-- colorDisplay Column -->
+                            <ng-container matColumnDef="colorDisplay">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>COLOR DISPLAY</b></th>
+                                <td mat-cell *matCellDef="let row"><input disabled type="text"
+                                        [style.background-color]="row.colorCode"></td>
+                            </ng-container>
+
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="isActive">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>STATUS</b></th>
+                                <td mat-cell *matCellDef="let row"> {{row.isActive}} </td>
+                            </ng-container>
+
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="Action">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b *ngIf="Update || Delete">ACTION</b></th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button *ngIf="Update" mat-icon-button color="primary" (click)="editData(row)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="Delete" mat-icon-button color="warn" (click)="deleteData(row.colorCodeId)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                            <!-- Row shown when there is no matching data. -->
+                            <!-- <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"
+                                </td>
+                            </tr> -->
+                        </table>
+
+                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
+                        </mat-paginator>
+                    </div>
+                </mat-card-content>
+            </div>
+        </div>
+    </div>
+</div>

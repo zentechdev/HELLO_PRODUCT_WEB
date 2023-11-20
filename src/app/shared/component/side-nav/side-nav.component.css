@@ -1,0 +1,57 @@
+.example-container {
+  height: 500px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.example-sidenav {
+  user-select: none;
+}
+
+.full-width {
+  width: 100%;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+}
+
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: top;
+  padding-left: 0px;
+}
+
+.submenu.expanded {
+  transform: scaleY(1);
+}
+
+.mat-drawer.mat-drawer-side {
+  z-index: 2;
+  top: 64px;
+}
+
+@media screen and (max-width: 768px) {
+  /* .sideNavLogo {
+    display: none;
+  }
+
+  .nav{
+    display:none;
+  } */
+}

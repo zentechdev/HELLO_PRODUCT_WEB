@@ -1,0 +1,26 @@
+<mat-sidenav-container>
+    <!-- <mat-sidenav #sidenav opened mode="side" position="start"> -->
+    <mat-sidenav  #sidenav [mode]="windowWidth > 768 ? 'side' : 'over'" position="start" [opened]="windowWidth > 768">
+        <app-side-nav></app-side-nav>
+    </mat-sidenav>
+    <mat-sidenav-content class="dashboard_bg">
+        <mat-toolbar color="primary" class="header_toolbar">
+            <!-- *ngIf="sidenav.close" -->
+            <button *ngIf="sidenav.close" [hidden]="sidenav.opened" mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <!-- *ngIf="sidenav.opened" -->
+            <button *ngIf="sidenav.opened" mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <h3 class="userName"><b>{{menuService.menuName}}</b></h3>
+            <span class="toolbar-spacer"></span>
+            <app-header></app-header>
+        </mat-toolbar>
+        <div class="main-content">
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer></app-footer>
+    </mat-sidenav-content>
+</mat-sidenav-container>

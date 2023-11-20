@@ -1,0 +1,107 @@
+mat-toolbar {
+  box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.5);
+
+  &.topbar {
+    padding: 0px 15px;
+  }
+
+  .navbar-header {
+    text-align: center;
+
+    .navbar-brand {
+      display: flex;
+      line-height: 18px;
+      align-items: center;
+
+      .dark-logo {
+        display: none;
+      }
+
+      b {
+        margin-right: 5px;
+      }
+    }
+  }
+}
+
+.userName {
+  justify-content: center;
+  display: flex;
+  font-size: 14px;
+  font-weight: 400;
+  color: #66615b;
+}
+
+.mat-icon-button {
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+}
+
+.profile-pic {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/*******************
+   Topbar
+  *******************/
+.topbar {
+  position: relative;
+  z-index: 2;
+}
+
+.example-sidenav-container {
+  flex: 1;
+}
+
+.example-sidenav-container {
+  flex: 1 0 auto;
+}
+
+@media (min-width: 300px) {
+  .row .userName {
+    font-size: 10px;
+    margin-top: 50px;
+    width: 100%;
+  }
+  .userName[_ngcontent-hws-c163] {
+    /* justify-content: center; */
+
+    padding-top: 40px;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    color: #66615b;
+}
+}
+
+@media (min-width: 576px) {
+  .row .userName {
+    font-size: 15px;
+    margin-top: 10px;
+
+  }
+}
+
+@media (min-width: 798) {
+  .row .userName {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-8 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .profile-pic {
+    display: none;
+  }
+}

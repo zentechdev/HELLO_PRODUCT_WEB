@@ -1,0 +1,183 @@
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+
+}
+
+.card {
+  /* height: 250px; */
+  display: flex;
+  justify-content: center;
+  /* margin: 20px; */
+  border-radius: 10px;
+  width: 100%;
+  /* height: 100%; */
+  /* padding: 20px; */
+  /* align-items: center; */
+  margin-bottom: 20px;
+
+}
+
+/* .col-md-6{
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly
+} */
+
+.col-md-6 {
+  display: flex;
+  /* width: 50%; */
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-content: space-evenly
+}
+.col-md-7 {
+  display: flex;
+  /* width: 41%; */
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-content: space-evenly
+}
+
+/* .report-section {
+  padding: 20px;
+} */
+
+/* Add this to your CSS */
+button.active {
+  background-color: #d82a1b; /* Active button background color */
+  color: #ffffff; /* Active button text color */
+}
+
+
+.report-section h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+mat-form-field {
+
+  display: flex;
+  align-items: end;
+  justify-content: end;
+
+}
+
+.report-section p {
+  margin: 5px 0;
+}
+
+.report-section ul {
+  padding-left: 20px;
+  margin: 5px 0;
+}
+
+.report-section li {
+  list-style-type: disc;
+  margin-bottom: 5px;
+}
+
+.dashboard_main {
+
+  display: flex;
+
+  justify-content: space-between;
+
+}
+
+.dashboard {
+
+  border-radius: 10px;
+
+  width: 23%;
+
+  float: left;
+
+  padding: 22px;
+
+  background: #d82a1b;
+
+  color: #fff;
+
+  box-shadow: 0px 4px 15px rgb(78 78 78 / 36%);
+
+}
+
+
+
+.dashboard .dash1,
+.dashboard .dash2,
+.dashboard .dash3,
+.dashboard .dash4 {
+
+  display: flex;
+
+  flex-direction: column-reverse;
+
+  justify-content: space-between;
+
+  row-gap: 10px;
+
+}
+/* .row{
+  display: flex;
+  justify-content: center;
+} */
+
+/* .dashboard .dash1 span, .dashboard .dash2 span, .dashboard .dash3 span, .dashboard .dash4 span {
+
+  font-size: 34px;
+
+  text-align: right;
+
+} */
+.dashboard-container[_ngcontent-oux-c296] {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* #chart {
+  max-width: auto;
+  margin: 35px auto;
+} */
+
+@media screen and (min-width: 768px) and (max-width: 990px) {
+  /* .card {
+    width: fit-content;
+  } */
+
+
+
+}
+
+/* @media (min-width: 576px) {
+  .card {
+    height: 400px;
+    width: 500px;
+  }
+
+  .main-content {
+    padding-top: 20px;
+  }
+
+} */
+
+@media (max-width: 576px) { 
+  .table{
+      /* width:fit-content; */
+      overflow-x:auto;
+      font-size:x-small;
+      margin-left: 30px;
+      margin-right: 30px;
+  }   
+  .mat-button{
+    font-size: 10px;
+  }
+}
+
+table{
+  margin-left: 80px;
+  margin-right: 80px
+  };

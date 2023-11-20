@@ -1,0 +1,35 @@
+<div class="loginBox">
+    <div class="loginData">
+        <div class="loginHead">Login</div>
+        <div class="container">
+            <form class="formMain" [formGroup]="formGroup">
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field appearance="outline">
+                            <mat-label>User Name</mat-label>
+                            <input formControlName="userName" matInput placeholder="Email ID" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-12">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Password</mat-label>
+                            <input formControlName="password" matInput placeholder="Password" type="password" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                      <div [align]="'end'">
+                        <button mat-flat-button class="button button4" style="background-color: black;" color="primary" (click)="loginProcess()">SUBMIT</button>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div [align]="'start'">
+                        <button mat-flat-button class="button button4" color="warn">CANCEL</button>
+                      </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

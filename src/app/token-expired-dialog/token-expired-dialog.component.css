@@ -1,0 +1,188 @@
+.loginBox {
+    /* height: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+}
+.loginBox::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 200px;
+    height: 200px;
+    background-image: url(../../assets/images/triangle-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.loginBox::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    background-image: url(../../assets/images/hdfc-logo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.loginData {
+    width: 35%;
+    margin: 20px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 0px 5px 0px #ccc;
+    border-top: 4px solid #f44336;
+    border-radius: 15px;
+}
+.loginData h1 {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0px;
+}
+
+.loginData p{
+    font-size: 14px;
+    white-space: 5px;
+    line-height: 24px;
+    display: flex;
+    text-align: justify;
+
+}
+.loginHead {
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    background: #d82a1b;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.formMain {
+    padding: 20px 12px;
+}
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,.12);
+}
+.center {
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 15px;
+    width: 120px;
+    height: 120px;
+  }
+.mobileAppStore {
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
+    .webAppStore {
+        display: none;
+    }
+    .mobileAppStore {
+        display: grid;
+        grid-template-columns: auto auto;
+        column-gap: 10px;
+        margin-bottom: 15px;
+    }
+    .mobileAppStore img {
+        width: 100%;
+        height: 100%;
+        border-radius: 12px; 
+    }
+    .loginData h1 {
+        display: none;
+    }
+    .loginBox {
+        /* height: 100%; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        /* align-items: stretch; */
+    }
+    .loginBox::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        background-image: url(../../assets/images/triangle-bg.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .loginBox::after {
+        content: "";
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        background-image: url(../../assets/images/hdfc-logo.png);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .loginData {
+        width: 100%;
+        /* margin: auto; */
+        font-size: 5px;
+        background: #fff;
+        box-shadow: 0px 0px 5px 0px #ccc;
+        border-top: 4px solid #f44336;
+        border-radius: 15px;
+        margin-top: 70px;
+    }
+    
+    .loginData p {
+        font-size: 14px;
+        line-height: 24px;
+        white-space: 5px;
+        margin-left: 10px;
+        text-align: justify;
+    }
+    .loginHead {
+        width: 100%;
+        padding: 10px;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: center;
+        background: #d82a1b;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .formMain {
+        padding: 20px 12px;
+    }
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+        border-radius: 4px;
+        border: 1px solid rgba(0,0,0,.12);
+    }
+    .center {
+        display: none;
+        margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      
+  }
+
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    /* Styles for tablets */
+  }
+
+  @media only screen and (min-width: 1024px) {
+    /* Styles for larger screens */
+  }
+
