@@ -1,35 +1,27 @@
 <div mat-dialog-content>
-    <h3 mat-dialog-title><b>STATE</b></h3>
+    <h3 mat-dialog-title><b>COUNTRY</b></h3>
     <div class="container mb-5">
         <form [formGroup]="formGroup">
             <div class="row">
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
-                        <mat-label>Select Country</mat-label>
-                        <mat-select formControlName="countryId" placeholder="Select Country">
-                            <mat-option *ngFor="let country of countryList" [value]="country.countryName">{{country.countryName}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('countryId')?.hasError('required')">
-                            country is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label>Select Status</mat-label>
-                        <mat-select formControlName="isActive" placeholder="isActive">
-                            <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
-                            isActive Type is <strong>required</strong>
+                        <mat-label>Country Name</mat-label>
+                        <input formControlName="countryName" matInput placeholder="Country Name" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('countryName')?.hasError('required')">
+                            Country Name is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <div class="col-md-6">
+                    
                     <mat-form-field appearance="outline">
-                        <mat-label>State Name</mat-label>
-                        <input formControlName="name" matInput placeholder="State Name" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
-                            State Name is <strong>required</strong>
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="isActive" placeholder="isActive">
+                            <mat-option *ngFor="let isActive of isActiveList"
+                                [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -48,10 +40,11 @@
                 </div>
             </div> -->
             <div class="row" style="display: flex; justify-content: center">
-                <div class="col-md-6 col-lg-4 col-sm-12" >
-                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:25px">CANCEL</button>
-                    <button mat-flat-button class="button button4" color="primary"
-                    (click)="postData()" style="margin-left: 10px;">{{actionBtn}}</button>
+                <div class="col-md-6 col-lg-4 col-sm-12">
+                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close
+                        style="margin-left:25px">CANCEL</button>
+                    <button mat-flat-button class="button button4" color="primary" (click)="postData()"
+                        style="margin-left: 10px;">{{actionBtn}}</button>
                 </div>
             </div>
         </form>

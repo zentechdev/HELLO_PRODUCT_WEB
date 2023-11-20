@@ -86,7 +86,8 @@ export class RoleDialogComponent implements OnInit {
     this.service.getMenuList()
       .subscribe({
         next: (res) => {
-          this.menuList = res;
+          debugger
+          this.menuList = res.menuListResponse;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -108,6 +109,8 @@ export class RoleDialogComponent implements OnInit {
 
   postData() {
 
+    debugger
+    
     for (var i = 0; i < this.isActiveList.length; i++) {
       if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {
         this.isActiveId = this.isActiveList[i].isActiveId;

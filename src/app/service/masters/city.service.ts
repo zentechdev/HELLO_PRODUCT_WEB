@@ -9,12 +9,12 @@ export class CityService {
 
   constructor(private http:HttpClient) { }
 
-  getColorCode() {
-    return this.http.get<any>(`${baseUrl}/api/ColorCode/getAllcolorCode`);
-  }
-
   getState() {
     return this.http.get<any>(`${baseUrl}/api/State/getAllState`);
+  }
+
+  getCountry() {
+    return this.http.get<any>(`${baseUrl}/api/Country/getAllCountry`);
   }
 
   getIsActive() {

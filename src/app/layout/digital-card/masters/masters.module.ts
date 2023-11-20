@@ -74,6 +74,8 @@ import { OrganizationTypeListComponent } from './organization-type/organization-
 import { OrganizationTypeDialogComponent } from './organization-type/organization-type-dialog/organization-type-dialog.component';
 import { TechnologyTypeListComponent } from './technology-type/technology-type-list/technology-type-list.component';
 import { TechnologyTypeDialogComponent } from './technology-type/technology-type-dialog/technology-type-dialog.component';
+import { CountryComponent } from './country/country/country.component';
+import { CountryListComponent } from './country/country-list/country-list.component';
 
 
 
@@ -127,6 +129,8 @@ import { TechnologyTypeDialogComponent } from './technology-type/technology-type
     OrganizationTypeDialogComponent,
     TechnologyTypeListComponent,
     TechnologyTypeDialogComponent,
+    CountryComponent,
+    CountryListComponent,
   ],
   imports: [
     CommonModule,

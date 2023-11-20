@@ -42,22 +42,16 @@
                                 <table mat-table matTableExporter #exporter="matTableExporter" [dataSource]="dataSource"
                                     matSort>
                                     <!-- Id Column -->
-                                    <ng-container matColumnDef="stateId">
+                                    <ng-container matColumnDef="countryId">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
                                         <td mat-cell *matCellDef="let row;let i = index;"> {{ paginator.pageSize *
                                             paginator.pageIndex + i + 1 }}</td>
                                     </ng-container>
 
                                     <!-- stateCode Column -->
-                                    <ng-container matColumnDef="country">
+                                    <ng-container matColumnDef="countryName">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>COUNTRY NAME</b></th>
-                                        <td mat-cell *matCellDef="let row"> {{row.country}} </td>
-                                    </ng-container>
-
-                                    <!-- stateName Column -->
-                                    <ng-container matColumnDef="name">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>STATE NAME</b></th>
-                                        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                                        <td mat-cell *matCellDef="let row"> {{row.countryName}} </td>
                                     </ng-container>
 
                                     <!-- status Column -->

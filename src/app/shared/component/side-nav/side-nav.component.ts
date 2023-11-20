@@ -32,7 +32,7 @@ export class SideNavComponent implements OnInit {
   }
 
   getParentMenuList() {
-    const encryptedData = String(localStorage.getItem("employeeCode"));
+    const encryptedData = String(localStorage.getItem("memberId"));
     this.employeeCode = this.storageEncryptionService.decryptData(encryptedData);
 
     this.service.getParentMenuList(this.employeeCode)

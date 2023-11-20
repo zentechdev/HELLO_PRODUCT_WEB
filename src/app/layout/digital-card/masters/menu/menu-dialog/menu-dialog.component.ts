@@ -28,7 +28,7 @@ export class MenuDialogComponent implements OnInit {
     this.formGroup = this.formBuilder.group({
       menuName: ['', Validators.required],
       parentId: ['', Validators.required],
-      menuUrl: ['', Validators.required], 
+      menuUrl: [''], 
       menuIcon: [''],
       type: ['', Validators.required],
       isActive: ['', Validators.required],

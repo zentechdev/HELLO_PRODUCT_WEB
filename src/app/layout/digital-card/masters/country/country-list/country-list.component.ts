@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
-import { MenuService } from 'src/app/service/masters/menu.service';
-import { MenuDialogComponent } from '../menu-dialog/menu-dialog.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
+import { StateService } from 'src/app/service/masters/state.service'
+import { CountryComponent } from '../country/country.component';
+import { CountryService } from 'src/app/service/masters/country.service';
 
 @Component({
-  selector: 'app-menu-list',
-  templateUrl: './menu-list.component.html',
-  styleUrls: ['./menu-list.component.css']
+  selector: 'app-country-list',
+  templateUrl: './country-list.component.html',
+  styleUrls: ['./country-list.component.css']
 })
-export class MenuListComponent implements OnInit {
-
-  displayedColumns: string[] = ['menuListId', 'menuName', 'parentId', 'menuUrl', 'menuIcon', 'type', 'isActive', 'Action'];
+export class CountryListComponent implements OnInit {
+  displayedColumns: string[] = ['countryId','countryName', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -26,22 +26,23 @@ export class MenuListComponent implements OnInit {
   Update: boolean = false;
   Delete: boolean = false;
   Select: boolean = false;
-  data:any[]=[];
+
+  data: any[] = []; // Replace with your actual data
   formGroup!: FormGroup;
   isActiveList: any;
   value!: any[];
   actionName:any;
+  clientId: any;
 
-  constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service: MenuService, private alertify: AlertifyService, public dialog: MatDialog) { }
+  constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service:CountryService, private alertify: AlertifyService, public dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
-
-    this.formGroup = this.formBuilder.group({
-      isActiveId:['']
+    this.formGroup=this.formBuilder.group({
+      isActiveId: ['']
     })
 
-    // const actionName = String(localStorage.getItem("actionName"));
-    // this.actionName = this.storageEncryptionService.decryptData(actionName);
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
 
     // // Conversion of string array to number array
     // const stringArrayAction: string[] = this.actionName;
@@ -70,38 +71,40 @@ export class MenuListComponent implements OnInit {
     //     this.Select = true;
     //   }
     // }
-    await this.getAllMenuList();
+
+
+    await this.getCountry();
     await this.getAllStatus();
   }
 
   openDialog() {
-    this.dialog.open(MenuDialogComponent, {
+    this.dialog.open(CountryComponent, {
       width: '100%',
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
-        this.getAllMenuList();
+        this.getCountry();
       }
     })
   }
 
   editData(row: any) {
-    this.dialog.open(MenuDialogComponent, {
+    this.dialog.open(CountryComponent, {
       data: row,
       width: '100%',
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
-        this.getAllMenuList();
+        this.getCountry();
       }
     })
   }
 
-  getAllMenuList() {
-    this.service.getAllMenuList()
+  getCountry() {
+    this.service.getCountry()
       .subscribe({
         next: (res) => {
-          this.data=res;
+          this.data=res.data.filter((item:any)=>item.clientId==this.clientId);
           this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -134,7 +137,7 @@ export class MenuListComponent implements OnInit {
       this.dataSource.data = this.value;
     }
     else{
-      this.value = this.data.filter((item: any) => item.isActive === value);
+      this.value = this.data.filter((item: any) => item.isActive === value && item.clientId== this.clientId);
       this.dataSource = new MatTableDataSource(this.value);
       this.dataSource.paginator = this.paginator;
       this.dataSource.data = this.value;
@@ -142,15 +145,16 @@ export class MenuListComponent implements OnInit {
 
   }
 
-  deleteData(menuListId: number) {
-    this.alertify.confirm('Delete Menu', 'Are you sure to delete menu',
+
+  deleteData(countryId: number) {
+    this.alertify.confirm('Delete state', 'Are you sure to delete state',
       () => {
-        this.service.deleteMenuList(menuListId)
+        this.service.deleteCountry(countryId)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
                 this.alertify.success(res.message);
-                this.getAllMenuList();
+                this.getCountry();
               }
               else {
                 this.alertify.error(res.message);

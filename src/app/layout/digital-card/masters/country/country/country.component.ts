@@ -4,16 +4,16 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
 import { StateService } from 'src/app/service/masters/state.service';
-
+import { StateComponent } from '../../state/state/state.component';
+import { CountryService } from 'src/app/service/masters/country.service';
 
 @Component({
-  selector: 'app-city',
-  templateUrl: './city.component.html',
-  styleUrls: ['./city.component.css']
+  selector: 'app-country',
+  templateUrl: './country.component.html',
+  styleUrls: ['./country.component.css']
 })
-export class CityComponent implements OnInit {
+export class CountryComponent implements OnInit {
 
   formGroup!: FormGroup;
   actionBtn: string = 'SAVE';
@@ -26,18 +26,14 @@ export class CityComponent implements OnInit {
   countryList: any;
   countryId: any;
   clientId: any;
-  stateList: any;
-  stateId: any;
 
 
-  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: CityService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<CityComponent>) { this.dialogRef.disableClose = true }
+  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service:CountryService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<CountryComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       clientId: [''],
-      countryId: ['',Validators.required],
-      stateId: ['',Validators.required],
-      cityName: ['', Validators.required],
+      countryName: [''],
       isActive: ['', Validators.required],
       createdBy:['']
     })
@@ -50,9 +46,7 @@ export class CityComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['countryId'].setValue(this.editData.countryName);
-      this.formGroup.controls['stateId'].setValue(this.editData.stateName);
-      this.formGroup.controls['cityName'].setValue(this.editData.cityName);
+      this.formGroup.controls['countryName'].setValue(this.editData.countryName);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
 
@@ -60,32 +54,6 @@ export class CityComponent implements OnInit {
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
     this.getIsActive();
-    this.getAllCountry();
-    this.getState();
-  }
-
-  getAllCountry() {
-    this.service.getCountry()
-      .subscribe({
-        next: (res) => {
-          this.countryList = res.data.filter((item:any)=>item.clientId==this.clientId);
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!")
-        }
-      })
-  }
-
-  getState() {
-    this.service.getState()
-      .subscribe({
-        next: (res) => {
-          this.stateList=res.data.filter((item:any)=>item.clientId == this.clientId);
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!")
-        }
-      })
   }
 
   getIsActive() {
@@ -100,6 +68,7 @@ export class CityComponent implements OnInit {
       })
   }
 
+
   postData() {
 
     for (var i = 0; i < this.isActiveList.length; i++) {
@@ -108,30 +77,16 @@ export class CityComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.countryList.length; i++) {
-      if (this.countryList[i].countryName == this.formGroup.value.countryId) {
-        this.countryId = this.countryList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.stateList.length; i++) {
-      if (this.stateList[i].name == this.formGroup.value.stateId) {
-        this.stateId = this.stateList[i].id;
-      }
-    }
-
     let formGroup = {
       "clientId": this.formGroup.value.clientId,
-      "countryId": this.countryId,
-      "stateId": this.stateId,
-      "cityName":this.formGroup.value.cityName,
+      "name": this.formGroup.value.countryName,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy
     }
 
     if (!this.editData) {
       if (this.formGroup.valid) {
-        this.service.postCity(formGroup)
+        this.service.postCountry(formGroup)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
@@ -156,7 +111,7 @@ export class CityComponent implements OnInit {
 
   putData(formGroup: any) {
     if (this.formGroup.valid) {
-      this.service.putCity(formGroup, this.editData.id)
+      this.service.putCountry(formGroup, this.editData.id)
         .subscribe({
           next: (res) => {
             if (res.isSuccess == true) {
