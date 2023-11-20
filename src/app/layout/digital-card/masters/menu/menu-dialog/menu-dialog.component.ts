@@ -45,7 +45,7 @@ export class MenuDialogComponent implements OnInit {
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
 
-    const encryptedData = String(localStorage.getItem('employeeCode'));
+    const encryptedData = String(localStorage.getItem('memberId'));
     this.employeeCode = this.storageEncryptionService.decryptData(encryptedData);
 
     this.formGroup.controls['createdBy'].setValue(this.employeeCode);
@@ -59,6 +59,7 @@ export class MenuDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.isActiveList = res;
+          console.log(this.isActiveList);
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")

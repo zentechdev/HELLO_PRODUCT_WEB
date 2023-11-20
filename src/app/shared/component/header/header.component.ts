@@ -26,11 +26,11 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const encryptedData = String(localStorage.getItem('employeeName'));
+    const encryptedData = String(localStorage.getItem('memberName'));
     this.userDisplayName = this.storageEncryptionService.decryptData(encryptedData);
 
-    const encryptedData1 = String(localStorage.getItem('image'));
-    this.image = this.storageEncryptionService.decryptData(encryptedData1);
+    // const encryptedData1 = String(localStorage.getItem('image'));
+    // this.image = this.storageEncryptionService.decryptData(encryptedData1);
 
     // this.userDisplayName = localStorage.getItem('employeeName');
     // this.image = localStorage.getItem('image');
@@ -41,18 +41,22 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     this.alertify.success("Logout Successfull!!");
-    localStorage.removeItem('employeeName');
-    localStorage.removeItem('employeeCode');
-    localStorage.removeItem('emailId');
-    localStorage.removeItem('dateOfBirth');
+    localStorage.removeItem('memberId');
+    localStorage.removeItem('clientId');
+    localStorage.removeItem('siteId');
+    localStorage.removeItem('unitId');
+    localStorage.removeItem('unitNumber');
+    localStorage.removeItem('clientName');
+    localStorage.removeItem('siteName');
+    localStorage.removeItem('memberName');
+    localStorage.removeItem('roleName');
+    localStorage.removeItem('menuName');
     localStorage.removeItem('mobileNumber');
-    localStorage.removeItem('department');
-    localStorage.removeItem('employeeName');
+    localStorage.removeItem('qrNumber');
     localStorage.removeItem('image');
     localStorage.removeItem('token');
-    localStorage.removeItem('roleName');
-    localStorage.removeItem('actionName');
-    localStorage.removeItem('branchList');
+    localStorage.removeItem('employeeTechAccessId');
+    localStorage.removeItem('visitorTechAccessId');
     this.router.navigate(['/'])
   }
 
