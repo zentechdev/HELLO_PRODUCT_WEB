@@ -17,12 +17,13 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class VisitorDetailsComponent implements OnInit {
 
+
   displayedColumns: string[] =['Id', 'visitorName', 'mobileNumber','employeeCode', 'emailId', 'location', 'branchName','createdDate', 'isActive','Action'];
   // displayedColumns: string[] = ['visitorId', 'visitorName', 'mobileNumber', 'emailId', 'location', 'branchName', 'departmentName', 'actions',];
   dataSource!: MatTableDataSource<any>;
   data1: any[] = [];
 
-  displayedColumns1: string[] = ['Id', 'visitorName', 'mobileNumber','employeeCode', 'emailId', 'location', 'branchName', 'createdDate','Action','isActive'];
+  displayedColumns1: string[] = ['Id', 'visitorName', 'mobileNumber', 'emailId', 'location', 'createdDate','Action','isActive'];
   dataSource1!: MatTableDataSource<any>;
   data2: any[] = [];
 
@@ -30,6 +31,7 @@ export class VisitorDetailsComponent implements OnInit {
   secondFormGroup = this._formBuilder.group({
     secondCtrl: [''],
   });
+  siteId: any;
   
   openDialog(row: any) {
     this.dialog.open(VisitorDetailsDialogComponent, {
@@ -84,56 +86,55 @@ export class VisitorDetailsComponent implements OnInit {
     // this.formGroup = this._formBuilder.group({
     //   branchId: ['']
     // })
+    
+    const siteId = String(localStorage.getItem('siteId'));
+    this.siteId = this.storageEncryptionService.decryptData(siteId);
 
     await this.getAllInvitedVisitor();
-    await this.getAllNonInvitedVisitor();
+    await this.getAllNonInvitedVisitor(this.siteId);
     this.formGroup = this._formBuilder.group({
       DatePicker1: [''],
       DatePicker2: [''],
-      branchId: ['']
     })
 
     this.formGroup1 = this._formBuilder.group({
       DatePicker3: [''],
       DatePicker4: [''],
-      branchId1: ['']
     })
 
-    const branchList = String(localStorage.getItem('branchList'));
-    this.branchList = this.storageEncryptionService.decryptData(branchList);
 
-    const actionName = String(localStorage.getItem('actionName'));
-    this.actionName = this.storageEncryptionService.decryptData(actionName);
+    // const actionName = String(localStorage.getItem('actionName'));
+    // this.actionName = this.storageEncryptionService.decryptData(actionName);
 
-    const encryptedData = String(localStorage.getItem('employeeCode'));
-    let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
+    // const encryptedData = String(localStorage.getItem('employeeCode'));
+    // let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
 
-    const stringArrayAction: string[] = this.actionName;
-    const numberArrayAction: string[] = stringArrayAction[0].split(',');
+    // const stringArrayAction: string[] = this.actionName;
+    // const numberArrayAction: string[] = stringArrayAction[0].split(',');
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Insert'){
-        this.Insert = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Insert'){
+    //     this.Insert = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Update'){
-        this.Update = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Update'){
+    //     this.Update = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Delete'){
-        this.Delete = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Delete'){
+    //     this.Delete = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Select'){
-        this.Select = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Select'){
+    //     this.Select = true;
+    //   }
+    // }
 
   }
 
@@ -165,81 +166,56 @@ export class VisitorDetailsComponent implements OnInit {
       })
   }
 
-  getAllNonInvitedVisitor() {
-
-    this.service.getAllNonInvitedVisitor()
-    .subscribe({
-      next: (res) => {
-        this.dataSource1 = new MatTableDataSource(res);
-        this.dataSource1.paginator = this.paginator;
-        this.dataSource1.sort = this.sort;
-      },
-      error: (res) => {
-        this.alertify.error("Error While fetching The Records!!");
-      }
-    })
-  }
-
-  showAllBranches() {
-    this.filteredBranches = this.branchList;
-  }
-
-  selectBranch(event: any) {
-
-    if(this.formGroup.value.branchId == "None"){
-      this.value = this.data;
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
-    else{
-      
-      // for (var i = 0; i < this.branchList.length; i++) {
-      //   if (this.branchList[i].branchName == this.formGroup.value.branchId) {
-      //     this.branchId = this.branchList[i].branchId;
-      //   }
-      // }
-
-      this.value = this.data.filter((item: any) => item.branchName === this.formGroup.value.branchId);
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-      for (let i = 0; i < this.branchList.length; i++) {
-        if (this.branchList[i].branchName == this.formGroup.value.branchId) {
-          let branchId = this.branchList[i].branchId;
+  getAllNonInvitedVisitor(siteId:number) {
+    debugger
+    this.service.getAllNonInvitedVisitor(siteId)
+      .subscribe({
+        next: (res) => {
+          this.data2 = res.data;
+          this.dataSource1 = new MatTableDataSource(this.data2 );
+          this.dataSource1.paginator = this.paginator;
+          this.dataSource1.sort = this.sort;
+        },
+        error: (error) => {
+          this.alertify.error("Error while fetching the records!");
         }
-      }
-    }
-
+      });
   }
+  
+  dateEvent1() {
+    if (this.formGroup1.valid) {
+      let queryParams = {
+        "startDate": this.formGroup1.value.DatePicker3.toLocaleDateString("fr-CA").split("/").reverse().join("-"),
+        "endDate": this.formGroup1.value.DatePicker4.toLocaleDateString("fr-CA").split("/").reverse().join("-")
+      };
 
-  selectBranch1(event: any) {
-        if(this.formGroup1.value.branchId1 == "None"){
-          this.value = this.data1;
-          this.dataSource1 = new MatTableDataSource(this.value);
-          this.dataSource1.paginator = this.paginator1;
-          this.dataSource1.data = this.value;
-        }
-        else{
-          
-          // for (var i = 0; i < this.branchList.length; i++) {
-          //   if (this.branchList[i].branchName == this.formGroup.value.branchId) {
-          //     this.branchId = this.branchList[i].branchId;
-          //   }
-          // }
-    
-          this.value = this.data1.filter((item: any) => item.branchName === this.formGroup1.value.branchId1);
-          this.dataSource1 = new MatTableDataSource(this.value);
-          this.dataSource1.paginator = this.paginator1;
-          this.dataSource1.data = this.value;
-          for (let i = 0; i < this.branchList.length; i++) {
-            if (this.branchList[i].branchName == this.formGroup1.value.branchId1) {
-              let branchId1 = this.branchList[i].branchId1;
-            }
+      this.service.getNonInvitedVisitorByDateRange(queryParams)
+        .subscribe({
+          next: (res) => {
+            this.data = res.data.filter((item: any) => {
+              return this.branchList.some((branch: any) => {
+                return item.branchName === branch.branchName;
+              });
+            });
+
+            this.dataSource1 = new MatTableDataSource(
+              res.filter((item: any) => {
+                return this.branchList.some((branch: any) => {
+                  return item.branchName === branch.branchName;
+                });
+              })
+            );
+
+            this.dataSource1.paginator = this.paginator1;
+            this.dataSource1.sort = this.sort1;
+          },
+          error: (res) => {
+            this.alertify.error("Error While fetching The Records!!")
           }
-        }
-    
-      }
+        })
+    }   
+  }
+
   dateEvent() {
     if (this.formGroup.valid) {
       let queryParams = {
@@ -274,39 +250,7 @@ export class VisitorDetailsComponent implements OnInit {
 
   }
 
-  dateEvent1() {
-    if (this.formGroup1.valid) {
-      let queryParams = {
-        "startDate": this.formGroup1.value.DatePicker3.toLocaleDateString("fr-CA").split("/").reverse().join("-"),
-        "endDate": this.formGroup1.value.DatePicker4.toLocaleDateString("fr-CA").split("/").reverse().join("-")
-      };
 
-      this.service.getNonInvitedVisitorByDateRange(queryParams)
-        .subscribe({
-          next: (res) => {
-            this.data1 = res.filter((item: any) => {
-              return this.branchList.some((branch: any) => {
-                return item.branchName === branch.branchName;
-              });
-            });
-
-            this.dataSource1 = new MatTableDataSource(
-              res.filter((item: any) => {
-                return this.branchList.some((branch: any) => {
-                  return item.branchName === branch.branchName;
-                });
-              })
-            );
-
-            this.dataSource1.paginator = this.paginator1;
-            this.dataSource1.sort = this.sort1;
-          },
-          error: (res) => {
-            this.alertify.error("Error While fetching The Records!!")
-          }
-        })
-    }   
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -393,7 +337,7 @@ checkOut(mobileNumber:String){
     next:(res)=>{
       if(res.isSuccess == true){
         this.alertify.success(res.message);
-        this.getAllNonInvitedVisitor();
+        this.getAllNonInvitedVisitor(this.siteId);
       }
       else{
         this.alertify.error(res.message);

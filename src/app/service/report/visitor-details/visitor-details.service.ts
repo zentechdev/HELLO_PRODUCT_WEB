@@ -17,8 +17,8 @@ export class VisitorDetailsService {
     return this.http.get<any>(`${baseUrl}/api/InviteVisitor/getTodayInviteVisitor`)
   }
 
-  getAllNonInvitedVisitor() {
-    return this.http.get<any>(`${baseUrl}/api/Visitor/getTodayVisitor`)
+  getAllNonInvitedVisitor(siteId:any) {
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getTodayVisitor/`+siteId)
     
   }
 
@@ -27,15 +27,15 @@ export class VisitorDetailsService {
   }
 
   getNonInvitedVisitorByDateRange(data:any){
-    return this.http.post<any>(`${baseUrl}/api/Visitor/getVisitorByDateRange/`,data) 
+    return this.http.post<any>(`${baseUrl}/api/Visitors/getVisitorByDateRange/`,data) 
   }
 
   getTodayInvitedVisitorByBranchId(branchId:Number){
-    return this.http.get<any>(`${baseUrl}/api/DashBoardReport/getTodayInvitedVisitorByBranchId/`+branchId)
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getVisitorByDateRange/`+branchId)
   }
 
   getTodayNonInviteVisitorByBranchId(branchId:Number){
-    return this.http.get<any>(`${baseUrl}/api/Visitor/getTodatVisitor/`+branchId)
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getTodayVisitor/`+branchId)
   }
 
 }
