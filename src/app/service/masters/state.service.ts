@@ -21,6 +21,10 @@ export class StateService {
     return this.http.get<any>(`${baseUrl}/api/Country/getAllCountry`);
   }
 
+  getAllOrganisation(){
+    return this.http.get<any>(`${baseUrl}/api/OrganizationDetails/getAllOrganizationDetails`);
+   }
+   
   getIsActive() {
     return this.http.get<any>(`${baseUrl}/api/Status/getIsActive`);
   }

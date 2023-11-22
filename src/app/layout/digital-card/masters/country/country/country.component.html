@@ -5,15 +5,16 @@
             <div class="row">
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
-                        <mat-label>Country Name</mat-label>
-                        <input formControlName="countryName" matInput placeholder="Country Name" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('countryName')?.hasError('required')">
-                            Country Name is <strong>required</strong>
+                        <mat-label>Select Organization</mat-label>
+                        <mat-select formControlName="clientId" placeholder="Organization" (change)="getAllOrganisation()">
+                            <mat-option *ngFor="let org of orgList"
+                                [value]="org.organizationName">{{org.organizationName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('clientId')?.hasError('required')">
+                            Organization Type is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    
+
                     <mat-form-field appearance="outline">
                         <mat-label>Select Status</mat-label>
                         <mat-select formControlName="isActive" placeholder="isActive">
@@ -24,6 +25,17 @@
                             isActive Type is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
+
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country Name</mat-label>
+                        <input formControlName="countryName" matInput placeholder="Country Name" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('countryName')?.hasError('required')">
+                            Country Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
                 </div>
             </div>
             <!-- <div class="row">

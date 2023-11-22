@@ -3,14 +3,12 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { ColorCodeService } from 'src/app/service/masters/color-code.service';
-
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 import { OrganizationDialogComponent } from '../organization-dialog/organization-dialog.component';
 import { OrganizationService } from 'src/app/service/organization/organization.service';
+
 
 @Component({
   selector: 'app-organization-list',
@@ -18,31 +16,33 @@ import { OrganizationService } from 'src/app/service/organization/organization.s
   styleUrls: ['./organization-list.component.css']
 })
 export class OrganizationListComponent implements OnInit {
-  displayedColumns: string[] = ['id','organizationName', 'visitorTechType', 'employeeTechType', 'createdOn', 'logo','isActive','Action', ];
+ 
+  displayedColumns: string[] = ['id', 'organizationName', 'orgnisationType','visitorTechType','employeeTechType','isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
-  data: any[] = [];
-  formGroup!: FormGroup;
-  isActiveList: any;
-  value!: any[];
-  actionName:any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   Insert: boolean = false;
   Update: boolean = false;
   Delete: boolean = false;
   Select: boolean = false;
 
+  data:any[]=[];
+  formGroup!:FormGroup;
+  isActiveList: any;
+  value: any[] | undefined;
+  actionName: any;
 
-  constructor(private formBuilder: FormBuilder, private storageEncryptionService: StorageEncryptionService, private service: OrganizationService, private alertify: AlertifyService, public dialog: MatDialog) { }
+  constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service:OrganizationService, private alertify: AlertifyService, public dialog: MatDialog) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
 
     this.formGroup = this.formBuilder.group({
       isActiveId:['']
     })
 
-    // const actionName = String(localStorage.getItem("cl"));
+    // const actionName = String(localStorage.getItem("actionName"));
     // this.actionName = this.storageEncryptionService.decryptData(actionName);
 
     // // Conversion of string array to number array
@@ -72,13 +72,14 @@ export class OrganizationListComponent implements OnInit {
     //     this.Select = true;
     //   }
     // }
-    await this.getAllOrganisation();
-    await this.getAllStatus();
+
+    this.getAllOrganisation();
+    this.getAllStatus();
   }
 
   openDialog() {
     this.dialog.open(OrganizationDialogComponent, {
-      width: '50%',
+      width: '100%',
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
@@ -103,7 +104,6 @@ export class OrganizationListComponent implements OnInit {
     this.service.getAllOrganisation()
       .subscribe({
         next: (res) => {
-          debugger
           this.data=res.data;
           this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
           this.dataSource.paginator = this.paginator;
@@ -127,8 +127,8 @@ export class OrganizationListComponent implements OnInit {
       })
   }
 
-  selectStatus(event: any) {
-    const value = this.formGroup.value.isActiveId;
+  selectStatus(event:any) {
+    const value  = this.formGroup.value.isActiveId;
 
     if(value==0){
       this.value = this.data;
@@ -136,18 +136,16 @@ export class OrganizationListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.data = this.value;
     }
-    else
-    {
+    else{
       this.value = this.data.filter((item: any) => item.isActive === value);
       this.dataSource = new MatTableDataSource(this.value);
       this.dataSource.paginator = this.paginator;
       this.dataSource.data = this.value;
     }
-
-  }
+   }
 
   deleteData(id: number) {
-    this.alertify.confirm('Delete color code', 'Are sure to delete color code ',
+    this.alertify.confirm('Delete brochure video', 'Are you sure to delete brochure video',
       () => {
         this.service.deleteOrganizationDetails(id)
           .subscribe({
@@ -177,7 +175,7 @@ export class OrganizationListComponent implements OnInit {
     this.dataSource.data = this.data;
   }
 
-  
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -28,6 +28,7 @@ export class CityComponent implements OnInit {
   clientId: any;
   stateList: any;
   stateId: any;
+  orgList: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: CityService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<CityComponent>) { this.dialogRef.disableClose = true }
@@ -50,15 +51,16 @@ export class CityComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
+      this.formGroup.controls['clientId'].setValue(this.editData.clientName);
       this.formGroup.controls['countryId'].setValue(this.editData.countryName);
       this.formGroup.controls['stateId'].setValue(this.editData.stateName);
       this.formGroup.controls['cityName'].setValue(this.editData.cityName);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
 
-    this.formGroup.controls['clientId'].setValue(this.clientId);
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
+    this.getAllOrganisation();
     this.getIsActive();
     this.getAllCountry();
     this.getState();
@@ -100,6 +102,18 @@ export class CityComponent implements OnInit {
       })
   }
 
+  getAllOrganisation() {
+    this.service.getAllOrganisation()
+      .subscribe({
+        next: (res) => {
+          this.orgList = res.data;
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
+  }
+
   postData() {
 
     for (var i = 0; i < this.isActiveList.length; i++) {
@@ -120,8 +134,14 @@ export class CityComponent implements OnInit {
       }
     }
 
+    for (var i = 0; i < this.orgList.length; i++) {
+      if (this.orgList[i].organizationName == this.formGroup.value.clientId) {
+        this.clientId = this.orgList[i].id;
+      }
+    }
+
     let formGroup = {
-      "clientId": this.formGroup.value.clientId,
+      "clientId": this.clientId,
       "countryId": this.countryId,
       "stateId": this.stateId,
       "cityName":this.formGroup.value.cityName,

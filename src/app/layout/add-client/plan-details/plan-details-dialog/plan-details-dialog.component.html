@@ -1,1 +1,97 @@
-<p>plan-details-dialog works!</p>
+<div mat-dialog-content>
+    <h3 mat-dialog-title><b>ORGANIZATION</b></h3>
+    <div class="container mb-5">
+      <form [formGroup]="formGroup">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline">
+                <mat-label>Select Organization</mat-label>
+                <mat-select formControlName="organizationId" placeholder="Organization">
+                    <mat-option *ngFor="let org of orgList" [value]="org.organizationName">{{org.organizationName}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('organizationId')?.hasError('required')">
+                    Organization is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+                <mat-label>Start Date</mat-label>
+                <input formControlName="startDate" type="date" matInput placeholder="Start Date " autocomplete="off">
+                <mat-error *ngIf="formGroup.get('startDate')?.hasError('required')">
+                    Start Date <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            
+            <mat-form-field appearance="outline">
+                <mat-label>Price</mat-label>
+                <input formControlName="price" type="number" matInput placeholder="price" autocomplete="off">
+                <mat-error *ngIf="formGroup.get('price')?.hasError('required')">
+                    price is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Final Price</mat-label>
+                <input formControlName="finalPrice" type="number" matInput placeholder="finalPrice" autocomplete="off">
+                <mat-error *ngIf="formGroup.get('finalPrice')?.hasError('required')">
+                    Final Price is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            
+          </div>
+          <div class="col-md-6">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Select Plan</mat-label>
+                <mat-select formControlName="planId" placeholder="Plan Name">
+                    <mat-option *ngFor="let plan of planList" [value]="plan.planName">{{plan.planName}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('planId')?.hasError('required')">
+                    Plan Name is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>End Date</mat-label>
+                <input formControlName="enddate" type="date" matInput placeholder="End Date" (input)="selectStatus($event)" autocomplete="off">
+                <mat-error *ngIf="formGroup.get('enddate')?.hasError('required')">
+                    End Date is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Discount</mat-label>
+                <mat-select formControlName="discount" placeholder="Discount" (selectionChange)="selectDiscount($event)">
+                    <mat-option [value]="10">10%</mat-option>
+                    <mat-option [value]="15">15%</mat-option>
+                    <mat-option [value]="25">25%</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('discount')?.hasError('required')">
+                    Discount Type is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Select Status</mat-label>
+                <mat-select formControlName="isActive" placeholder="isActive">
+                    <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                    isActive Type is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+            <div class="row" style="display: flex; justify-content: center">
+                <div class="col-md-6 col-lg-4 col-sm-12" >
+                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:45px">CANCEL</button>
+                    <button mat-flat-button class="button button4" color="primary"
+                        (click)="postData()" style="margin-left: 10px;">{{actionBtn}}</button>
+                </div>
+            </div>
+      </form>
+    </div>
+  </div>

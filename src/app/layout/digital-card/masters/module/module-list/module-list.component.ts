@@ -74,7 +74,7 @@ export class ModuleListComponent implements OnInit {
     // }
 
 
-    await this.getCity();
+    await this.getModule();
     await this.getAllStatus();
   }
 
@@ -84,7 +84,7 @@ export class ModuleListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
-        this.getCity();
+        this.getModule();
       }
     })
   }
@@ -96,13 +96,13 @@ export class ModuleListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
-        this.getCity();
+        this.getModule();
       }
     })
   }
 
-  getCity() {debugger
-    this.service.getCity()
+  getModule() {
+    this.service.getModule()
       .subscribe({
         next: (res) => {
           this.data=res.data;
@@ -147,15 +147,15 @@ export class ModuleListComponent implements OnInit {
   }
 
 
-  deleteData(cityId: number) {
+  deleteData(moduleId: number) {
     this.alertify.confirm('Delete state', 'Are you sure to delete state',
       () => {
-        this.service.deleteCity(cityId)
+        this.service.deleteModule(moduleId)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
                 this.alertify.success(res.message);
-                this.getCity();
+                this.getModule();
               }
               else {
                 this.alertify.error(res.message);

@@ -16,7 +16,7 @@ import { StorageEncryptionService } from 'src/app/service/encryption/storage-enc
 })
 export class StateListComponent implements OnInit {
 
-  displayedColumns: string[] = ['stateId','country','name', 'isActive', 'Action'];
+  displayedColumns: string[] = ['stateId','clientName','country','name', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -103,7 +103,7 @@ export class StateListComponent implements OnInit {
     this.service.getState()
       .subscribe({
         next: (res) => {
-          this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
+          this.data=res.data;
           this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

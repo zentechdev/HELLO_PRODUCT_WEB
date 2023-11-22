@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
 import { TechnologyTypeService } from 'src/app/service/masters/technology-type.service';
 
 @Component({
@@ -34,7 +33,6 @@ export class TechnologyTypeDialogComponent implements OnInit {
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       clientId: [''],
-
       name: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
@@ -85,12 +83,13 @@ export class TechnologyTypeDialogComponent implements OnInit {
 
     let formGroup = {
       "name":this.formGroup.value.name,
-  
+      "isActiveId":this.isActiveId,
+      "createdBy":this.formGroup.value.createdBy
     }
 
     if (!this.editData) {
       if (this.formGroup.valid) {
-        this.service.postCity(formGroup)
+        this.service.postTechnologyType(formGroup)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
@@ -115,7 +114,7 @@ export class TechnologyTypeDialogComponent implements OnInit {
 
   putData(formGroup: any) {
     if (this.formGroup.valid) {
-      this.service.putCity(formGroup, this.editData.id)
+      this.service.putTechnologyType(formGroup, this.editData.id)
         .subscribe({
           next: (res) => {
             if (res.isSuccess == true) {

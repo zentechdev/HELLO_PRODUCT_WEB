@@ -7,6 +7,8 @@ import { OrganizationListComponent } from './organization/organization-list/orga
 import { OrganizationDialogComponent } from './organization/organization-dialog/organization-dialog.component';
 import { PlanDetailsListComponent } from './plan-details/plan-details-list/plan-details-list.component';
 import { PlanDetailsDialogComponent } from './plan-details/plan-details-dialog/plan-details-dialog.component';
+import { SiteDetailsListComponent } from './site-details/site-details-list/site-details-list.component';
+import { SiteDetailsDialogComponent } from './site-details/site-details-dialog/site-details-dialog.component';
 
 const routes: Routes = [
   {path:'add-client', component:AddClientComponent},
@@ -16,8 +18,8 @@ const routes: Routes = [
   {path:'organization-dialog', component:OrganizationDialogComponent},
   {path:'plan-details-list', component:PlanDetailsListComponent},
   {path:'plan-details-dialog', component:PlanDetailsDialogComponent},
-  {path:'site-details-list', component:PlanDetailsListComponent},
-  {path:'site-details-dialog', component:PlanDetailsDialogComponent}
+  {path:'site-details-list', component:SiteDetailsListComponent},
+  {path:'site-details-dialog', component:SiteDetailsDialogComponent}
 
 ];
 

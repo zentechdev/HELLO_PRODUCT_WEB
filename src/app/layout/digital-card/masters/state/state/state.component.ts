@@ -25,14 +25,15 @@ export class StateComponent implements OnInit {
   countryList: any;
   countryId: any;
   clientId: any;
+  orgList: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: StateService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<StateComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      clientId: [''],
-      countryId: [''],
+      clientId: ['',Validators.required],
+      countryId: ['',Validators.required],
       name: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
@@ -46,23 +47,24 @@ export class StateComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
+      this.formGroup.controls['clientId'].setValue(this.editData.clientName);
       this.formGroup.controls['countryId'].setValue(this.editData.country);
       this.formGroup.controls['name'].setValue(this.editData.name);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
 
-    this.formGroup.controls['clientId'].setValue(this.clientId);
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
     this.getIsActive();
     this.getAllCountry();
+    this.getAllOrganisation();
   }
 
   getAllCountry() {
     this.service.getCountry()
       .subscribe({
         next: (res) => {
-          this.countryList = res.data.filter((item:any)=>item.clientId==this.clientId);
+          this.countryList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -82,11 +84,29 @@ export class StateComponent implements OnInit {
       })
   }
 
+  getAllOrganisation() {
+    this.service.getAllOrganisation()
+      .subscribe({
+        next: (res) => {
+          this.orgList = res.data;
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
+  }
+
   postData() {
 
     for (var i = 0; i < this.isActiveList.length; i++) {
       if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {
         this.isActiveId = this.isActiveList[i].isActiveId;
+      }
+    }
+
+    for (var i = 0; i < this.orgList.length; i++) {
+      if (this.orgList[i].organizationName == this.formGroup.value.clientId) {
+        this.clientId = this.orgList[i].id;
       }
     }
 
@@ -97,7 +117,7 @@ export class StateComponent implements OnInit {
     }
 
     let formGroup = {
-      "clientId": this.formGroup.value.clientId,
+      "clientId": this.clientId,
       "countryId": this.countryId,
       "name":this.formGroup.value.name,
       "isActiveId": this.isActiveId,

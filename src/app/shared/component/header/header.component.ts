@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { SideNavComponent } from '../side-nav/side-nav.component';
-import { MenuService } from 'src/app/service/masters/menu.service';
-import { MenuNameService } from 'src/app/service/data/menu-name.service';
+
 
 
 
@@ -29,8 +27,8 @@ export class HeaderComponent implements OnInit {
     const encryptedData = String(localStorage.getItem('memberName'));
     this.userDisplayName = this.storageEncryptionService.decryptData(encryptedData);
 
-    // const encryptedData1 = String(localStorage.getItem('image'));
-    // this.image = this.storageEncryptionService.decryptData(encryptedData1);
+    const encryptedData1 = String(localStorage.getItem('image'));
+    this.image = this.storageEncryptionService.decryptData(encryptedData1);
 
     // this.userDisplayName = localStorage.getItem('employeeName');
     // this.image = localStorage.getItem('image');

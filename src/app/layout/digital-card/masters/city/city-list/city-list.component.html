@@ -49,6 +49,14 @@
                                     </ng-container>
 
                                     <!-- stateCode Column -->
+                                    <ng-container matColumnDef="clientName">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ORGANIZATION NAME</b>
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.clientName}} </td>
+                                    </ng-container>
+
+
+                                    <!-- stateCode Column -->
                                     <ng-container matColumnDef="countryName">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>COUNTRY NAME</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row.countryName}} </td>

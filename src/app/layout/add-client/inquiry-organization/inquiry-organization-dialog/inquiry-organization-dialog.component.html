@@ -1,1 +1,128 @@
-<p>inquiry-organization-dialog works!</p>
+<div mat-dialog-content>
+    <h3 mat-dialog-title><b>INQUIRY ORGANIZATION</b></h3>
+    <div class="container mb-5">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Organization Name</mat-label>
+                        <input formControlName="organizationName" matInput placeholder="Organization Name"
+                            autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('organizationName')?.hasError('required')">
+                            Organization Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Inquiry Person</mat-label>
+                        <input formControlName="inquiryPerson" matInput placeholder="Inquiry Person" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('inquiryPerson')?.hasError('required')">
+                            Inquiry Person is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email Id</mat-label>
+                        <input formControlName="emailId" type="email" matInput placeholder="emailId" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('emailId')?.hasError('required')">
+                            emailId is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Purchase Status</mat-label>
+                        <mat-select formControlName="purchaseId" placeholder="purchase status">
+                            <mat-option value="Yes">YES</mat-option>
+                            <mat-option value="No">NO</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('purchaseId')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Feedback</mat-label>
+                        <input formControlName="feedback" type="text" matInput placeholder="feedback" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('feedback')?.hasError('required')">
+                            feedback is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Organization Address</mat-label>
+                        <input formControlName="organizationAddress" matInput placeholder="Organization Address"
+                            autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('organizationAddress')?.hasError('required')">
+                            Organization Address is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Contact Number</mat-label>
+                        <input formControlName="contactNumber" matInput placeholder="contactNumber" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('contactNumber')?.hasError('required')">
+                            Contact Number is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Module</mat-label>
+                        <mat-select #select multiple formControlName="moduleId">
+                            <div class="select-all">
+                                <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                                    (change)="toggleAllSelectionMenu()">Select All</mat-checkbox>
+                            </div>
+                            <mat-option (click)="optionClickMenu()" *ngFor="let menu of menuList" [value]="menu.name">
+                                {{menu.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('moduleId')?.hasError('required')">
+                            Module is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Comment</mat-label>
+                        <input formControlName="comment" type="text" matInput placeholder="Comment" autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('comment')?.hasError('required')">
+                            comment is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="isActive" placeholder="isActive">
+                            <mat-option *ngFor="let isActive of isActiveList"
+                                [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- <div class="row">
+          <div class="col-md-6">
+            <div mat-dialog-actions [align]="'end'">
+              <button mat-flat-button class="button button4" color="warn" mat-dialog-close>CANCEL</button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div mat-dialog-actions [align]="'start'">
+              <button mat-flat-button class="button button4" color="primary" (click)="postData()">{{actionBtn}}</button>
+            </div>
+          </div>
+        </div> -->
+        <div class="row" style="display: flex; justify-content: center">
+            <div class="col-md-6 col-lg-4 col-sm-12">
+                <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:45px">CANCEL</button>
+                <button mat-flat-button class="button button4" color="primary" (click)="postData()"
+                    style="margin-left: 10px;">{{actionBtn}}</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

@@ -18,7 +18,7 @@ import { CityService } from 'src/app/service/masters/city.service';
 })
 export class CityListComponent implements OnInit {
 
-  displayedColumns: string[] = ['cityId','countryName','stateName','cityName', 'isActive', 'Action'];
+  displayedColumns: string[] = ['cityId','clientName','countryName','stateName','cityName', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -105,7 +105,7 @@ export class CityListComponent implements OnInit {
     this.service.getCity()
       .subscribe({
         next: (res) => {
-          this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
+          this.data=res.data;
           this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

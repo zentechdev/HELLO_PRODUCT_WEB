@@ -15,19 +15,19 @@ export class OrganizationTypeService {
     return this.http.get<any>(`${baseUrl}/api/Status/getIsActive`);
   }
 
-  getCity() {
+  getOrganizationType() {
     return this.http.get<any>(`${baseUrl}/api/Organisation/getAllOrganisation`);
   }
   
-  postCity(data: any) {
+  postOrganizationType(data: any) {
     return this.http.post<any>(`${baseUrl}/api/Organisation/postOrganisation/`, data)
   }
 
-  putCity(data: any, cityId: Number) {
-    return this.http.put<any>(`${baseUrl}/api/Organisation/putOrganisation/` + cityId, data)
+  putOrganizationType(data: any, organizationId: Number) {
+    return this.http.put<any>(`${baseUrl}/api/Organisation/putOrganisation/` + organizationId, data)
   }
 
-  deleteCity(cityId:Number){
-    return this.http.delete<any>(`${baseUrl}/api/Organisation/deleteOrganisation/`+cityId)
+  deleteOrganizationType(organizationId:Number){
+    return this.http.delete<any>(`${baseUrl}/api/Organisation/deleteOrganisation/`+organizationId)
   }
 }

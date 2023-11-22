@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 import { CityService } from 'src/app/service/masters/city.service';
+import { ModuleService } from 'src/app/service/masters/module.service';
 import { TechnologyTypeService } from 'src/app/service/masters/technology-type.service';
 
 @Component({
@@ -29,12 +30,11 @@ export class ModuleDialogComponent implements OnInit {
   stateId: any;
 
 
-  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: TechnologyTypeService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ModuleDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service:ModuleService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ModuleDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       clientId: [''],
-
       name: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
@@ -85,12 +85,13 @@ export class ModuleDialogComponent implements OnInit {
 
     let formGroup = {
       "name":this.formGroup.value.name,
-  
+      "isActiveId":this.isActiveId,
+      "createdBy":this.formGroup.value.createdBy
     }
 
     if (!this.editData) {
       if (this.formGroup.valid) {
-        this.service.postCity(formGroup)
+        this.service.postModule(formGroup)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
@@ -115,7 +116,7 @@ export class ModuleDialogComponent implements OnInit {
 
   putData(formGroup: any) {
     if (this.formGroup.valid) {
-      this.service.putCity(formGroup, this.editData.id)
+      this.service.putModule(formGroup, this.editData.id)
         .subscribe({
           next: (res) => {
             if (res.isSuccess == true) {

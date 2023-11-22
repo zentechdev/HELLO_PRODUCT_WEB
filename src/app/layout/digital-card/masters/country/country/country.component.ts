@@ -26,14 +26,15 @@ export class CountryComponent implements OnInit {
   countryList: any;
   countryId: any;
   clientId: any;
+  orgList: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service:CountryService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<CountryComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      clientId: [''],
-      countryName: [''],
+      clientId: ['',Validators.required],
+      countryName: ['',Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
     })
@@ -46,14 +47,15 @@ export class CountryComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
+      this.formGroup.controls['clientId'].setValue(this.editData.clientName);
       this.formGroup.controls['countryName'].setValue(this.editData.countryName);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
 
-    this.formGroup.controls['clientId'].setValue(this.clientId);
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
     this.getIsActive();
+    this.getAllOrganisation();
   }
 
   getIsActive() {
@@ -61,6 +63,18 @@ export class CountryComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.isActiveList = res;
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
+  }
+
+  getAllOrganisation() {
+    this.service.getAllOrganisation()
+      .subscribe({
+        next: (res) => {
+          this.orgList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -77,8 +91,14 @@ export class CountryComponent implements OnInit {
       }
     }
 
+    for (var i = 0; i < this.orgList.length; i++) {
+      if (this.orgList[i].organizationName == this.formGroup.value.clientId) {
+        this.clientId = this.orgList[i].id;
+      }
+    }
+
     let formGroup = {
-      "clientId": this.formGroup.value.clientId,
+      "clientId": this.clientId,
       "name": this.formGroup.value.countryName,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy

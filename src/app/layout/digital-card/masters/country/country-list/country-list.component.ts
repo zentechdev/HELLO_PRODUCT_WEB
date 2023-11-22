@@ -17,7 +17,7 @@ import { CountryService } from 'src/app/service/masters/country.service';
   styleUrls: ['./country-list.component.css']
 })
 export class CountryListComponent implements OnInit {
-  displayedColumns: string[] = ['countryId','countryName', 'isActive', 'Action'];
+  displayedColumns: string[] = ['countryId','clientName','countryName', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -104,7 +104,7 @@ export class CountryListComponent implements OnInit {
     this.service.getCountry()
       .subscribe({
         next: (res) => {
-          this.data=res.data.filter((item:any)=>item.clientId==this.clientId);
+          this.data=res.data;
           this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;

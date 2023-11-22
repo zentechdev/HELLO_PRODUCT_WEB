@@ -1,1 +1,94 @@
-<p>site-details-dialog works!</p>
+<div mat-dialog-content>
+    <h3 mat-dialog-title><b>SITE DETAILS</b></h3>
+    <div class="container mb-5">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Organization</mat-label>
+                        <mat-select formControlName="clientId" placeholder="Organization" (change)="getAllOrganisation()">
+                            <mat-option *ngFor="let org of orgList"
+                                [value]="org.organizationName">{{org.organizationName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('clientId')?.hasError('required')">
+                            Organization Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select State</mat-label>
+                        <mat-select formControlName="stateId" placeholder="State" (change)="getState()">
+                            <mat-option *ngFor="let state of stateList"
+                                [value]="state.name">{{state.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('stateId')?.hasError('required')">
+                            State Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Site Name</mat-label>
+                        <input formControlName="siteName" matInput placeholder="Site Name"
+                            autocomplete="off">
+                        <mat-error *ngIf="formGroup.get('siteName')?.hasError('required')">
+                            Site Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-6">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Country</mat-label>
+                        <mat-select formControlName="countryId" placeholder="Country">
+                            <mat-option *ngFor="let country of countryList"
+                                [value]="country.countryName">{{country.countryName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('countryId')?.hasError('required')">
+                            Country  is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select City</mat-label>
+                        <mat-select formControlName="cityId" placeholder="City">
+                            <mat-option *ngFor="let city of cityList"
+                                [value]="city.cityName">{{city.cityName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('cityId')?.hasError('required')">
+                            City Name  is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="isActive" placeholder="isActive">
+                            <mat-option *ngFor="let isActive of isActiveList"
+                                [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- <div class="row">
+          <div class="col-md-6">
+            <div mat-dialog-actions [align]="'end'">
+              <button mat-flat-button class="button button4" color="warn" mat-dialog-close>CANCEL</button>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div mat-dialog-actions [align]="'start'">
+              <button mat-flat-button class="button button4" color="primary" (click)="postData()">{{actionBtn}}</button>
+            </div>
+          </div>
+        </div> -->
+        <div class="row" style="display: flex; justify-content: center">
+            <div class="col-md-6 col-lg-4 col-sm-12">
+                <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:45px">CANCEL</button>
+                <button mat-flat-button class="button button4" color="primary" (click)="postData()"
+                    style="margin-left: 10px;">{{actionBtn}}</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

@@ -7,11 +7,9 @@ import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StateService } from 'src/app/service/masters/state.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-// import { CityComponent } from '../city/city.component';
 import { CityService } from 'src/app/service/masters/city.service';
 import { OrganizationTypeDialogComponent } from '../organization-type-dialog/organization-type-dialog.component';
 import { OrganizationTypeService } from 'src/app/service/organization-type/organization-type.service';
-import { ModuleService } from 'src/app/service/masters/module.service';
 
 @Component({
   selector: 'app-organization-type-list',
@@ -76,7 +74,7 @@ export class OrganizationTypeListComponent implements OnInit {
     // }
 
 
-    await this.getCity();
+    await this.getOrganizationType();
     await this.getAllStatus();
   }
 
@@ -86,7 +84,7 @@ export class OrganizationTypeListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
-        this.getCity();
+        this.getOrganizationType();
       }
     })
   }
@@ -98,13 +96,13 @@ export class OrganizationTypeListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
-        this.getCity();
+        this.getOrganizationType();
       }
     })
   }
 
-  getCity() {
-    this.service.getCity()
+  getOrganizationType() {
+    this.service.getOrganizationType()
       .subscribe({
         next: (res) => {
           this.data=res.data;
@@ -152,12 +150,12 @@ export class OrganizationTypeListComponent implements OnInit {
   deleteData(cityId: number) {
     this.alertify.confirm('Delete state', 'Are you sure to delete state',
       () => {
-        this.service.deleteCity(cityId)
+        this.service.deleteOrganizationType(cityId)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
                 this.alertify.success(res.message);
-                this.getCity();
+                this.getOrganizationType();
               }
               else {
                 this.alertify.error(res.message);

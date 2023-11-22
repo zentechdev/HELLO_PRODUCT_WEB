@@ -13,6 +13,10 @@ export class CityService {
     return this.http.get<any>(`${baseUrl}/api/State/getAllState`);
   }
 
+  getAllOrganisation(){
+    return this.http.get<any>(`${baseUrl}/api/OrganizationDetails/getAllOrganizationDetails`);
+   }
+
   getCountry() {
     return this.http.get<any>(`${baseUrl}/api/Country/getAllCountry`);
   }

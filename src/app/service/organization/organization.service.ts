@@ -14,6 +14,18 @@ export class OrganizationService {
    return this.http.get<any>(`${baseUrl}/api/OrganizationDetails/getAllOrganizationDetails`);
   }
 
+  getAllInquiryOrganization(){
+    return this.http.get<any>(`${baseUrl}/api/InquiryOrganization/getAllInquiryOrganization`)
+  }
+
+  getOrganizationType() {
+    return this.http.get<any>(`${baseUrl}/api/Organisation/getAllOrganisation`);
+  }
+
+  getTechnologyType() {
+    return this.http.get<any>(`${baseUrl}/api/Technology/getAllTechnology`);
+  }
+
   getIsActive() {
     return this.http.get<any>(`${baseUrl}/api/Status/getIsActive`);
   }

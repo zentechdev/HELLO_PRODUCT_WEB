@@ -12,19 +12,19 @@ export class ModuleService {
     return this.http.get<any>(`${baseUrl}/api/Status/getIsActive`);
   }
 
-  getCity() {
+  getModule() {
     return this.http.get<any>(`${baseUrl}/api/Module/getAllModule`);
   }
   
-  postCity(data: any) {
+  postModule(data: any) {
     return this.http.post<any>(`${baseUrl}/api/Module/postModule/`, data)
   }
 
-  putCity(data: any, cityId: Number) {
-    return this.http.put<any>(`${baseUrl}/api/Module/putModule/` + cityId, data)
+  putModule(data: any, moduleId: Number) {
+    return this.http.put<any>(`${baseUrl}/api/Module/putModule/` + moduleId, data)
   }
 
-  deleteCity(cityId:Number){
-    return this.http.delete<any>(`${baseUrl}/api/Module/deleteModule/`+cityId)
+  deleteModule(moduleId:Number){
+    return this.http.delete<any>(`${baseUrl}/api/Module/deleteModule/`+moduleId)
   }
 }

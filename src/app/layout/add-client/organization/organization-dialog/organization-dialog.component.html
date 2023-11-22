@@ -1,61 +1,71 @@
 <div mat-dialog-content>
-    <h3 mat-dialog-title><b>Organization Details</b></h3>
+    <h3 mat-dialog-title><b>ORGANIZATION</b></h3>
     <div class="container mb-5">
-        <form [formGroup]="formGroup">
-            <div class="row">
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Organization Name</mat-label>
-                        <input formControlName="organizationName" matInput placeholder="Organization Name" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('organizationName')?.hasError('required')">
-                            Menu Name <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Orgnisation Type</mat-label>
-                        <input formControlName="orgnisationType" matInput placeholder="Orgnisation Type" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('orgnisationType')?.hasError('required')">
-                            Menu Url <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Visitor TechType</mat-label>
-                        <mat-select formControlName="visitorTechType" placeholder="Visitor TechType">
-                            <mat-option value="Parent">QR </mat-option>
-                            <mat-option value="Child">RFID</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('visitorTechType')?.hasError('required')">
-                            Visitor TechType <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Employee TechType</mat-label>
-                        <input formControlName="employeeTechType" matInput placeholder="Employee TechType" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('employeeTechType')?.hasError('required')">
-                            Parent Id <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Menu Icon</mat-label>
-                        <input formControlName="menuIcon" matInput placeholder="Menu Icon" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('menuIcon')?.hasError('required')">
-                            Menu Icon <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Select Status</mat-label>
-                        <mat-select formControlName="isActive" placeholder="isActive">
-                            <mat-option *ngFor="let isActive of isActiveList"
-                                [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
-                            isActive Type is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
+      <form [formGroup]="formGroup">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="outline">
+                <mat-label>Select Organization</mat-label>
+                <mat-select formControlName="inquiryId" placeholder="Organization">
+                    <mat-option *ngFor="let org of inqOrgList" [value]="org.organizationName">{{org.organizationName}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('inquiryId')?.hasError('required')">
+                    Organization is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Employee Access Type</mat-label>
+                <mat-select formControlName="employeeTechTypeId" placeholder="Employee Access Type">
+                    <mat-option *ngFor="let tech of techTypeLsit" [value]="tech.name">{{tech.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('employeeTechTypeId')?.hasError('required')">
+                    Employee Access Type is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <input hidden matInput readonly name="name" />
+                <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                <input hidden formControlName="logo" (change)="selectFile($event)" #fileInput type="file" multiple="multiple" accept=".jepg,.png">
+                <span class="file-name">{{ file?.name ? file.name : (logo ? logo.substring(logo.lastIndexOf('/') + 1) : ' Choose File ') }}</span>
+                <mat-error *ngIf="formGroup.get('logo')?.hasError('required')">
+                  Logo is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline">
+                <mat-label>Organization Type</mat-label>
+                <mat-select formControlName="orgnisationTypeId" placeholder="Organization Type">
+                    <mat-option *ngFor="let org of orgTypeList" [value]="org.name">{{org.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('orgnisationTypeId')?.hasError('required')">
+                    Organization Type is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+                <mat-label>Visitor Access Type</mat-label>
+                <mat-select formControlName="visitorTechTypeId" placeholder="Visitor Access Type">
+                    <mat-option *ngFor="let tech of techTypeLsit" [value]="tech.name">{{tech.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('visitorTechTypeId')?.hasError('required')">
+                    Visitor Access Type is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Select Status</mat-label>
+                <mat-select formControlName="isActive" placeholder="isActive">
+                    <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                    isActive Type is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
             <div class="row" style="display: flex; justify-content: center">
                 <div class="col-md-6 col-lg-4 col-sm-12" >
                     <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:45px">CANCEL</button>
@@ -63,7 +73,6 @@
                         (click)="postData()" style="margin-left: 10px;">{{actionBtn}}</button>
                 </div>
             </div>
-            
-        </form>
+      </form>
     </div>
-</div>
+  </div>

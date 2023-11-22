@@ -75,7 +75,7 @@ export class TechnologyTypeListComponent implements OnInit {
     // }
 
 
-    await this.getCity();
+    await this.getTechnologyType();
     await this.getAllStatus();
   }
 
@@ -85,7 +85,7 @@ export class TechnologyTypeListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
-        this.getCity();
+        this.getTechnologyType();
       }
     })
   }
@@ -97,13 +97,13 @@ export class TechnologyTypeListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
-        this.getCity();
+        this.getTechnologyType();
       }
     })
   }
 
-  getCity() {debugger
-    this.service.getCity()
+  getTechnologyType() {
+    this.service.getTechnologyType()
       .subscribe({
         next: (res) => {
           this.data=res.data;
@@ -151,12 +151,12 @@ export class TechnologyTypeListComponent implements OnInit {
   deleteData(cityId: number) {
     this.alertify.confirm('Delete state', 'Are you sure to delete state',
       () => {
-        this.service.deleteCity(cityId)
+        this.service.deleteTechnologyType(cityId)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
                 this.alertify.success(res.message);
-                this.getCity();
+                this.getTechnologyType();
               }
               else {
                 this.alertify.error(res.message);

@@ -4,8 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
-import { TechnologyTypeService } from 'src/app/service/masters/technology-type.service';
+import { OrganizationService } from 'src/app/service/organization/organization.service';
 
 
 @Component({
@@ -30,12 +29,11 @@ export class OrganizationTypeDialogComponent implements OnInit {
   stateId: any;
 
 
-  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: TechnologyTypeService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<OrganizationTypeDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: OrganizationService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<OrganizationTypeDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       clientId: [''],
-
       name: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
@@ -60,10 +58,6 @@ export class OrganizationTypeDialogComponent implements OnInit {
 
   }
 
- 
-
- 
-
   getIsActive() {
     this.service.getIsActive()
       .subscribe({
@@ -86,12 +80,13 @@ export class OrganizationTypeDialogComponent implements OnInit {
 
     let formGroup = {
       "name":this.formGroup.value.name,
-  
+      "isActiveId":this.isActiveId,
+      "createdBy":this.formGroup.value.createdBy
     }
 
     if (!this.editData) {
       if (this.formGroup.valid) {
-        this.service.postCity(formGroup)
+        this.service.postOrganizationDetails(formGroup)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
@@ -116,7 +111,7 @@ export class OrganizationTypeDialogComponent implements OnInit {
 
   putData(formGroup: any) {
     if (this.formGroup.valid) {
-      this.service.putCity(formGroup, this.editData.id)
+      this.service.putOrganizationDetails(formGroup, this.editData.id)
         .subscribe({
           next: (res) => {
             if (res.isSuccess == true) {

@@ -13,19 +13,19 @@ export class TechnologyTypeService {
     return this.http.get<any>(`${baseUrl}/api/Status/getIsActive`);
   }
 
-  getCity() {
+  getTechnologyType() {
     return this.http.get<any>(`${baseUrl}/api/Technology/getAllTechnology`);
   }
   
-  postCity(data: any) {
+  postTechnologyType(data: any) {
     return this.http.post<any>(`${baseUrl}/api/Technology/postTechnology/`, data)
   }
 
-  putCity(data: any, cityId: Number) {
-    return this.http.put<any>(`${baseUrl}/api/Technology/putTechnology/` + cityId, data)
+  putTechnologyType(data: any, technologyId: Number) {
+    return this.http.put<any>(`${baseUrl}/api/Technology/putTechnology/` + technologyId, data)
   }
 
-  deleteCity(cityId:Number){
-    return this.http.delete<any>(`${baseUrl}/api/Technology/deleteTechnology/`+cityId)
+  deleteTechnologyType(technologyId:Number){
+    return this.http.delete<any>(`${baseUrl}/api/Technology/deleteTechnology/`+technologyId)
   }
 }
