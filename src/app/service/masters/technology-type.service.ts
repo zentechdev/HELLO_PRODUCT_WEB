@@ -6,6 +6,9 @@ import { baseUrl } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class TechnologyTypeService {
+  getSiteList: any;
+  getWingList: any;
+  
 
   constructor(private http:HttpClient) { }
 
@@ -13,9 +16,11 @@ export class TechnologyTypeService {
     return this.http.get<any>(`${baseUrl}/api/Status/getIsActive`);
   }
 
+
   getCity() {
     return this.http.get<any>(`${baseUrl}/api/Technology/getAllTechnology`);
   }
+
   
   postCity(data: any) {
     return this.http.post<any>(`${baseUrl}/api/Technology/postTechnology/`, data)

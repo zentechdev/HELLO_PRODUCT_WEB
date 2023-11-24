@@ -59,9 +59,6 @@ export class ModuleDialogComponent implements OnInit {
 
   }
 
- 
-
- 
 
   getIsActive() {
     this.service.getIsActive()

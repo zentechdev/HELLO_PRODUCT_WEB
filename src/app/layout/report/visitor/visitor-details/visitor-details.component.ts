@@ -18,12 +18,12 @@ import { MatDialog } from '@angular/material/dialog';
 export class VisitorDetailsComponent implements OnInit {
 
 
-  displayedColumns: string[] =['Id', 'visitorName', 'mobileNumber','employeeCode', 'emailId', 'location', 'branchName','createdDate', 'isActive','Action'];
+  displayedColumns: string[] = ['Id', 'visitorName', 'mobileNumber', 'employeeCode', 'emailId', 'location', 'branchName', 'createdDate', 'isActive', 'Action'];
   // displayedColumns: string[] = ['visitorId', 'visitorName', 'mobileNumber', 'emailId', 'location', 'branchName', 'departmentName', 'actions',];
   dataSource!: MatTableDataSource<any>;
   data1: any[] = [];
 
-  displayedColumns1: string[] = ['Id', 'visitorName', 'mobileNumber', 'emailId', 'location', 'createdDate','Action','isActive'];
+  displayedColumns1: string[] = ['Id', 'visitorName', 'mobileNumber', 'emailId', 'location', 'createdDate', 'Action', 'isActive'];
   dataSource1!: MatTableDataSource<any>;
   data2: any[] = [];
 
@@ -32,7 +32,7 @@ export class VisitorDetailsComponent implements OnInit {
     secondCtrl: [''],
   });
   siteId: any;
-  
+
   openDialog(row: any) {
     this.dialog.open(VisitorDetailsDialogComponent, {
       data: row,
@@ -62,18 +62,18 @@ export class VisitorDetailsComponent implements OnInit {
 
   actionName: any;
   branchList: any;
-  branchId:any;
+  branchId: any;
   exporter: any;
   data: any;
   value: any;
   // formGroup2: any;
 
-  
+
   filteredBranches: any;
 
-  async filterBranches(event: any) : Promise<void> {
+  async filterBranches(event: any): Promise<void> {
     const searchText = event.target.value.toLowerCase();
-    this.filteredBranches =await this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
+    this.filteredBranches = await this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
       return branch.branchName.toLowerCase().includes(searchText) || branch.stateName.toLowerCase().includes(searchText);
     });
   }
@@ -86,7 +86,7 @@ export class VisitorDetailsComponent implements OnInit {
     // this.formGroup = this._formBuilder.group({
     //   branchId: ['']
     // })
-    
+
     const siteId = String(localStorage.getItem('siteId'));
     this.siteId = this.storageEncryptionService.decryptData(siteId);
 
@@ -139,7 +139,6 @@ export class VisitorDetailsComponent implements OnInit {
   }
 
   getAllInvitedVisitor() {
-
     this.service.getAllInvitedVisitor()
       .subscribe({
         next: (res) => {
@@ -148,7 +147,6 @@ export class VisitorDetailsComponent implements OnInit {
               return item.branchName === branch.branchName;
             });
           });
-
           this.dataSource = new MatTableDataSource(
             res.filter((item: any) => {
               return this.branchList.some((branch: any) => {
@@ -156,7 +154,6 @@ export class VisitorDetailsComponent implements OnInit {
               });
             })
           );
-
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },
@@ -166,13 +163,13 @@ export class VisitorDetailsComponent implements OnInit {
       })
   }
 
-  getAllNonInvitedVisitor(siteId:number) {
+  getAllNonInvitedVisitor(siteId: number) {
     debugger
     this.service.getAllNonInvitedVisitor(siteId)
       .subscribe({
         next: (res) => {
           this.data2 = res.data;
-          this.dataSource1 = new MatTableDataSource(this.data2 );
+          this.dataSource1 = new MatTableDataSource(this.data2);
           this.dataSource1.paginator = this.paginator;
           this.dataSource1.sort = this.sort;
         },
@@ -181,7 +178,7 @@ export class VisitorDetailsComponent implements OnInit {
         }
       });
   }
-  
+
   dateEvent1() {
     if (this.formGroup1.valid) {
       let queryParams = {
@@ -190,30 +187,18 @@ export class VisitorDetailsComponent implements OnInit {
       };
 
       this.service.getNonInvitedVisitorByDateRange(queryParams)
-        .subscribe({
-          next: (res) => {
-            this.data = res.data.filter((item: any) => {
-              return this.branchList.some((branch: any) => {
-                return item.branchName === branch.branchName;
-              });
-            });
-
-            this.dataSource1 = new MatTableDataSource(
-              res.filter((item: any) => {
-                return this.branchList.some((branch: any) => {
-                  return item.branchName === branch.branchName;
-                });
-              })
-            );
-
-            this.dataSource1.paginator = this.paginator1;
-            this.dataSource1.sort = this.sort1;
-          },
-          error: (res) => {
-            this.alertify.error("Error While fetching The Records!!")
-          }
-        })
-    }   
+      .subscribe({
+        next: (res) => {
+          this.data2 = res.data;
+          this.dataSource1 = new MatTableDataSource(this.data2);
+          this.dataSource1.paginator = this.paginator;
+          this.dataSource1.sort = this.sort;
+        },
+        error: (error) => {
+          this.alertify.error("Error while fetching the records!");
+        }
+      });
+    }
   }
 
   dateEvent() {
@@ -276,77 +261,77 @@ export class VisitorDetailsComponent implements OnInit {
     await this.getTodayNonInviteVisitorByBranchId(this.value)
   }
 
-  getTodayInvitedVisitorByBranchId(branchId:Number){
+  getTodayInvitedVisitorByBranchId(branchId: Number) {
     this.service.getTodayInvitedVisitorByBranchId(branchId)
-    .subscribe({
-      next: (res) => {
-        this.data = res.filter((item: any) => {
-          return this.branchList.some((branch: any) => {
-            return item.branchName === branch.branchName;
-          });
-        });
-
-        this.dataSource = new MatTableDataSource(
-          res.filter((item: any) => {
+      .subscribe({
+        next: (res) => {
+          this.data = res.filter((item: any) => {
             return this.branchList.some((branch: any) => {
               return item.branchName === branch.branchName;
             });
-          })
-        );
+          });
 
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: (res) => {
-        this.alertify.error("Error While fetching The Records!!")
-      }
-    })
+          this.dataSource = new MatTableDataSource(
+            res.filter((item: any) => {
+              return this.branchList.some((branch: any) => {
+                return item.branchName === branch.branchName;
+              });
+            })
+          );
+
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
   }
 
-  getTodayNonInviteVisitorByBranchId(branchId:Number){
+  getTodayNonInviteVisitorByBranchId(branchId: Number) {
     this.service.getTodayNonInviteVisitorByBranchId(branchId)
-    .subscribe({
-      next: (res) => {
-        this.data1 = res.filter((item: any) => {
-          return this.branchList.some((branch: any) => {
-            return item.branchName === branch.branchName;
-          });
-        });
-
-        this.dataSource1 = new MatTableDataSource(
-          res.filter((item: any) => {
+      .subscribe({
+        next: (res) => {
+          this.data1 = res.filter((item: any) => {
             return this.branchList.some((branch: any) => {
               return item.branchName === branch.branchName;
             });
-          })
-        );
+          });
 
-        this.dataSource1.paginator = this.paginator1;
-        this.dataSource1.sort = this.sort1;
-      },
-      error: (res) => {
-        this.alertify.error("Error While fetching The Records!!")
-      }
-    })
+          this.dataSource1 = new MatTableDataSource(
+            res.filter((item: any) => {
+              return this.branchList.some((branch: any) => {
+                return item.branchName === branch.branchName;
+              });
+            })
+          );
+
+          this.dataSource1.paginator = this.paginator1;
+          this.dataSource1.sort = this.sort1;
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
   }
 
-checkOut(mobileNumber:String){
-  let data = null;
-  this.service.checkOut(mobileNumber,data)
-  .subscribe({
-    next:(res)=>{
-      if(res.isSuccess == true){
-        this.alertify.success(res.message);
-        this.getAllNonInvitedVisitor(this.siteId);
-      }
-      else{
-        this.alertify.error(res.message);
-      }
-    },
-    error:(res)=>{
-      this.alertify.error("Error While fetching The Records!!")
-    }   
-  })
+  checkOut(mobileNumber: String) {
+    let data = null;
+    this.service.checkOut(mobileNumber, data)
+      .subscribe({
+        next: (res) => {
+          if (res.isSuccess == true) {
+            this.alertify.success(res.message);
+            this.getAllNonInvitedVisitor(this.siteId);
+          }
+          else {
+            this.alertify.error(res.message);
+          }
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
   }
 
 }
