@@ -47,6 +47,9 @@ import { TechnologyTypeListComponent } from './technology-type/technology-type-l
 import { TechnologyTypeDialogComponent } from './technology-type/technology-type-dialog/technology-type-dialog.component';
 import { CountryComponent } from './country/country/country.component';
 import { CountryListComponent } from './country/country-list/country-list.component';
+import { RfidListComponent } from './rfid/rfid-list/rfid-list.component';
+import { RfidDialogComponent } from './rfid/rfid-dialog/rfid-dialog.component';
+
 
 const routes: Routes = [
   {path:'color-code',component:ColorCodeComponent},
@@ -95,7 +98,9 @@ const routes: Routes = [
   {path:'organization-type-list', component:OrganizationTypeListComponent},
   {path:'organization-type-dialog', component:OrganizationTypeDialogComponent},
   {path:'technology-type-list', component:TechnologyTypeListComponent},
-  {path:'technology-type-dialog', component:TechnologyTypeDialogComponent}
+  {path:'technology-type-dialog', component:TechnologyTypeDialogComponent},
+  {path:'rfid-list',component:RfidListComponent},
+  {path:'rfid-dialog',component:RfidDialogComponent}
 ];
 
 @NgModule({

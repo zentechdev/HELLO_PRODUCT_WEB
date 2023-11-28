@@ -4,16 +4,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
-import { TechnologyTypeService } from 'src/app/service/masters/technology-type.service';
-import { UnitService } from 'src/app/service/masters/unit.service';
+import { RfidService } from 'src/app/service/masters/rfid.service';
+import { WingService } from 'src/app/service/masters/wing.service';
 
 @Component({
-  selector: 'app-unit-dialog',
-  templateUrl: './unit-dialog.component.html',
-  styleUrls: ['./unit-dialog.component.css']
+  selector: 'app-rfid-dialog',
+  templateUrl: './rfid-dialog.component.html',
+  styleUrls: ['./rfid-dialog.component.css']
 })
-export class UnitDialogComponent implements OnInit {
+export class RfidDialogComponent implements OnInit {
 
   formGroup!: FormGroup;
   actionBtn: string = 'SAVE';
@@ -28,30 +27,23 @@ export class UnitDialogComponent implements OnInit {
   clientId: any;
   stateList: any;
   stateId: any;
-  siteId: any;
-  siteName: any;
-  wingName: any;
+siteId: any;
+siteName: any;
   siteList: any;
-  isActive: any;
+isActive: any;
   wingId: any;
   wingList: any;
-  floor: any;
-  floorList: any;
-  floorId: any;
   id: any;
-  floorNumberList: any;
-  unitNumberList: any;
+  rfidNumber: any;
 
 
-  constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: UnitService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<UnitDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: RfidService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<RfidDialogComponent>) { this.dialogRef.disableClose = true }
+
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       siteName:['', Validators.required],
-      wingName:['', Validators.required],
-      floorName: ['', Validators.required],
-      unitNumberName:['', Validators.required],
-      name: ['', Validators.required],
+      rfidNumber: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
     })
@@ -62,19 +54,13 @@ export class UnitDialogComponent implements OnInit {
     if (this.editData) {
       this.actionBtn = 'UPDATE';
       this.formGroup.controls['siteName'].setValue(this.editData.siteName);
-      this.formGroup.controls['wingName'].setValue(this.editData.wingName);
-      this.formGroup.controls['floorName'].setValue(this.editData.floorName);
-      this.formGroup.controls['unitNumberName'].setValue(this.editData.unitNumberName);
-      this.formGroup.controls['name'].setValue(this.editData.name);
+      this.formGroup.controls['rfidNumber'].setValue(this.editData.rfidNumber);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
     this.getIsActive();
     this.getSiteDetails();
-    this.getWingDetails()
-    this.getfloorDetails();
-    this.getUnitDetails();
 
   }
 
@@ -103,46 +89,6 @@ export class UnitDialogComponent implements OnInit {
       });
   }
 
-
-  
-
-  getWingDetails() {
-    this.service.getWingDetails()
-      .subscribe({
-        next: (res) => {
-          this.wingList = res.data;
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!");
-        }
-      });
-  }
-
-  getfloorDetails() {
-    this.service.getfloorDetails()
-      .subscribe({
-        next: (res) => {
-          this.floorList = res.data;
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!");
-        }
-      });
-  }
-
-  getUnitDetails() {
-    debugger
-    this.service.getUnitDetails()
-      .subscribe({
-        next: (res) => {
-          this.unitNumberList = res.data;
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!");
-        }
-      });
-  }
-
   postData() {
 
     for (var i = 0; i < this.isActiveList.length; i++) {
@@ -157,40 +103,23 @@ export class UnitDialogComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.wingList.length; i++) {
-      if (this.wingList[i].name == this.formGroup.value.wingName) {
-        this.wingId = this.wingList[i].id;
-      }
-    }
+    // for (var i = 0; i < this.wingList.length; i++) {
+    //   if (this.wingList[i].wingName == this.formGroup.value.wingName) {
+    //     this.wingId = this.wingList[i].wingId;
+    //   }
+    // }
 
-    for (var i = 0; i < this.floorList.length; i++) {
-      if (this.floorList[i].name == this.formGroup.value.floorName) {
-        this.floorId = this.floorList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.unitNumberList.length; i++) {
-      if (this.unitNumberList[i].name == this.formGroup.value.unitNumberName) {
-        this.id = this.unitNumberList[i].id;
-      }
-    }
-
-
-debugger
     let formGroup = {
       "siteId": this.siteId,
-      "wingId":this.wingId,
-      "floorId":this.floorId,
-      "unitNumberId":this.id,
-      // "floorName":this.formGroup.value.floorName,
-      "name":this.formGroup.value.name,
+      // "name":this.formGroup.value.name,
+      "rfidNumber":this.formGroup.value.rfidNumber,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy
     }
 
     if (!this.editData) {
       if (this.formGroup.valid) {
-        this.service.postUnit(formGroup)
+        this.service.postRfid(formGroup)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
@@ -215,7 +144,7 @@ debugger
 
   putData(formGroup: any) {
     if (this.formGroup.valid) {
-      this.service.putUnit(formGroup, this.editData.id)
+      this.service.putRfid(formGroup, this.editData.id)
         .subscribe({
           next: (res) => {
             if (res.isSuccess == true) {

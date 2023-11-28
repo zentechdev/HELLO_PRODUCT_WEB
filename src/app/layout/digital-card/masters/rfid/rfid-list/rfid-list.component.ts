@@ -6,21 +6,25 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
+import { RfidService } from 'src/app/service/masters/rfid.service';
+import { ActivatedRoute } from '@angular/router';
+import { RfidDialogComponent } from '../rfid-dialog/rfid-dialog.component';
 
-
-import { UnitNumberService } from 'src/app/service/masters/unit-number.service';
-import { UnitDialogComponent } from '../unit-dialog/unit-dialog.component';
-import { UnitService } from 'src/app/service/masters/unit.service';
 
 @Component({
-  selector: 'app-unit-list',
-  templateUrl: './unit-list.component.html',
-  styleUrls: ['./unit-list.component.css']
+  selector: 'app-rfid-list',
+  templateUrl: './rfid-list.component.html',
+  styleUrls: ['./rfid-list.component.css']
 })
-export class UnitListComponent implements OnInit {
 
-  displayedColumns: string[] = ['siteName', 'wingName', 'floorName','unitNumberName','name', 'createdOn', 'isActive', 'Action'];
-  dataSource!: MatTableDataSource<any>;
+
+export class RfidListComponent implements OnInit {
+
+  // displayedColumns: string[] = ['siteName','createdOn', 'isActive', 'Action'];
+  // dataSource!: MatTableDataSource<any>;
+
+  displayedColumns: string[] = ['id','siteName','rfidNumber', 'createdOn', 'isActive', 'Action'];
+  dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -35,9 +39,14 @@ export class UnitListComponent implements OnInit {
   value!: any[];
   actionName: any;
   clientId: any;
+  siteId: any;
+  rfidData: any;
 
-  constructor(private formBuilder: FormBuilder, private storageEncryptionService: StorageEncryptionService, private service: UnitService, private alertify: AlertifyService, public dialog: MatDialog) { }
+  
 
+  constructor(private route: ActivatedRoute, private formBuilder: FormBuilder, private storageEncryptionService: StorageEncryptionService, private service: RfidService, private alertify: AlertifyService, public dialog: MatDialog) { }
+
+  
   async ngOnInit(): Promise<void> {
     this.formGroup = this.formBuilder.group({
       isActiveId: ['']
@@ -75,47 +84,66 @@ export class UnitListComponent implements OnInit {
     // }
 
 
-    await this.getAllUnit();
+
+    // this.siteId = this.route.snapshot.params['siteId'];
+    this.getAllRfidBySiteId();
     await this.getAllStatus();
   }
 
   openDialog() {
-    this.dialog.open(UnitDialogComponent, {
+    this.dialog.open(RfidDialogComponent, {
       width: '100%',
       disableClose: true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
-        this.getAllUnit();
+        this.getAllRfidBySiteId();
       }
     })
   }
 
   editData(row: any) {
-    this.dialog.open(UnitDialogComponent, {
+    this.dialog.open(RfidDialogComponent, {
       data: row,
       width: '100%',
       disableClose: true
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
-        this.getAllUnit();
+        this.getAllRfidBySiteId();
       }
     })
   }
 
-  getAllUnit() {
-    this.service.getAllUnit()
-      .subscribe({
-        next: (res) => {
-          this.data = res.data.filter((item: any) => item.clientId == this.clientId);
-          this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active'));
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!")
-        }
-      })
+  getAllRfidBySiteId(): void {
+    debugger
+    const siteId = 1;
+    this.service.getAllRfidBySiteId(siteId).subscribe(
+      (data) => {
+        this.data=data.data
+        this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        console.log(this.data)
+      },
+      (error) => {
+        console.error('Error fetching RFID data:', error);
+      }
+    );
   }
+
+  // getAllRfidBySiteId(): void {
+  //   this.siteId = 1;
+  //   this.service.getAllRfidBySiteId(this.siteId).subscribe(
+  //     (data) => {
+  //       this.data=data.data
+  //       this.dataSource.data = data.data; 
+  //       this.dataSource.paginator = this.paginator;
+  //       this.dataSource.sort = this.sort;
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching RFID data:', error);
+  //     }
+  //   );
+  // }
 
   getAllStatus() {
     this.service.getIsActive()
@@ -148,15 +176,15 @@ export class UnitListComponent implements OnInit {
   }
 
 
-  deleteData(cityId: number) {
+  deleteData(siteId: number) {
     this.alertify.confirm('Delete state', 'Are you sure to delete state',
       () => {
-        this.service.deleteUnit(cityId)
+        this.service.deleteRfid(siteId)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
                 this.alertify.success(res.message);
-                this.getAllUnit();
+                this.getAllRfidBySiteId();
               }
               else {
                 this.alertify.error(res.message);

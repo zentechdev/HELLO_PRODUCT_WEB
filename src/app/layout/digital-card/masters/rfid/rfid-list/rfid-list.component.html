@@ -42,7 +42,7 @@
                                 <table mat-table matTableExporter #exporter="matTableExporter" [dataSource]="dataSource"
                                     matSort>
                                     <!-- Id Column -->
-                                    <ng-container matColumnDef="cityId">
+                                    <ng-container matColumnDef="id">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
                                         <td mat-cell *matCellDef="let row;let i = index;"> {{ paginator.pageSize *
                                             paginator.pageIndex + i + 1 }}</td>
@@ -54,35 +54,15 @@
                                         <td mat-cell *matCellDef="let row"> {{row.siteName}} </td>
                                     </ng-container>
 
-                                    <ng-container matColumnDef="wingName">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>WING NAME</b></th>
-                                        <td mat-cell *matCellDef="let row"> {{row.wingName}} </td>
-                                    </ng-container>
-
-                                    <!-- stateName Column -->
-
-
-                                    <ng-container matColumnDef="floorName">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>FLOOR NAME</b></th>
-                                        <td mat-cell *matCellDef="let row"> {{row.floorName}} </td>
-                                    </ng-container>
-
-                                    <!-- stateName Column -->
-                                    <ng-container matColumnDef="unitNumberName">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>UNIT NUMBER</b></th>
-                                        <td mat-cell *matCellDef="let row"> {{row.unitNumberName}} </td>
-                                    </ng-container>
-
-                                    <ng-container matColumnDef="name">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>UNIT NAME</b></th>
-                                        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                                    <ng-container matColumnDef="rfidNumber">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>RFID NUMBER</b></th>
+                                        <td mat-cell *matCellDef="let row"> {{row.rfidNumber}} </td>
                                     </ng-container>
 
                                     <!-- stateName Column -->
                                     <ng-container matColumnDef="createdOn">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>CREATED ON</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row.createdOn}} </td>
-                                        <!-- <td mat-cell *matCellDef="let row"> {{row.createdOn | date:'yyyy-MM-dd' }} </td> -->
                                     </ng-container>
 
                                     <!-- status Column -->
