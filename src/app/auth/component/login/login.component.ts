@@ -5,7 +5,7 @@ import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { LoginService } from 'src/app/service/auth/login.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { DashboardService } from 'src/app/service/dashboard/dashboard.service';
+
 
 @Component({
   selector: 'app-login',
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
   qrNumber: any;
   employeeTechAccessId: any;
   visitorTechAccessId: any;
+  unitName: any;
 
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private service: LoginService, private router: Router, private alertify: AlertifyService) { }
 
@@ -66,6 +67,7 @@ export class LoginComponent implements OnInit {
               this.siteId = decodedToken.siteId;
               this.unitId = decodedToken.unitId;
               this.unitNumber = decodedToken.unitNumber;
+              this.unitName = decodedToken.unitName;
               this.clientName = decodedToken.clientName;
               this.siteName = decodedToken.siteName;
               this.memberName = decodedToken.memberName;
@@ -74,6 +76,7 @@ export class LoginComponent implements OnInit {
               this.image = decodedToken.image;
               this.roleName = decodedToken.roleName;
               this.status = decodedToken.status;
+              this.employeeTechAccessId=decodedToken.employeeTechAccessId;
               this.isActive = decodedToken.isActive;
 
 
@@ -88,6 +91,8 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem('unitId', encryptedData3);
                 const encryptedData4 = this.storageEncryptionService.encryptData(this.unitNumber);
                 localStorage.setItem('unitNumber', encryptedData4);
+                const encryptedData18 = this.storageEncryptionService.encryptData(this.unitName);
+                localStorage.setItem('unitName', encryptedData18);
                 const encryptedData5 = this.storageEncryptionService.encryptData(this.clientName);
                 localStorage.setItem('clientName', encryptedData5);
                 const encryptedData6 = this.storageEncryptionService.encryptData(this.siteName);

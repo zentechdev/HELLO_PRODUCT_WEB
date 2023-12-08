@@ -71,6 +71,12 @@
                                     </ng-container>
 
                                     <!-- stateName Column -->
+                                    <ng-container matColumnDef="floorType">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>FLOOR TYPE</b></th>
+                                        <td mat-cell *matCellDef="let row"> {{row.floorType}} </td>
+                                    </ng-container>
+
+                                    <!-- stateName Column -->
                                     <ng-container matColumnDef="createdOn">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>CREATED ON</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row.createdOn}} </td>

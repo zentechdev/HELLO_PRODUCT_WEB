@@ -19,7 +19,7 @@ import { FloorService } from 'src/app/service/masters/floor.service';
 })
 export class FloorListComponent implements OnInit {
 
-  displayedColumns: string[] = ['id','siteName','wingName','name','createdOn', 'isActive', 'Action'];
+  displayedColumns: string[] = ['id','siteName','wingName','name','floorType','createdOn', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

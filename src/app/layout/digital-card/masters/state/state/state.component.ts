@@ -26,6 +26,7 @@ export class StateComponent implements OnInit {
   countryId: any;
   clientId: any;
   orgList: any;
+  countryMainList: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: StateService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<StateComponent>) { this.dialogRef.disableClose = true }
@@ -60,17 +61,6 @@ export class StateComponent implements OnInit {
     this.getAllOrganisation();
   }
 
-  getAllCountry() {
-    this.service.getCountry()
-      .subscribe({
-        next: (res) => {
-          this.countryList = res.data;
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!")
-        }
-      })
-  }
 
   getIsActive() {
     this.service.getIsActive()
@@ -94,6 +84,32 @@ export class StateComponent implements OnInit {
           this.alertify.error("Error While fetching The Records!!")
         }
       })
+  }
+
+  getAllCountry() {
+    this.service.getCountry()
+      .subscribe({
+        next: (res) => {
+          this.countryMainList = res.data;
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
+  }
+
+  onOrganizationChange() {
+    const selectedOrgId = this.formGroup.get('clientId')?.value;
+  
+    if (selectedOrgId) {
+      this.countryList = this.countryMainList.filter((item:any)=>item.clientName==selectedOrgId)
+      this.formGroup.get('countryId')?.enable(); 
+    } else {
+      // Reset the countryList and disable the country dropdown
+      this.countryList = [];
+      this.formGroup.get('countryId')?.setValue('');
+      this.formGroup.get('countryId')?.disable();
+    }
   }
 
   postData() {

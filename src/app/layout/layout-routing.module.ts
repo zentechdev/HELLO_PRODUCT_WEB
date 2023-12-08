@@ -11,6 +11,13 @@ import { MeetingBookingComponent } from './meeting-booking/meeting-booking.compo
 import { PermissionsComponent } from './permissions/permissions.component';
 import { DeviceManagementComponent } from './device-management/device-management.component';
 import { AddClientComponent } from './add-client/add-client.component';
+import { EmployeeRfidListComponent } from './rfid-details/rfid-employee-details/employee-rfid-list/employee-rfid-list.component';
+import { EmployeeRfidDialogComponent } from './rfid-details/rfid-employee-details/employee-rfid-dialog/employee-rfid-dialog.component';
+import { UnitRfidListComponent } from './rfid-details/rfid-unit-details/unit-rfid-list/unit-rfid-list.component';
+import { UnitRfidDialogComponent } from './rfid-details/rfid-unit-details/unit-rfid-dialog/unit-rfid-dialog.component';
+import { ManageUsersListComponent } from './manage-users/manage-users-list/manage-users-list.component';
+import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/manage-users-dialog.component';
+
 
 
 
@@ -60,9 +67,15 @@ const routes: Routes = [
     component:DeviceManagementComponent,
     loadChildren:()=>import('./device-management/device-management.module').then(x=>x.DeviceManagementModule)
   },
-  
+
   {path:'user-mapping-list',component:UserMappingListComponent},
-  {path:'user-mapping-dialog',component:UserMappingDialogComponent}
+  {path:'user-mapping-dialog',component:UserMappingDialogComponent},
+  {path:'employee-rfid-list',component:EmployeeRfidListComponent},
+  {path:'employee-rfid-dialog',component:EmployeeRfidDialogComponent},
+  {path:'unit-rfid-list',component:UnitRfidListComponent},
+  {path:'unit-rfid-dialog',component:UnitRfidDialogComponent},
+  {path:'manage-users-list',component:ManageUsersListComponent},
+  {path:'manage-users-dialog',component:ManageUsersDialogComponent}
 ];
 
 @NgModule({

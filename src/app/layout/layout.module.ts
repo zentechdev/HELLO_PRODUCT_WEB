@@ -41,6 +41,13 @@ import { DeviceManagementModule } from './device-management/device-management.mo
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { NgSelect2Module } from 'ng-select2';
 import { AddClientModule } from './add-client/add-client.module';
+import { EmployeeRfidListComponent } from './rfid-details/rfid-employee-details/employee-rfid-list/employee-rfid-list.component';
+import { EmployeeRfidDialogComponent } from './rfid-details/rfid-employee-details/employee-rfid-dialog/employee-rfid-dialog.component';
+import { UnitRfidListComponent } from './rfid-details/rfid-unit-details/unit-rfid-list/unit-rfid-list.component';
+import { UnitRfidDialogComponent } from './rfid-details/rfid-unit-details/unit-rfid-dialog/unit-rfid-dialog.component';
+import { ManageUsersListComponent } from './manage-users/manage-users-list/manage-users-list.component';
+import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/manage-users-dialog.component';
+
 
 
 @NgModule({
@@ -48,6 +55,12 @@ import { AddClientModule } from './add-client/add-client.module';
         LayoutComponent,
         UserMappingListComponent,
         UserMappingDialogComponent,
+        EmployeeRfidListComponent,
+        EmployeeRfidDialogComponent,
+        UnitRfidListComponent,
+        UnitRfidDialogComponent,
+        ManageUsersListComponent,
+        ManageUsersDialogComponent
     ],
     imports: [
         CommonModule,

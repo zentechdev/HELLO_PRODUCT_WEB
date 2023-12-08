@@ -80,6 +80,19 @@
                     </mat-form-field>
                     
                 </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="outline">
+                      <mat-label>Visitor Pass Approval</mat-label>
+                      <mat-select formControlName="accessId" placeholder="Visitor Pass Approval">
+                        <mat-option value="Yes">YES</mat-option>
+                        <mat-option value="No">NO</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formGroup.get('accessId')?.hasError('required')">
+                        Visitor Pass Approval is <strong>required</strong>
+                      </mat-error>
+                  </mat-form-field>
+              </div>
                 
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">

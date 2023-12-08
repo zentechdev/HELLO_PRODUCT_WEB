@@ -49,6 +49,8 @@ import { CountryComponent } from './country/country/country.component';
 import { CountryListComponent } from './country/country-list/country-list.component';
 import { RfidListComponent } from './rfid/rfid-list/rfid-list.component';
 import { RfidDialogComponent } from './rfid/rfid-dialog/rfid-dialog.component';
+import { ParkingNumberListComponent } from './parking-number/parking-number-list/parking-number-list.component';
+import { ParkingNumberDialogComponent } from './parking-number/parking-number-dialog/parking-number-dialog.component';
 
 
 const routes: Routes = [
@@ -100,7 +102,9 @@ const routes: Routes = [
   {path:'technology-type-list', component:TechnologyTypeListComponent},
   {path:'technology-type-dialog', component:TechnologyTypeDialogComponent},
   {path:'rfid-list',component:RfidListComponent},
-  {path:'rfid-dialog',component:RfidDialogComponent}
+  {path:'rfid-dialog',component:RfidDialogComponent},
+  {path:'parking-number-list',component:ParkingNumberListComponent},
+  {path:'parking-number-dialog',component:ParkingNumberDialogComponent}
 ];
 
 @NgModule({

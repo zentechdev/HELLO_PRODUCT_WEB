@@ -78,6 +78,8 @@ import { CountryComponent } from './country/country/country.component';
 import { CountryListComponent } from './country/country-list/country-list.component';
 import { RfidListComponent } from './rfid/rfid-list/rfid-list.component';
 import { RfidDialogComponent } from './rfid/rfid-dialog/rfid-dialog.component';
+import { ParkingNumberDialogComponent } from './parking-number/parking-number-dialog/parking-number-dialog.component';
+import { ParkingNumberListComponent } from './parking-number/parking-number-list/parking-number-list.component';
 
 
 
@@ -135,6 +137,8 @@ import { RfidDialogComponent } from './rfid/rfid-dialog/rfid-dialog.component';
     CountryListComponent,
     RfidListComponent,
     RfidDialogComponent,
+    ParkingNumberDialogComponent,
+    ParkingNumberListComponent,
   ],
   imports: [
     CommonModule,

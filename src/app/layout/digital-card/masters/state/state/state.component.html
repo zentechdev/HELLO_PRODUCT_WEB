@@ -7,7 +7,7 @@
 
                     <mat-form-field appearance="outline">
                         <mat-label>Select Organization</mat-label>
-                        <mat-select formControlName="clientId" placeholder="Organization" (change)="getAllOrganisation()">
+                        <mat-select formControlName="clientId" placeholder="Organization" (selectionChange)="onOrganizationChange()">
                             <mat-option *ngFor="let org of orgList"
                                 [value]="org.organizationName">{{org.organizationName}}</mat-option>
                         </mat-select>
@@ -30,7 +30,7 @@
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Select Country</mat-label>
-                        <mat-select formControlName="countryId" placeholder="Select Country">
+                        <mat-select formControlName="countryId" placeholder="Select Country" [disabled]="!formGroup.get('clientId')?.value">
                             <mat-option *ngFor="let country of countryList" [value]="country.countryName">{{country.countryName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('countryId')?.hasError('required')">

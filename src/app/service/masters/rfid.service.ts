@@ -27,6 +27,10 @@ export class RfidService {
   getAllRfidBySiteId(siteId: any){
     return this.http.get<any>(`${baseUrl}/api/RFID/getAllRFIDBySiteId/` + siteId);
   }
+
+  getAllRFID(){
+    return this.http.get<any>(`${baseUrl}/api/RFID/getAllRFID`);
+  }
   
   postRfid(data: any) {
     return this.http.post<any>(`${baseUrl}/api/RFID/postRFID`, data)

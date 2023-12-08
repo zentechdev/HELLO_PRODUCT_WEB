@@ -4,8 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
-import { TechnologyTypeService } from 'src/app/service/masters/technology-type.service';
 import { UnitService } from 'src/app/service/masters/unit.service';
 
 @Component({
@@ -52,6 +50,7 @@ export class UnitDialogComponent implements OnInit {
       floorName: ['', Validators.required],
       unitNumberName:['', Validators.required],
       name: ['', Validators.required],
+      accessId: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
     })
@@ -66,6 +65,7 @@ export class UnitDialogComponent implements OnInit {
       this.formGroup.controls['floorName'].setValue(this.editData.floorName);
       this.formGroup.controls['unitNumberName'].setValue(this.editData.unitNumberName);
       this.formGroup.controls['name'].setValue(this.editData.name);
+      this.formGroup.controls['accessId'].setValue(this.editData.accessStatus);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
     this.formGroup.controls['createdBy'].setValue(this.memberId);
@@ -131,7 +131,6 @@ export class UnitDialogComponent implements OnInit {
   }
 
   getUnitDetails() {
-    debugger
     this.service.getUnitDetails()
       .subscribe({
         next: (res) => {
@@ -142,6 +141,8 @@ export class UnitDialogComponent implements OnInit {
         }
       });
   }
+
+  
 
   postData() {
 
@@ -175,14 +176,12 @@ export class UnitDialogComponent implements OnInit {
       }
     }
 
-
-debugger
     let formGroup = {
       "siteId": this.siteId,
       "wingId":this.wingId,
       "floorId":this.floorId,
       "unitNumberId":this.id,
-      // "floorName":this.formGroup.value.floorName,
+      "accessId":this.formGroup.value.accessId === 'Yes' ? 1 : 2,
       "name":this.formGroup.value.name,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy

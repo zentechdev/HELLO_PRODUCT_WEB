@@ -38,6 +38,8 @@ isActive: any;
   wingId: any;
   wingList: any;
   id: any;
+  floorTypeList: any;
+  floorTypeId: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: FloorService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<FloorDialogComponent>) { this.dialogRef.disableClose = true }
@@ -46,6 +48,7 @@ isActive: any;
     this.formGroup = this.formBuilder.group({
       siteName:['', Validators.required],
       wingName:['', Validators.required],
+      floorType:['', Validators.required],
       name: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
@@ -58,6 +61,7 @@ isActive: any;
       this.actionBtn = 'UPDATE';
       this.formGroup.controls['siteName'].setValue(this.editData.siteName);
       this.formGroup.controls['wingName'].setValue(this.editData.wingName);
+      this.formGroup.controls['floorType'].setValue(this.editData.floorType);
       this.formGroup.controls['name'].setValue(this.editData.name);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
@@ -65,8 +69,8 @@ isActive: any;
 
     this.getIsActive();
     this.getSiteDetails();
-    this.getWingDetails()
-
+    this.getWingDetails();
+    this.getAllFloorType();
   }
 
 
@@ -95,11 +99,22 @@ isActive: any;
   }
 
   getWingDetails() {
-    debugger
     this.service.getWingDetails()
       .subscribe({
         next: (res) => {
           this.wingList = res.data;
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!");
+        }
+      });
+  }
+
+  getAllFloorType() {
+    this.service.getAllFloorType()
+      .subscribe({
+        next: (res) => {
+          this.floorTypeList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -121,6 +136,12 @@ isActive: any;
       }
     }
 
+    for (var i = 0; i < this.floorTypeList.length; i++) {
+      if (this.floorTypeList[i].name == this.formGroup.value.floorType) {
+        this.floorTypeId = this.floorTypeList[i].id;
+      }
+    }
+
     for (var i = 0; i < this.wingList.length; i++) {
       if (this.wingList[i].name == this.formGroup.value.wingName) {
         this.id = this.wingList[i].id;
@@ -132,12 +153,13 @@ isActive: any;
     //     this.wingId = this.wingList[i].wingId;
     //   }
     // }
-debugger
+
+    debugger
     let formGroup = {
       "siteId": this.siteId,
       "wingId":this.id,
       "name":this.formGroup.value.name,
-      // "wingName":this.formGroup.value.wingName,
+      "floorTypeId":this.floorTypeId,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy
     }

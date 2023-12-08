@@ -1,6 +1,6 @@
 <mat-stepper class="example-stepper">
   <mat-step label="Invited Visitors">
-
+ 
     <div class="row">
       <form [formGroup]="formGroup">
         <div class="row">
@@ -10,22 +10,9 @@
               <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input autocomplete="off">
             </mat-form-field>
           </div>
-
+ 
           <div class="col-md-3">
-            <mat-form-field appearance="outline">
-              <mat-label>Search Branch</mat-label>
-              <input matInput placeholder="Search Branches" formControlName="branchId" (input)="filterBranches($event)"
-                (focus)="showAllBranches()" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectBranch($event)">
-                <mat-option value="None">None</mat-option>
-                <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
-                  {{ branch.branchName }} || {{ branch.stateName }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-            <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
-              Branch Name is <strong>required</strong>
-            </mat-error>
+ 
           </div>
           <div class="col-md-3">
             <mat-form-field floatLabel='never' appearance="outline">
@@ -44,87 +31,87 @@
               </mat-date-range-picker>
             </mat-form-field>
           </div>
-
+ 
           <div class="col-md-3 p-2">
             <button (click)="exporter.exportTable('xlsx')" class="btn_primary float-end" mat-raised-button>
               EXPORT TO EXCEL
             </button>
           </div>
         </div>
-
+ 
       </form>
     </div>
     <div class="row">
       <table mat-table matTableExporter #exporter="matTableExporter" [dataSource]="dataSource" matSort>
-
-
-
+ 
+ 
+ 
         <ng-container matColumnDef="Id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
           <td mat-cell *matCellDef="let row;let i = index;"> {{ paginator.pageSize *
             paginator.pageIndex + i + 1 }}</td>
         </ng-container>
-
+ 
         <!-- VisitorName Column -->
         <ng-container matColumnDef="visitorName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>VISITOR NAME</b></th>
           <td mat-cell *matCellDef="let row"> {{row.visitorName}} </td>
         </ng-container>
-
+ 
         <ng-container matColumnDef="employeeCode">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>EMPLOYEE CODE</b>
           </th>
           <td mat-cell *matCellDef="let row"> {{row.employeeCode}} </td>
         </ng-container>
-
+ 
         <ng-container matColumnDef="mobileNumber">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>MOBILE NUMBER</b>
           </th>
           <td mat-cell *matCellDef="let row"> {{row.mobileNumber}} </td>
         </ng-container>
-
-
-
+ 
+ 
+ 
         <!-- Email Id Column -->
         <ng-container matColumnDef="emailId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>EMAIL ID</b></th>
           <td mat-cell *matCellDef="let row"> {{row.emailId}} </td>
         </ng-container>
-
+ 
         <!-- Location Column -->
         <ng-container matColumnDef="location">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>LOCATION</b></th>
           <td mat-cell *matCellDef="let row">{{row.location}}</td>
         </ng-container>
-
+ 
         <!-- Branch Name Column -->
         <ng-container matColumnDef="branchName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>BRANCH NAME</b></th>
           <td mat-cell *matCellDef="let row">{{row.branchName}}</td>
         </ng-container>
-
+ 
         <!-- <ng-container matColumnDef="branchId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>BRANCH ID</b></th>
           <td mat-cell *matCellDef="let row">{{row.branchId}}</td>
         </ng-container> -->
-
+ 
         <ng-container matColumnDef="createdDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>DATE</b></th>
           <td mat-cell *matCellDef="let row">{{row.createdDate |date}}</td>
         </ng-container>
-
+ 
         <ng-container matColumnDef="isActive">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>STATUS</b></th>
           <td mat-cell *matCellDef="let row">{{row.isActive}}</td>
         </ng-container>
-
+ 
         <!-- Department Name Column -->
         <!-- <ng-container matColumnDef="departmentName">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header><b>DEPARTMENT NAME</b></th>
                     <td mat-cell *matCellDef="let row">{{row.departmentName}}</td>
                 </ng-container> -->
-
-
+ 
+ 
         <!-- Actions Column -->
         <ng-container matColumnDef="Action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>VIEW MATERIAL</b></th>
@@ -134,20 +121,20 @@
             </button>
           </td>
         </ng-container>
-
+ 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
+ 
       </table>
     </div>
-
-
+ 
+ 
     <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
     </mat-paginator>
-
+ 
   </mat-step>
   <mat-step label="Non Invited Visitors">
-
+ 
     <!-- <div class="row" style="padding: unset; display: flex; justify-content: flex-end;">
             <div class="col-md-3">
             <form [formGroup]="formGroup">
@@ -165,7 +152,7 @@
               </form>
             </div>
         </div> -->
-
+ 
     <div class="row">
       <form [formGroup]="formGroup1">
         <div class="row">
@@ -176,25 +163,6 @@
             </mat-form-field>
           </div>
           <div class="col-md-3">
-
-            <mat-form-field appearance="outline">
-              <mat-label>Search Branch</mat-label>
-              <input matInput placeholder="Search Branches" formControlName="branchId1" (input)="filterBranches($event)"
-                (focus)="showAllBranches()" [matAutocomplete]="auto1">
-              <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="selectBranch1($event)">
-                <mat-option value="None">None</mat-option>
-                <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
-                  {{ branch.branchName }} || {{ branch.stateName }}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-            <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
-              Branch Name is <strong>required</strong>
-            </mat-error>
-
-          </div>
-          <div class="col-md-3">
-
             <mat-form-field floatLabel='never' appearance="outline">
               <mat-label>date range picker</mat-label>
               <mat-date-range-input [rangePicker]="rangePicker1">
@@ -211,78 +179,93 @@
                 </mat-date-range-picker-actions>
               </mat-date-range-picker>
             </mat-form-field>
-
+ 
           </div>
-
+          <div class="col-md-3">
+            <!-- <mat-form-field appearance="outline">
+              <mat-label>Search Branch</mat-label>
+              <input matInput placeholder="Search Branches" formControlName="visitorId" (input)="filterBranches($event)"
+                (focus)="showAllBranches()" [matAutocomplete]="auto1">
+              <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="selectBranch1($event)">
+                <mat-option value="None">None</mat-option>
+                <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
+                  {{ branch.branchName }} || {{ branch.stateName }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-error *ngIf="formGroup.get('visitorId')?.hasError('required')">
+              Branch Name is <strong>required</strong>
+            </mat-error> -->
+ 
+ 
+ 
+          </div>
+ 
           <div class="col-md-3 p-2">
             <button (click)="exporter.exportTable('xlsx')" class="btn_primary float-end" mat-raised-button>
               EXPORT TO EXCEL
             </button>
           </div>
         </div>
-
+ 
       </form>
     </div>
-
-
+ 
+ 
     <div class="row">
       <table mat-table matTableExporter #exporter1="matTableExporter" [dataSource]="dataSource1" matSort>
         <!-- Visitor Id Column -->
-
+ 
         <ng-container matColumnDef="Id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
           <td mat-cell *matCellDef="let row;let i = index;"> {{ paginator.pageSize *
             paginator.pageIndex + i + 1 }}</td>
         </ng-container>
-
+ 
         <!-- VisitorName Column -->
         <ng-container matColumnDef="visitorName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>VISITOR NAME</b></th>
           <td mat-cell *matCellDef="let row"> {{row.visitorName}} </td>
         </ng-container>
-
-        <ng-container matColumnDef="employeeCode">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header><b>EMPLOYEE CODE</b>
-          </th>
-          <td mat-cell *matCellDef="let row"> {{row.employeeCode}} </td>
-        </ng-container>
-
+ 
+ 
+ 
         <ng-container matColumnDef="mobileNumber">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>MOBILE NUMBER</b>
           </th>
           <td mat-cell *matCellDef="let row"> {{row.mobileNumber}} </td>
         </ng-container>
-
-
-
+ 
+ 
+ 
         <!-- Email Id Column -->
         <ng-container matColumnDef="emailId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>EMAIL ID</b></th>
           <td mat-cell *matCellDef="let row"> {{row.emailId}} </td>
         </ng-container>
-
+ 
         <!-- Location Column -->
         <ng-container matColumnDef="location">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>LOCATION</b></th>
           <td mat-cell *matCellDef="let row">{{row.location}}</td>
         </ng-container>
-
+ 
         <!-- Branch Name Column -->
-        <ng-container matColumnDef="branchName">
+        <!-- <ng-container matColumnDef="branchName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>BRANCH NAME</b></th>
           <td mat-cell *matCellDef="let row">{{row.branchName}}</td>
-        </ng-container>
-
+        </ng-container> -->
+ 
         <!-- <ng-container matColumnDef="branchId">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>BRANCH ID</b></th>
           <td mat-cell *matCellDef="let row">{{row.branchId}}</td>
         </ng-container> -->
-
+ 
         <ng-container matColumnDef="createdDate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>DATE</b></th>
           <td mat-cell *matCellDef="let row">{{row.createdDate |date}}</td>
         </ng-container>
-
+ 
         <!-- Actions Column -->
         <ng-container matColumnDef="Action">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>VIEW MATERIAL</b></th>
@@ -290,36 +273,36 @@
             <button *ngIf="row.material.length > 0; else disabledButton1" mat-icon-button color="primary" (click)="openDialog(row.material)">
               <mat-icon>visibility</mat-icon>
             </button>
-            
+           
             <ng-template #disabledButton1>
               <button mat-icon-button color="primary" disabled><mat-icon>visibility</mat-icon></button>
             </ng-template>
           </td>
         </ng-container>
-
+ 
         <ng-container matColumnDef="isActive">
           <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ACTION</b></th>
           <td mat-cell *matCellDef="let row">
             <button *ngIf="row.isActive === 'Active'; else disabledButton" class="btn_primary float-end"
               mat-raised-button (click)="checkOut(row.mobileNumber)">CHECK OUT
             </button>
-
+ 
             <ng-template #disabledButton>
               <button class="btn_primary float-end" mat-raised-button disabled>INACTIVE</button>
             </ng-template>
           </td>
         </ng-container>
-
+ 
         <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
-
+ 
       </table>
     </div>
-
-
+ 
+ 
     <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users">
     </mat-paginator>
   </mat-step>
-
-
+ 
+ 
 </mat-stepper>

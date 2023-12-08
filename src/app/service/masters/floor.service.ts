@@ -17,6 +17,11 @@ export class FloorService {
   getAllFloor() {
     return this.http.get<any>(`${baseUrl}/api/Floor/getAllFloor`);
   }
+
+  
+  getAllFloorType() {
+    return this.http.get<any>(`${baseUrl}/api/Floor/getAllFloorType`);
+  }
   
   postFloor(data: any) {
     return this.http.post<any>(`${baseUrl}/api/Floor/postFloor/`, data)

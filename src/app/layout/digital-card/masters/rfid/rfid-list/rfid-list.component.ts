@@ -52,8 +52,8 @@ export class RfidListComponent implements OnInit {
       isActiveId: ['']
     })
 
-    // const clientId = String(localStorage.getItem("siteId"));
-    // this.clientId = this.storageEncryptionService.decryptData(clientId);
+    const clientId = String(localStorage.getItem("siteId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
 
     // // Conversion of string array to number array
     // const stringArrayAction: string[] = this.actionName;
@@ -86,7 +86,7 @@ export class RfidListComponent implements OnInit {
 
 
     // this.siteId = this.route.snapshot.params['siteId'];
-    this.getAllRfidBySiteId();
+    this.getAllRFID();
     await this.getAllStatus();
   }
 
@@ -96,7 +96,7 @@ export class RfidListComponent implements OnInit {
       disableClose: true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
-        this.getAllRfidBySiteId();
+        this.getAllRFID();
       }
     })
   }
@@ -108,15 +108,13 @@ export class RfidListComponent implements OnInit {
       disableClose: true
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
-        this.getAllRfidBySiteId();
+        this.getAllRFID();
       }
     })
   }
 
-  getAllRfidBySiteId(): void {
-    debugger
-    const siteId = 1;
-    this.service.getAllRfidBySiteId(siteId).subscribe(
+  getAllRFID(): void {
+    this.service.getAllRFID().subscribe(
       (data) => {
         this.data=data.data
         this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
@@ -184,7 +182,7 @@ export class RfidListComponent implements OnInit {
             next: (res) => {
               if (res.isSuccess == true) {
                 this.alertify.success(res.message);
-                this.getAllRfidBySiteId();
+                this.getAllRFID();
               }
               else {
                 this.alertify.error(res.message);

@@ -411,11 +411,11 @@ mat-sidenav {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #999;
+    background: #d82a1b;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #ccc;
+    background: #d82a1b;
 }
 
 .dialog-container-custom .mat-dialog-container {
