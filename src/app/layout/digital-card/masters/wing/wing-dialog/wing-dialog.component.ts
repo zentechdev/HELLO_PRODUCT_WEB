@@ -85,6 +85,8 @@ isActive: any;
       });
   }
 
+  
+
   postData() {
 
     for (var i = 0; i < this.isActiveList.length; i++) {

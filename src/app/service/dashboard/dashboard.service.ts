@@ -129,10 +129,10 @@ export class DashboardService {
   }
 
   getCountAllVisitor(){
-    return this.http.get<any>(`${baseUrl}/api/DashBoardReport/getCountAllVisitor`)
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCount`)
   }
 
   getCountVisitorByBranchId(branchId:Number){
-    return this.http.get<any>(`${baseUrl}/api/DashBoardReport/getCountVisitorByBranchId/`+branchId)
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCountByUnitId/`+branchId)
   }
 }

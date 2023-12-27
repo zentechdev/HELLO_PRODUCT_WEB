@@ -4,6 +4,7 @@ import { MatOption } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { InquiryOrgnizationService } from 'src/app/service/client-details/inquiry-orgnization.service';
 import { SiteDetailsService } from 'src/app/service/client-details/site-details.service';
@@ -43,8 +44,14 @@ export class SiteDetailsDialogComponent implements OnInit {
   stateId: any;
   countryId: any;
   memberId: any;
+  countryMainList: any;
+  client: any;
+  state: any;
+  country: any;
+  stateMainList: any;
+  cityMainList: any;
 
-  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service:SiteDetailsService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<SiteDetailsDialogComponent>) {
+  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service:SiteDetailsService, @Inject(MAT_DIALOG_DATA) public editData: any,private dialogRef: MatDialogRef<SiteDetailsDialogComponent>) {
     this.dialogRef.disableClose = true
   }
 
@@ -60,34 +67,66 @@ export class SiteDetailsDialogComponent implements OnInit {
       createdBy:['']
     })
 
-    if (this.editData) {
-      this.actionBtn = 'UPDATE';
-      this.formGroup.controls['clientId'].setValue(this.editData.organisationName);
-      this.formGroup.controls['siteName'].setValue(this.editData.siteName);
-      this.formGroup.controls['countryId'].setValue(this.editData.countryName);
-      this.formGroup.controls['stateId'].setValue(this.editData.stateName);
-      this.formGroup.controls['cityId'].setValue(this.editData.cityName);
-      this.formGroup.controls['isActive'].setValue(this.editData.isActive);
-    }
+    // if (this.editData) {
+    //   this.actionBtn = 'UPDATE';
+    //   this.formGroup.controls['clientId'].setValue(this.editData.organisationName);
+    //   this.formGroup.controls['countryId'].setValue(this.editData.countryName);
+    //   this.formGroup.controls['stateId'].setValue(this.editData.stateName);
+    //   this.formGroup.controls['cityId'].setValue(this.editData.cityName);
+    //   this.formGroup.controls['siteName'].setValue(this.editData.siteName);
+    //   this.formGroup.controls['isActive'].setValue(this.editData.isActive);
+    // }
 
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
     
     this.formGroup.controls['createdBy'].setValue(this.memberId );
 
-    this.getIsActive();
-    this.getAllOrganisation();
-    this.getCountry();
-    this.getState();
-    this.getCity();
+    if (this.editData) {
+      this.actionBtn = 'UPDATE';
 
+      // Assuming that 'getAllOrganisation', 'getCountry', 'getState', 'getCity' are returning observables
+      forkJoin([
+        this.service.getAllOrganisation(),
+        this.service.getCountry(),
+        this.service.getState(),
+        this.service.getCity(),
+        this.service.getIsActive()
+      ]).subscribe(([orgList, countryList, stateList, cityList,isActiveList]) => {
+        this.orgList = orgList.data;
+        this.countryMainList = countryList.data;
+        this.stateMainList = stateList.data;
+        this.cityMainList = cityList.data;
+        this.isActiveList = isActiveList;
+        this.populateFormControls();
+        this.onOrganizationChange();
+        this.onCountryChange();
+        this.onStateChange();
+      });
+    } else {
+      this.getIsActive();
+      this.getAllOrganisation();
+      this.getCountry();
+      this.getState();
+      this.getCity();
+    }
+
+  }
+
+  populateFormControls() {
+    this.formGroup.controls['clientId'].setValue(this.editData.organisationName);
+    this.formGroup.controls['countryId'].setValue(this.editData.countryName);
+    this.formGroup.controls['stateId'].setValue(this.editData.stateName);
+    this.formGroup.controls['cityId'].setValue(this.editData.cityName);
+    this.formGroup.controls['siteName'].setValue(this.editData.siteName);
+    this.formGroup.controls['isActive'].setValue(this.editData.isActive);
   }
 
   getAllOrganisation() {
     this.service.getAllOrganisation()
       .subscribe({
         next: (res) => {
-          this.orgList = res.data;
+          this.orgList = res.data; 
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -98,7 +137,7 @@ export class SiteDetailsDialogComponent implements OnInit {
     this.service.getCountry()
       .subscribe({
         next: (res) => {
-          this.countryList = res.data;
+          this.countryMainList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -110,7 +149,7 @@ export class SiteDetailsDialogComponent implements OnInit {
     this.service.getState()
       .subscribe({
         next: (res) => {
-          this.stateList = res.data;
+          this.stateMainList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -122,14 +161,13 @@ export class SiteDetailsDialogComponent implements OnInit {
     this.service.getCity()
       .subscribe({
         next: (res) => {
-          this.cityList = res.data;
+          this.cityMainList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
         }
       })
   }
-
 
   getIsActive() {
     this.service.getIsActive()
@@ -143,6 +181,52 @@ export class SiteDetailsDialogComponent implements OnInit {
       })
   }
 
+  onOrganizationChange() {
+    const client = this.formGroup.get('clientId')?.value;
+  
+    if (client) { // Fix: Check if client is truthy, not this.client
+      this.countryList = this.countryMainList.filter((item: any) => item.clientName === client);
+      this.formGroup.get('countryId')?.enable(); 
+    } else {
+      // Reset the countryList and disable the country dropdown
+      this.countryList = [];
+      this.formGroup.get('countryId')?.setValue('');
+      this.formGroup.get('countryId')?.disable();
+    }
+  }
+  
+  onCountryChange() {
+    const country = this.formGroup.get('countryId')?.value;
+    const client = this.formGroup.get('clientId')?.value;
+  
+    if (country && client) { // Fix: Check if country and client are truthy, not this.country
+      this.stateList = this.stateMainList.filter((item: any) => item.country === country && item.clientName === client);
+      this.formGroup.get('stateId')?.enable(); 
+    } else {
+      // Reset the stateList and disable the state dropdown
+      this.stateList = [];
+      this.formGroup.get('stateId')?.setValue('');
+      this.formGroup.get('stateId')?.disable();
+    }
+  }
+  
+  onStateChange() {
+    const country = this.formGroup.get('countryId')?.value;
+    const state = this.formGroup.get('stateId')?.value;
+    const client = this.formGroup.get('clientId')?.value;
+  
+    if (country && state && client) { // Fix: Check if country, state, and client are truthy, not this.state
+      this.cityList = this.cityMainList.filter((item: any) => item.countryName === country && item.stateName === state && item.clientName === client);
+      this.formGroup.get('cityId')?.enable(); 
+    } else {
+      // Reset the cityList and disable the city dropdown
+      this.cityList = [];
+      this.formGroup.get('cityId')?.setValue('');
+      this.formGroup.get('cityId')?.disable();
+    }
+  }
+  
+
   postData() {
 
     for (var i = 0; i < this.isActiveList.length; i++) {
@@ -152,19 +236,19 @@ export class SiteDetailsDialogComponent implements OnInit {
     }
 
     for (var i = 0; i < this.countryList.length; i++) {
-      if (this.countryList[i].countryName == this.formGroup.value.countryId) {
+      if (this.countryList[i].countryName == this.formGroup.get('countryId')?.value) {
         this.countryId = this.countryList[i].id;
       }
     }
 
     for (var i = 0; i < this.stateList.length; i++) {
-      if (this.stateList[i].name == this.formGroup.value.stateId) {
+      if (this.stateList[i].name == this.formGroup.get('stateId')?.value) {
         this.stateId = this.stateList[i].id;
       }
     }
 
     for (var i = 0; i < this.cityList.length; i++) {
-      if (this.cityList[i].cityName == this.formGroup.value.cityId) {
+      if (this.cityList[i].cityName == this.formGroup.get('cityId')?.value) {
         this.cityId = this.cityList[i].id;
       }
     }

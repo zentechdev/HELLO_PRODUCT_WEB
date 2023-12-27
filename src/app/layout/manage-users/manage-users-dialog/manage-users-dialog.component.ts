@@ -285,7 +285,7 @@ export class ManageUsersDialogComponent implements OnInit {
 
   putData(formGroup: any) {
     if (this.formGroup.valid) {
-      this.service.putUsers(formGroup, this.editData.id)
+      this.service.putUsers(formGroup, this.editData.memberId)
         .subscribe({
           next: (res) => {
             if (res.isSuccess == true) {

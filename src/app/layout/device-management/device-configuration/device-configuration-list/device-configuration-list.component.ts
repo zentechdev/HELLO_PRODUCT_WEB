@@ -17,7 +17,7 @@ import { DeviceConfigurationService } from 'src/app/service/device-management/de
 })
 export class DeviceConfigurationListComponent implements OnInit {
 
-displayedColumns: string[] = ['id','branchId','branchName','cardReaderIp','portNumber','gateway','subNetMask','dns', 'isActive', 'Action'];
+displayedColumns: string[] = ['id','siteId','siteName','cardReaderIp','portNumber','gateway','subNetMask','dns', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,12 +36,12 @@ displayedColumns: string[] = ['id','branchId','branchName','cardReaderIp','portN
   filteredBranches: any;
   branchId: any;
 
-  filterBranches(event: any) {
-    const searchText = event.target.value.toLowerCase();
-    this.filteredBranches = this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
-      return branch.branchName.toLowerCase().includes(searchText) || branch.stateName.toLowerCase().includes(searchText);
-    });
-  }
+  // filterBranches(event: any) {
+  //   const searchText = event.target.value.toLowerCase();
+  //   this.filteredBranches = this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
+  //     return branch.branchName.toLowerCase().includes(searchText) || branch.stateName.toLowerCase().includes(searchText);
+  //   });
+  // }
 
   constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service:DeviceConfigurationService, private alertify: AlertifyService, public dialog: MatDialog) { }
 
@@ -54,46 +54,46 @@ displayedColumns: string[] = ['id','branchId','branchName','cardReaderIp','portN
     })
 
     
-    const branchList = String(localStorage.getItem('branchList'));
-    this.branchList = this.storageEncryptionService.decryptData(branchList);
+    // const branchList = String(localStorage.getItem('branchList'));
+    // this.branchList = this.storageEncryptionService.decryptData(branchList);
 
-    const actionName = String(localStorage.getItem('actionName'));
-    this.actionName = this.storageEncryptionService.decryptData(actionName);
+    // const actionName = String(localStorage.getItem('actionName'));
+    // this.actionName = this.storageEncryptionService.decryptData(actionName);
 
-    const encryptedData = String(localStorage.getItem('employeeCode'));
-    let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
+    // const encryptedData = String(localStorage.getItem('employeeCode'));
+    // let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
 
     await Promise.all([
       this.getAllDeviceDetails(),
       this.getAllStatus()
     ]);
 
-    const stringArrayAction: string[] = this.actionName;
-    const numberArrayAction: string[] = stringArrayAction[0].split(',');
+    // const stringArrayAction: string[] = this.actionName;
+    // const numberArrayAction: string[] = stringArrayAction[0].split(',');
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Insert'){
-        this.Insert = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Insert'){
+    //     this.Insert = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Update'){
-        this.Update = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Update'){
+    //     this.Update = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Delete'){
-        this.Delete = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Delete'){
+    //     this.Delete = true;
+    //   }
+    // }
 
-    for(let i=0; i < numberArrayAction.length;i++){
-      if(numberArrayAction[i] == 'Select'){
-        this.Select = true;
-      }
-    }
+    // for(let i=0; i < numberArrayAction.length;i++){
+    //   if(numberArrayAction[i] == 'Select'){
+    //     this.Select = true;
+    //   }
+    // }
   }
 
   // openDialog() {
@@ -119,32 +119,32 @@ displayedColumns: string[] = ['id','branchId','branchName','cardReaderIp','portN
     })
   }
 
-  showAllBranches() {
-    this.filteredBranches = this.branchList;
-  }
+  // showAllBranches() {
+  //   this.filteredBranches = this.branchList;
+  // }
 
   
 
-  selectBranch(event: any) {
-    if(this.formGroup.value.branchId == "None"){
-      this.value = this.data;
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
-    else{
-      this.value = this.data.filter((item: any) => item.branchName === this.formGroup.value.branchId);
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
+  // selectBranch(event: any) {
+  //   if(this.formGroup.value.branchId == "None"){
+  //     this.value = this.data;
+  //     this.dataSource = new MatTableDataSource(this.value);
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.data = this.value;
+  //   }
+  //   else{
+  //     this.value = this.data.filter((item: any) => item.branchName === this.formGroup.value.branchId);
+  //     this.dataSource = new MatTableDataSource(this.value);
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.data = this.value;
 
-      for(let i=0;i<this.branchList.length;i++){
-        if(this.branchList[i].branchName == this.formGroup.value.isActiveId){
-          let branchId = this.branchList[i].branchId;
-        }
-      }
-    }
-  }
+  //     for(let i=0;i<this.branchList.length;i++){
+  //       if(this.branchList[i].branchName == this.formGroup.value.isActiveId){
+  //         let branchId = this.branchList[i].branchId;
+  //       }
+  //     }
+  //   }
+  // }
 
   
   selectStatus(event: any) {

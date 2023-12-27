@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { DeviceConfigurationService } from 'src/app/service/device-management/device-configuration.service';
+import { ManageUsersService } from 'src/app/service/manage-users/manage-users.service';
 import { StateService } from 'src/app/service/masters/state.service';
 
 @Component({
@@ -24,13 +25,15 @@ export class DeviceConfigurationDialogComponent implements OnInit {
   portNumberList: any;
   branchList: any;
   branchId: any;
+  siteList: any;
+  siteId: any;
 
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: StateService, private service2:DeviceConfigurationService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<DeviceConfigurationDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(private service1: ManageUsersService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: StateService, private service2:DeviceConfigurationService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<DeviceConfigurationDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      branchId: ['', Validators.required],
+      siteId: ['', Validators.required],
       cardReaderIp: ['', Validators.required],
       portNumber :[''],
       isActive: ['', Validators.required]
@@ -38,17 +41,17 @@ export class DeviceConfigurationDialogComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['branchId'].setValue(this.editData.branchName);
+      this.formGroup.controls['siteId'].setValue(this.editData.siteName);
       this.formGroup.controls['cardReaderIp'].setValue(this.editData.cardReaderIp);
       this.formGroup.controls['portNumber'].setValue(this.editData.portNumber)
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
 
-    this.formGroup.get('branchId')?.disable();
+    this.formGroup.get('siteId')?.disable();
 
     this.getAllDeviceDetails();
     this.getIsActive();
-    this.getAllBranch();
+    this.getSiteDetails();
     // this.putDevice();
 
   }
@@ -66,16 +69,16 @@ export class DeviceConfigurationDialogComponent implements OnInit {
   }
 
   
-  getAllBranch() {
-    this.service2.getAllBranch()
+  getSiteDetails() {
+    this.service1.getSiteDetails()
       .subscribe({
         next: (res) => {
-          this.branchList = res;
+          this.siteList = res.data;
         },
         error: (res) => {
-          this.alertify.error("Error While fetching The Records!!")
+          this.alertify.error("Error While fetching The Records!!");
         }
-      })
+      });
   }
 
   getIsActive() {
@@ -92,9 +95,9 @@ export class DeviceConfigurationDialogComponent implements OnInit {
 
   postData() {
 
-    for (var i = 0; i < this.branchList.length; i++) {
-      if (this.branchList[i].branchName == this.formGroup.get('branchId')?.value) {
-        this.branchId = this.branchList[i].branchId;
+    for (var i = 0; i < this.siteList.length; i++) {
+      if (this.siteList[i].siteName == this.formGroup.get('siteId')?.value) {
+        this.siteId = this.siteList[i].id;
       }
     }
 
@@ -106,7 +109,7 @@ export class DeviceConfigurationDialogComponent implements OnInit {
 
     let formGroup = {
       "id": this.formGroup.get('id')?.value,
-      "branchId": this.branchId, // Get the value from the form control
+      "siteId": this.siteId, // Get the value from the form control
       "cardReaderIp": this.formGroup.get('cardReaderIp')?.value, // Get the value from the form control
       "portNumber": this.formGroup.get('portNumber')?.value, // Get the value from the form control
       "isActiveId":this.isActiveId

@@ -6,7 +6,7 @@
                 <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input autocomplete="off">
             </mat-form-field>
         </div>
-        <div class="col-md-2">
+        <!-- <div class="col-md-2">
             <form [formGroup]="formGroup">
                 <mat-form-field appearance="outline">
                     <mat-label>Search Branch</mat-label>
@@ -31,7 +31,6 @@
                     <mat-label>Enter Employee Code</mat-label>
                     <input type="number" placeholder="Pick one" aria-label="Number" matInput
                         formControlName="employeeCode" [matAutocomplete]="auto1" placeholder="Enter Employee Code">
-                    <!-- <mat-icon matSuffix>search</mat-icon> -->
                     <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="selectEmployee($event)">
                         <mat-option value="None">None</mat-option>
                         <mat-option *ngFor="let option of finaldata | async" [value]="option.employeeCode">
@@ -43,7 +42,7 @@
                         Employee Code is <strong>required</strong>
                     </mat-error>
             </form>
-        </div>
+        </div> -->
         <div class="col-md-3">
             <form [formGroup]="formGroup">
                 <mat-form-field floatLabel='never' appearance="outline">

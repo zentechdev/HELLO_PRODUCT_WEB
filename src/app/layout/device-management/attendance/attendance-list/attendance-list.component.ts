@@ -41,17 +41,17 @@ export class AttendanceListComponent implements OnInit {
   finaldata: any;
   // formGroup2: any;
 
-  filterBranches(event: any) {
-    const searchText = event.target.value.toLowerCase();
-    this.filteredBranches = this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
-      return branch.branchName.toLowerCase().includes(searchText) || branch.stateName.toLowerCase().includes(searchText);
-    });
-  }
+  // filterBranches(event: any) {
+  //   const searchText = event.target.value.toLowerCase();
+  //   this.filteredBranches = this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
+  //     return branch.branchName.toLowerCase().includes(searchText) || branch.stateName.toLowerCase().includes(searchText);
+  //   });
+  // }
   
   constructor(private storageEncryptionService: StorageEncryptionService, private _formBuilder: FormBuilder, private alertify: AlertifyService, private service: AttendanceService) {
-    this.service.getAllEmployee().subscribe(item => {
-      this.options = item;
-    })
+    // this.service.getAllEmployee().subscribe(item => {
+    //   this.options = item;
+    // })
   }
 
   async ngOnInit(): Promise<void> {
@@ -61,7 +61,7 @@ export class AttendanceListComponent implements OnInit {
 
 
     this.getAllTodaysAttendance();
-    this.getAllAvilableEmployee();
+    // this.getAllAvilableEmployee();
 
     this.formGroup = await this._formBuilder.group({
       DatePicker1: [''],
@@ -70,47 +70,37 @@ export class AttendanceListComponent implements OnInit {
       employeeCode: []
     })
 
-    this.finaldata = this.formGroup.get("employeeCode")?.valueChanges.pipe(
-      debounceTime(500),
-      startWith(''),
-      map((item: any) => {
-        const employeeCode = item;
-        return employeeCode ? this._filter(employeeCode as number) : this.options
-      })
-    )
+    // this.finaldata = this.formGroup.get("employeeCode")?.valueChanges.pipe(
+    //   debounceTime(500),
+    //   startWith(''),
+    //   map((item: any) => {
+    //     const employeeCode = item;
+    //     return employeeCode ? this._filter(employeeCode as number) : this.options
+    //   })
+    // )
 
-    const branchList = String(localStorage.getItem('branchList'));
-    this.branchList = this.storageEncryptionService.decryptData(branchList);
-    const actionName = String(localStorage.getItem('actionName'));
-    this.actionName = this.storageEncryptionService.decryptData(actionName);
-    const encryptedData = String(localStorage.getItem('employeeCode'));
-    let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
+    // const branchList = String(localStorage.getItem('branchList'));
+    // this.branchList = this.storageEncryptionService.decryptData(branchList);
+    // const actionName = String(localStorage.getItem('actionName'));
+    // this.actionName = this.storageEncryptionService.decryptData(actionName);
+    // const encryptedData = String(localStorage.getItem('employeeCode'));
+    // let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
   }
 
-  private _filter(employeeCode: number): Employee[] {
+  // private _filter(employeeCode: number): Employee[] {
 
-    const filterValue = employeeCode.toString();
+  //   const filterValue = employeeCode.toString();
 
-    return this.options.filter((opt: { employeeCode: { toString: () => string | string[]; }; }) => opt.employeeCode.toString().includes(filterValue));
+  //   return this.options.filter((opt: { employeeCode: { toString: () => string | string[]; }; }) => opt.employeeCode.toString().includes(filterValue));
 
-  }
+  // }
   
   getAllTodaysAttendance() {
     this.service.getAllTodaysAttendance()
       .subscribe({
         next: (res) => {
-          this.data = res.filter((item: any) => {
-            return this.branchList.some((branch: any) => {
-              return item.branchName === branch.branchName;
-            });
-          });
-          this.dataSource = new MatTableDataSource(
-            res.filter((item: any) => {
-              return this.branchList.some((branch: any) => {
-                return item.branchName === branch.branchName;
-              });
-            })
-          );
+          this.data = res;
+          this.dataSource = new MatTableDataSource(res);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },
@@ -133,18 +123,8 @@ export class AttendanceListComponent implements OnInit {
       this.service.getAllAttendanceByDateRange(queryParams)
         .subscribe({
           next: (res) => {
-            this.data = res.filter((item: any) => {
-              return this.branchList.some((branch: any) => {
-                return item.branchName === branch.branchName;
-              });
-            });
-            this.dataSource = new MatTableDataSource(
-              res.filter((item: any) => {
-                return this.branchList.some((branch: any) => {
-                  return item.branchName === branch.branchName;
-                });
-              })
-            );
+            this.data = res;
+            this.dataSource = new MatTableDataSource(res);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           },
@@ -163,65 +143,4 @@ export class AttendanceListComponent implements OnInit {
     }
   }
 
-  selectStatus(event: any) {
-    this.value = this.formGroup.value.branchId;
-  }
-
-  showAllBranches() {
-    this.filteredBranches = this.branchList;
-  }
-
-  selectBranch(event: any) {
-    const value = this.formGroup.value.branchId;
-    if (value == "None") {
-      this.value = this.data;
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
-    else {
-      this.value = this.data.filter((item: any) => item.branchName === this.formGroup.value.branchId);
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-      for (let i = 0; i < this.branchList.length; i++) {
-        if (this.branchList[i].branchName == value) {
-          let branchId = this.branchList[i].branchId;
-        }
-      }
-    }
-  }
-
-  selectEmployee(event: any) {
-    const value = this.formGroup.value.employeeCode;
-    if (value == "None") {
-      this.value = this.data;
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
-    else {
-      this.value = this.data.filter((item: any) => item.employeeCode === value);
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-      for (let i = 0; i < this.branchList.length; i++) {
-        if (this.branchList[i].branchName == value) {
-          let branchId = this.branchList[i].branchId;
-        }
-      }
-    }
-  }
-
-  getAllAvilableEmployee() {
-    this.service.getAllAvilableEmployee()
-      .subscribe({
-        next: (res) => {
-          this.employeeList = res;
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!")
-        }
-      })
-  }
 }
