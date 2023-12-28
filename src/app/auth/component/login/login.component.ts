@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   employeeTechAccessId: any;
   visitorTechAccessId: any;
   unitName: any;
+  hide = true;
 
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private service: LoginService, private router: Router, private alertify: AlertifyService) { }
 
