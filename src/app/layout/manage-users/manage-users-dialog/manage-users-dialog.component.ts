@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 import { ManageUsersService } from 'src/app/service/manage-users/manage-users.service';
-import { UnitService } from 'src/app/service/masters/unit.service';
+
 
 @Component({
   selector: 'app-manage-users-dialog',
@@ -181,14 +181,14 @@ export class ManageUsersDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           if(this.roleName=="Master Admin"){
-            this.roleList = res.data.filter((role: any) => role.roleName !== 'Master Admin');
+            this.roleList = res.data.filter((role: any) => role.isActive=='Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Employee' && role.roleName !== 'Site Admin' && role.roleName !== 'Unit Admin');
           }
           else if(this.roleName=="Super Admin"){
-            this.roleList = res.data.filter((role: any) => role.roleName !== 'Master Admin' && role.roleName !== 'Super Admin');
+            this.roleList = res.data.filter((role: any) =>  role.isActive=='Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Employee' && role.roleName !== 'Super Admin' && role.roleName !== 'Unit Admin' && role.roleName !== 'Visitor Device');
           }else if(this.roleName=="Site Admin"){
-            this.roleList = res.data.filter((role: any) => role.roleName !== 'Master Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Site Admin');
+            this.roleList = res.data.filter((role: any) => role.isActive=='Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Employee' && role.roleName !== 'Visitor Device');
           }else if(this.roleName=="Unit Admin"){
-            this.roleList = res.data.filter((role: any) => role.roleName !== 'Master Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Unit Admin');
+            this.roleList = res.data.filter((role: any) => role.isActive=='Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Unit Admin' && role.roleName !== 'Visitor Device');
           }
         },
         error: (res) => {
@@ -198,24 +198,42 @@ export class ManageUsersDialogComponent implements OnInit {
   }
 
   selectFile(event: any) {
-    if (event.target.files[0].name.includes('.png', '.jpeg')) {
-      this.file = event.target.files[0];
-    } else {
-      this.alertify.error("File format is not correct.");
+    const selectedFile = event.target.files[0];
+  
+    if (selectedFile) {
+      const allowedFormats = ['.png', '.jpeg'];
+      const maxSizeKB = 500;
+  
+      // Check file format
+      const fileExtension = selectedFile.name.toLowerCase().slice((selectedFile.name.lastIndexOf(".") - 1 >>> 0) + 2);
+      if (!allowedFormats.includes(`.${fileExtension}`)) {
+        this.formGroup.get('image')?.setErrors({ 'incorrectFormat': true });
+        return;
+      }
+  
+      // Check file size
+      const fileSizeKB = selectedFile.size / 1024;
+      if (fileSizeKB > maxSizeKB) {
+        this.formGroup.get('image')?.setErrors({ 'exceedsSizeLimit': true });
+        return;
+      }
+  
+      // Valid file, set it and create URL
+      this.file = selectedFile;
+      this.image = URL.createObjectURL(this.file);
     }
-    //Create URL to view pdf
-    this.image = URL.createObjectURL(this.file);
   }
+  
 
 
 
   postData() {
 
-    for (var i = 0; i < this.isActiveList.length; i++) {
-      if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {
-        this.isActiveId = this.isActiveList[i].isActiveId;
-      }
-    }
+    // for (var i = 0; i < this.isActiveList.length; i++) {
+    //   if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {
+    //     this.isActiveId = this.isActiveList[i].isActiveId;
+    //   }
+    // }
 
     for (var i = 0; i < this.siteList.length; i++) {
       if (this.siteList[i].siteName == this.formGroup.get('siteId')?.value) {
@@ -229,11 +247,11 @@ export class ManageUsersDialogComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.statusList.length; i++) {
-      if (this.statusList[i].name == this.formGroup.value.statusId) {
-        this.statusId = this.statusList[i].id;
-      }
-    }
+    // for (var i = 0; i < this.statusList.length; i++) {
+    //   if (this.statusList[i].name == this.formGroup.value.statusId) {
+    //     this.statusId = this.statusList[i].id;
+    //   }
+    // }
 
     for (var i = 0; i < this.unitList.length; i++) {
       if (this.unitList[i].name == this.formGroup.get('unitId')?.value) {
@@ -241,6 +259,8 @@ export class ManageUsersDialogComponent implements OnInit {
       }
     }
     
+    this.isActiveId=1;
+    this.statusId=1;
 
     //apend data in multipart
     let formData = new FormData()

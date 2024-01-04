@@ -98,9 +98,18 @@
                         <input hidden formControlName="image" (change)="selectFile($event)" #fileInput type="file"
                             multiple="multiple" accept=".jepg,.png">
                         <span class="file-name">{{ file?.name ? file.name : (image ?
-                            image.substring(image.lastIndexOf('/') + 1) : ' Choose File ') }}</span>
+                            image.substring(image.lastIndexOf('/') + 1) : ' Size : 500KB,Type : jepg,png') }}</span>
+                            
                         <mat-error *ngIf="formGroup.get('image')?.hasError('required')">
                             Image is <strong>required</strong>
+                        </mat-error>
+
+                        <mat-error *ngIf="formGroup.get('image')?.hasError('incorrectFormat')">
+                            Incorrect file format. Please select a valid image file (PNG or JPEG).
+                        </mat-error>
+
+                        <mat-error *ngIf="formGroup.get('image')?.hasError('exceedsSizeLimit')">
+                            File size exceeds the limit of 500 KB.
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -119,7 +128,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Status Name</mat-label>
                         <mat-select formControlName="statusId" placeholder="Status Name">
@@ -144,11 +153,12 @@
                             isActive Type is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
-                </div>
+                </div> -->
 
             </div>
 
-            <div class="" style="display: flex;background-color: white; justify-content: center;bottom:0;position:sticky">
+            <div class=""
+                style="display: flex;background-color: white; justify-content: center;bottom:0;position:sticky">
                 <div class="col-md-6 col-lg-4 col-sm-12">
                     <button mat-flat-button class="button button4" color="warn" mat-dialog-close
                         style="margin-left:25px">CANCEL</button>

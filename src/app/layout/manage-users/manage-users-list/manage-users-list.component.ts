@@ -118,23 +118,23 @@ export class ManageUsersListComponent implements OnInit {
         next: (res) => {
           if(this.roleName=="Master Admin"){
             this.data = res.data;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active'));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.roleName=='Super Admin'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }
           else if(this.roleName=="Super Admin"){
             this.data = res.data;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.siteName == this.siteName));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.siteName == this.siteName && item.roleName=='Site Admin'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }else if(this.roleName=="Site Admin"){
             this.data = res.data;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.siteName == this.siteName));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.siteName == this.siteName && item.roleName=='Unit Admin'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }else if(this.roleName=="Unit Admin"){
             this.data = res.data;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.unitName == this.unitName));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.unitName == this.unitName && item.siteName == this.siteName && item.roleName=='Employee'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }
@@ -177,7 +177,7 @@ export class ManageUsersListComponent implements OnInit {
 
 
   deleteData(id: number) {
-    this.alertify.confirm('Delete state', 'Are you sure to delete state',
+    this.alertify.confirm('Delete User', 'Are you sure to delete User',
       () => {
         this.service.deleteUsers(id)
           .subscribe({
