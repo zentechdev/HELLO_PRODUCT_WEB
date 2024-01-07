@@ -40,6 +40,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { TokenExpiredDialogComponent } from './token-expired-dialog/token-expired-dialog.component';
 import { NgSelect2Module } from 'ng-select2';
 import { ApproveVisitorComponent } from './visitor-management/template/approve-visitor/approve-visitor.component';
+import { QrCodePassComponent } from './visitor-management/template/qr-code-pass/qr-code-pass.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { ApproveVisitorComponent } from './visitor-management/template/approve-v
     PageNotFoundComponent,
     InviteVisitorComponent,
     TokenExpiredDialogComponent,
-    ApproveVisitorComponent
+    ApproveVisitorComponent,
+    QrCodePassComponent
   ],
   imports: [
     BrowserModule,

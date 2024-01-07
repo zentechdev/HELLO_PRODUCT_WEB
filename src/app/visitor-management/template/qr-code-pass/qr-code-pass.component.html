@@ -1,0 +1,48 @@
+
+<div  class="container" id="nonfooter">
+    <div class="padding">
+        <div class="font print-container" >
+            <div class="header">
+                <h3>VISITOR PASS</h3>
+            </div>
+            <div class="companyname">
+                <h5>{{siteName}}</h5>
+                <img [src]="siteImage" alt="">
+            </div>
+            <div class="top">
+                <div>
+                    <img [src]="image" alt="">
+                </div>
+                <div class="edetails">
+                    <p>{{memberName}}</p>
+                    <p>{{mobileNumber}}</p>
+                    <p>{{checkIn}}</p>
+                    <p>{{location}}</p>
+                </div>
+            </div>
+            <div>
+                <div class="barcode">
+                    <!-- <img [src]="QrImage" alt=""> -->
+                    <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="qrNumber"
+                    alt="Demo QR Code" ></ngx-qrcode>
+                </div>
+                <div class="hostdetails">
+                    <p>Host Details</p>
+                    <p>{{hostName}}</p>
+                    <p>Unit No. {{unitNumber}}</p>
+                    <p>{{unitName}}</p>
+                </div>
+                <div class="rules">
+                    <p>** You cannot go to any other units without<br>
+                        confirmation if found or caught,a fine of Rs 2000/<br>
+                        and legal action will be taken
+                    </p>
+                    <p class="zentech">VISITOR INFORMATION SYSTEM</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
