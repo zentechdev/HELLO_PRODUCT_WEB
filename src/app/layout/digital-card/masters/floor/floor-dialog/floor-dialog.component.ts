@@ -4,10 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
 import { FloorService } from 'src/app/service/masters/floor.service';
-import { TechnologyTypeService } from 'src/app/service/masters/technology-type.service';
-import { WingService } from 'src/app/service/masters/wing.service';
+
 
 
 @Component({
@@ -30,16 +28,17 @@ export class FloorDialogComponent implements OnInit {
   clientId: any;
   stateList: any;
   stateId: any;
-siteId: any;
-siteName: any;
-wingName:any;
+  siteId: any;
+  siteName: any;
+  wingName:any;
   siteList: any;
-isActive: any;
+  isActive: any;
   wingId: any;
   wingList: any;
   id: any;
   floorTypeList: any;
   floorTypeId: any;
+  roleName: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: FloorService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<FloorDialogComponent>) { this.dialogRef.disableClose = true }
@@ -57,10 +56,19 @@ isActive: any;
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
 
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = this.storageEncryptionService.decryptData(siteId);
+
+    const roleName = String(localStorage.getItem("roleName"));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
+
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['siteName'].setValue(this.editData.siteName);
-      this.formGroup.controls['wingName'].setValue(this.editData.wingName);
+      this.formGroup.controls['siteName'].setValue(this.editData.siteId);
+      this.formGroup.controls['wingName'].setValue(this.editData.wingId);
       this.formGroup.controls['floorType'].setValue(this.editData.floorType);
       this.formGroup.controls['name'].setValue(this.editData.name);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
@@ -89,8 +97,16 @@ isActive: any;
   getSiteDetails() {
     this.service.getSiteDetails()
       .subscribe({
-        next: (res) => {
-          this.siteList = res.data;
+        next: (res) => {  
+          if(this.roleName=="Master Admin"){
+            this.siteList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -102,7 +118,15 @@ isActive: any;
     this.service.getWingDetails()
       .subscribe({
         next: (res) => {
-          this.wingList = res.data;
+          if(this.roleName=="Master Admin"){
+            this.wingList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.wingList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.wingList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -130,34 +154,16 @@ isActive: any;
       }
     }
 
-    for (var i = 0; i < this.siteList.length; i++) {
-      if (this.siteList[i].siteName == this.formGroup.value.siteName) {
-        this.siteId = this.siteList[i].id;
-      }
-    }
-
     for (var i = 0; i < this.floorTypeList.length; i++) {
       if (this.floorTypeList[i].name == this.formGroup.value.floorType) {
         this.floorTypeId = this.floorTypeList[i].id;
       }
     }
 
-    for (var i = 0; i < this.wingList.length; i++) {
-      if (this.wingList[i].name == this.formGroup.value.wingName) {
-        this.id = this.wingList[i].id;
-      }
-    }
 
-    // for (var i = 0; i < this.wingList.length; i++) {
-    //   if (this.wingList[i].wingName == this.formGroup.value.wingName) {
-    //     this.wingId = this.wingList[i].wingId;
-    //   }
-    // }
-
-    debugger
     let formGroup = {
-      "siteId": this.siteId,
-      "wingId":this.id,
+      "siteId": this.formGroup.value.siteName,
+      "wingId":this.formGroup.value.wingName,
       "name":this.formGroup.value.name,
       "floorTypeId":this.floorTypeId,
       "isActiveId": this.isActiveId,

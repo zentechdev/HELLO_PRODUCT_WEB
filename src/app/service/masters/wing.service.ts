@@ -22,7 +22,7 @@ export class WingService {
     return this.http.get<any>(`${baseUrl}/api/Wing/getAllWing`);
   }
 
-  getCity() {
+  getWing() {
     return this.http.get<any>(`${baseUrl}/api/Wing/getAllWing`);
   }
   

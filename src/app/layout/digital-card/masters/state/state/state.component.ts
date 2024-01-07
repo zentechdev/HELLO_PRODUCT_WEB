@@ -48,8 +48,8 @@ export class StateComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['clientId'].setValue(this.editData.clientName);
-      this.formGroup.controls['countryId'].setValue(this.editData.country);
+      this.formGroup.controls['clientId'].setValue(this.editData.clientId);
+      this.formGroup.controls['countryId'].setValue(this.editData.countryId);
       this.formGroup.controls['name'].setValue(this.editData.name);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
@@ -98,19 +98,6 @@ export class StateComponent implements OnInit {
       })
   }
 
-  onOrganizationChange() {
-    const selectedOrgId = this.formGroup.get('clientId')?.value;
-  
-    if (selectedOrgId) {
-      this.countryList = this.countryMainList.filter((item:any)=>item.clientName==selectedOrgId)
-      this.formGroup.get('countryId')?.enable(); 
-    } else {
-      // Reset the countryList and disable the country dropdown
-      this.countryList = [];
-      this.formGroup.get('countryId')?.setValue('');
-      this.formGroup.get('countryId')?.disable();
-    }
-  }
 
   postData() {
 
@@ -120,21 +107,9 @@ export class StateComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.orgList.length; i++) {
-      if (this.orgList[i].organizationName == this.formGroup.value.clientId) {
-        this.clientId = this.orgList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.countryList.length; i++) {
-      if (this.countryList[i].countryName == this.formGroup.value.countryId) {
-        this.countryId = this.countryList[i].id;
-      }
-    }
-
     let formGroup = {
-      "clientId": this.clientId,
-      "countryId": this.countryId,
+      "clientId": this.formGroup.value.clientId,
+      "countryId": this.formGroup.value.countryId,
       "name":this.formGroup.value.name,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy

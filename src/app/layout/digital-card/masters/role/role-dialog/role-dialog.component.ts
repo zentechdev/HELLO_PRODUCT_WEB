@@ -86,7 +86,7 @@ export class RoleDialogComponent implements OnInit {
     this.service.getMenuList()
       .subscribe({
         next: (res) => {
-          debugger
+      
           this.menuList = res.menuListResponse;
         },
         error: (res) => {
@@ -109,7 +109,7 @@ export class RoleDialogComponent implements OnInit {
 
   postData() {
 
-    debugger
+
     
     for (var i = 0; i < this.isActiveList.length; i++) {
       if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {

@@ -18,7 +18,7 @@ export class ApproveVisitorComponent implements OnInit {
   }
 
   getParameter() {
-    debugger
+
     let querystring = window.location.search;
     let urlParam = new URLSearchParams(querystring);
     

@@ -32,6 +32,8 @@ export class WingListComponent implements OnInit {
   value!: any[];
   actionName:any;
   clientId: any;
+  roleName: any;
+  siteId: any;
 
   constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service:WingService, private alertify: AlertifyService, public dialog: MatDialog) { }
 
@@ -40,8 +42,14 @@ export class WingListComponent implements OnInit {
       isActiveId: ['']
     })
 
-    // const clientId = String(localStorage.getItem("siteId"));
-    // this.clientId = this.storageEncryptionService.decryptData(clientId);
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = this.storageEncryptionService.decryptData(siteId);
+
+    const roleName = String(localStorage.getItem("roleName"));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
 
     // // Conversion of string array to number array
     // const stringArrayAction: string[] = this.actionName;
@@ -72,7 +80,7 @@ export class WingListComponent implements OnInit {
     // }
 
 
-    await this.getCity();
+    await this.getWing();
     await this.getAllStatus();
   }
 
@@ -82,7 +90,7 @@ export class WingListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'SAVE') {
-        this.getCity();
+        this.getWing();
       }
     })
   }
@@ -94,19 +102,33 @@ export class WingListComponent implements OnInit {
       disableClose:true
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
-        this.getCity();
+        this.getWing();
       }
     })
   }
 
-  getCity() {
-    this.service.getCity()
+  getWing() {
+    this.service.getWing()
       .subscribe({
         next: (res) => {
-          this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
-          this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          if(this.roleName=="Master Admin"){
+            this.data=res.data;
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if(this.roleName=="Site Admin"){
+            this.data=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -153,7 +175,7 @@ export class WingListComponent implements OnInit {
             next: (res) => {
               if (res.isSuccess == true) {
                 this.alertify.success(res.message);
-                this.getCity();
+                this.getWing();
               }
               else {
                 this.alertify.error(res.message);

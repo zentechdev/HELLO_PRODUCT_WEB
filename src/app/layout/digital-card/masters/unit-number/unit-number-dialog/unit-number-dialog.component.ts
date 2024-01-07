@@ -39,6 +39,7 @@ export class UnitNumberDialogComponent implements OnInit {
   floorList: any;
   floorId: any;
   id: any;
+  roleName: any;
 
 
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: UnitNumberService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<UnitNumberDialogComponent>) { this.dialogRef.disableClose = true }
@@ -56,14 +57,24 @@ export class UnitNumberDialogComponent implements OnInit {
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
 
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = this.storageEncryptionService.decryptData(siteId);
+
+    const roleName = String(localStorage.getItem("roleName"));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
+
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['siteName'].setValue(this.editData.siteName);
-      this.formGroup.controls['wingName'].setValue(this.editData.wingName);
-      this.formGroup.controls['floorName'].setValue(this.editData.floorName);
+      this.formGroup.controls['siteName'].setValue(this.editData.siteId);
+      this.formGroup.controls['wingName'].setValue(this.editData.wingId);
+      this.formGroup.controls['floorName'].setValue(this.editData.floorId);
       this.formGroup.controls['name'].setValue(this.editData.name);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
+
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
     this.getIsActive();
@@ -90,7 +101,15 @@ export class UnitNumberDialogComponent implements OnInit {
     this.service.getSiteDetails()
       .subscribe({
         next: (res) => {
-          this.siteList = res.data;
+          if(this.roleName=="Master Admin"){
+            this.siteList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -102,11 +121,18 @@ export class UnitNumberDialogComponent implements OnInit {
   
 
   getWingDetails() {
-    debugger
     this.service.getWingDetails()
       .subscribe({
         next: (res) => {
-          this.wingList = res.data;
+          if(this.roleName=="Master Admin"){
+            this.wingList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.wingList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.wingList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -115,11 +141,18 @@ export class UnitNumberDialogComponent implements OnInit {
   }
 
   getfloorDetails() {
-    debugger
     this.service.getfloorDetails()
       .subscribe({
         next: (res) => {
-          this.floorList = res.data;
+          if(this.roleName=="Master Admin"){
+            this.floorList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.floorList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.floorList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -135,31 +168,10 @@ export class UnitNumberDialogComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.siteList.length; i++) {
-      if (this.siteList[i].siteName == this.formGroup.value.siteName) {
-        this.siteId = this.siteList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.wingList.length; i++) {
-      if (this.wingList[i].name == this.formGroup.value.wingName) {
-        this.wingId = this.wingList[i].id;
-      }
-    }
-debugger
-    for (var i = 0; i < this.floorList.length; i++) {
-      if (this.floorList[i].name == this.formGroup.value.floorName) {
-        this.id = this.floorList[i].id;
-      }
-    }
-
-
-debugger
     let formGroup = {
-      "siteId": this.siteId,
-      "wingId":this.wingId,
-      "floorId":this.id,
-      // "floorName":this.formGroup.value.floorName,
+      "siteId": this.formGroup.value.siteName,
+      "wingId":this.formGroup.value.wingName,
+      "floorId":this.formGroup.value.floorName,
       "name":this.formGroup.value.name,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy

@@ -7,7 +7,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Site Name</mat-label>
                         <mat-select formControlName="siteName" placeholder="Site Name">
-                          <mat-option *ngFor="let site of siteList" [value]="site.siteName">
+                          <mat-option *ngFor="let site of siteList" [value]="site.id">
                             {{ site.siteName }}
                           </mat-option>
                         </mat-select>
@@ -22,8 +22,8 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Wing Name</mat-label>
                         <mat-select formControlName="wingName" placeholder="Wing Name">
-                          <mat-option *ngFor="let wing of wingList" [value]="wing.name">
-                            {{ wing.name }}
+                          <mat-option *ngFor="let wing of wingList" [value]="wing.id">
+                            {{ wing.name }} - {{wing.siteName}}
                           </mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('wingName')?.hasError('required')">
@@ -36,8 +36,8 @@
                   <mat-form-field appearance="outline">
                       <mat-label>Floor Name</mat-label>
                       <mat-select formControlName="floorName" placeholder="Wing Name">
-                        <mat-option *ngFor="let floor of floorList" [value]="floor.name">
-                          {{ floor.name }}
+                        <mat-option *ngFor="let floor of floorList" [value]="floor.id">
+                          {{ floor.name }} - {{floor.siteName}}
                         </mat-option>
                       </mat-select>
                       <mat-error *ngIf="formGroup.get('floorName')?.hasError('required')">
@@ -45,18 +45,15 @@
                       </mat-error>
                     </mat-form-field>
               </div>
-  
-              
-                
-                <div class="col-md-6">
+          
+              <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Unit Name </mat-label>
                         <input formControlName="name" matInput placeholder="Unit Name " autocomplete="off">
                         <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
                             Floor Name  <strong>required</strong>
                         </mat-error>
-                    </mat-form-field>
-                    
+                    </mat-form-field>     
                 </div>
                 
                 <div class="col-md-6">

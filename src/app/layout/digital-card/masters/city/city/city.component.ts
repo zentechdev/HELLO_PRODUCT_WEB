@@ -51,9 +51,9 @@ export class CityComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['clientId'].setValue(this.editData.clientName);
-      this.formGroup.controls['countryId'].setValue(this.editData.countryName);
-      this.formGroup.controls['stateId'].setValue(this.editData.stateName);
+      this.formGroup.controls['clientId'].setValue(this.editData.clientId);
+      this.formGroup.controls['countryId'].setValue(this.editData.countryId);
+      this.formGroup.controls['stateId'].setValue(this.editData.stateId);
       this.formGroup.controls['cityName'].setValue(this.editData.cityName);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
@@ -70,7 +70,7 @@ export class CityComponent implements OnInit {
     this.service.getCountry()
       .subscribe({
         next: (res) => {
-          this.countryList = res.data.filter((item:any)=>item.clientId==this.clientId);
+          this.countryList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -82,7 +82,7 @@ export class CityComponent implements OnInit {
     this.service.getState()
       .subscribe({
         next: (res) => {
-          this.stateList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          this.stateList=res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -122,28 +122,10 @@ export class CityComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.countryList.length; i++) {
-      if (this.countryList[i].countryName == this.formGroup.value.countryId) {
-        this.countryId = this.countryList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.stateList.length; i++) {
-      if (this.stateList[i].name == this.formGroup.value.stateId) {
-        this.stateId = this.stateList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.orgList.length; i++) {
-      if (this.orgList[i].organizationName == this.formGroup.value.clientId) {
-        this.clientId = this.orgList[i].id;
-      }
-    }
-
     let formGroup = {
-      "clientId": this.clientId,
-      "countryId": this.countryId,
-      "stateId": this.stateId,
+      "clientId": this.formGroup.value.clientId,
+      "countryId": this.formGroup.value.countryId,
+      "stateId": this.formGroup.value.stateId,
       "cityName":this.formGroup.value.cityName,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy

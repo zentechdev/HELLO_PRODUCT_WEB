@@ -4,13 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
-import { StateService } from 'src/app/service/masters/state.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
-import { WingService } from 'src/app/service/masters/wing.service';
-
-import { FloorService } from 'src/app/service/masters/floor.service';
 import { UnitNumberDialogComponent } from '../unit-number-dialog/unit-number-dialog.component';
 import { UnitNumberService } from 'src/app/service/masters/unit-number.service';
 
@@ -36,6 +31,8 @@ export class UnitNumberListComponent implements OnInit {
   value!: any[];
   actionName:any;
   clientId: any;
+  siteId: any;
+  roleName: any;
 
   constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service:UnitNumberService, private alertify: AlertifyService, public dialog: MatDialog) { }
 
@@ -44,8 +41,14 @@ export class UnitNumberListComponent implements OnInit {
       isActiveId: ['']
     })
 
-    // const clientId = String(localStorage.getItem("siteId"));
-    // this.clientId = this.storageEncryptionService.decryptData(clientId);
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = this.storageEncryptionService.decryptData(siteId);
+
+    const roleName = String(localStorage.getItem("roleName"));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
 
     // // Conversion of string array to number array
     // const stringArrayAction: string[] = this.actionName;
@@ -107,10 +110,25 @@ export class UnitNumberListComponent implements OnInit {
     this.service.getAllFloor()
       .subscribe({
         next: (res) => {
-          this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
-          this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          console.log(res);
+          if(this.roleName=="Master Admin"){
+            this.data=res.data;
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if(this.roleName=="Site Admin"){
+            this.data=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
@@ -122,10 +140,25 @@ export class UnitNumberListComponent implements OnInit {
     this.service.getAllUnitNumber()
       .subscribe({
         next: (res) => {
-          this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
-          this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+
+          if(this.roleName=="Master Admin"){
+            this.data=res.data;
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if(this.roleName=="Site Admin"){
+            this.data=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+            this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")

@@ -9,7 +9,7 @@
                         <mat-select formControlName="clientId" placeholder="Organization"
                         (selectionChange)="onOrganizationChange()">
                             <mat-option *ngFor="let org of orgList"
-                                [value]="org.organizationName">{{org.organizationName}}</mat-option>
+                                [value]="org.id">{{org.organizationName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('clientId')?.hasError('required')">
                             Organization Type is <strong>required</strong>
@@ -18,7 +18,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Select State</mat-label>
                         <mat-select formControlName="stateId" placeholder="State" (selectionChange)="onStateChange()">
-                            <mat-option *ngFor="let state of stateList" [value]="state.name">{{state.name}}</mat-option>
+                            <mat-option *ngFor="let state of stateList" [value]="state.id">{{state.name}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('stateId')?.hasError('required')">
                             State Name is <strong>required</strong>
@@ -39,7 +39,7 @@
                         <mat-label>Select Country</mat-label>
                         <mat-select formControlName="countryId" placeholder="Country" (selectionChange)="onCountryChange()">
                             <mat-option *ngFor="let country of countryList"
-                                [value]="country.countryName">{{country.countryName}}</mat-option>
+                                [value]="country.id">{{country.countryName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('countryId')?.hasError('required')">
                             Country is <strong>required</strong>
@@ -50,7 +50,7 @@
                         <mat-label>Select City</mat-label>
                         <mat-select formControlName="cityId" placeholder="City">
                             <mat-option *ngFor="let city of cityList"
-                                [value]="city.cityName">{{city.cityName}}</mat-option>
+                                [value]="city.id">{{city.cityName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('cityId')?.hasError('required')">
                             City Name is <strong>required</strong>

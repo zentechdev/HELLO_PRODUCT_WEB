@@ -47,7 +47,7 @@ export class CountryComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['clientId'].setValue(this.editData.clientName);
+      this.formGroup.controls['clientId'].setValue(this.editData.clientId);
       this.formGroup.controls['countryName'].setValue(this.editData.countryName);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
@@ -91,18 +91,14 @@ export class CountryComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.orgList.length; i++) {
-      if (this.orgList[i].organizationName == this.formGroup.value.clientId) {
-        this.clientId = this.orgList[i].id;
-      }
-    }
-
     let formGroup = {
-      "clientId": this.clientId,
+      "clientId": this.formGroup.value.clientId,
       "name": this.formGroup.value.countryName,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy
     }
+
+    debugger
 
     if (!this.editData) {
       if (this.formGroup.valid) {

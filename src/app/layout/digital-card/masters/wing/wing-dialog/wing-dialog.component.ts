@@ -32,6 +32,7 @@ siteName: any;
 isActive: any;
   wingId: any;
   wingList: any;
+  roleName: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: WingService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<WingDialogComponent>) { this.dialogRef.disableClose = true }
@@ -47,9 +48,18 @@ isActive: any;
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
 
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = this.storageEncryptionService.decryptData(siteId);
+
+    const roleName = String(localStorage.getItem("roleName"));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
+
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['siteName'].setValue(this.editData.siteName);
+      this.formGroup.controls['siteName'].setValue(this.editData.siteId);
       this.formGroup.controls['name'].setValue(this.editData.name);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
@@ -77,7 +87,15 @@ isActive: any;
     this.service.getSiteDetails()
       .subscribe({
         next: (res) => {
-          this.siteList = res.data;
+          if(this.roleName=="Master Admin"){
+            this.siteList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -95,20 +113,8 @@ isActive: any;
       }
     }
 
-    for (var i = 0; i < this.siteList.length; i++) {
-      if (this.siteList[i].siteName == this.formGroup.value.siteName) {
-        this.siteId = this.siteList[i].id;
-      }
-    }
-
-    // for (var i = 0; i < this.wingList.length; i++) {
-    //   if (this.wingList[i].wingName == this.formGroup.value.wingName) {
-    //     this.wingId = this.wingList[i].wingId;
-    //   }
-    // }
-
     let formGroup = {
-      "siteId": this.siteId,
+      "siteId": this.formGroup.value.siteName,
       "name":this.formGroup.value.name,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy

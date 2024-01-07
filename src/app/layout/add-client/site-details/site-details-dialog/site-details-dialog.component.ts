@@ -114,10 +114,10 @@ export class SiteDetailsDialogComponent implements OnInit {
   }
 
   populateFormControls() {
-    this.formGroup.controls['clientId'].setValue(this.editData.organisationName);
-    this.formGroup.controls['countryId'].setValue(this.editData.countryName);
-    this.formGroup.controls['stateId'].setValue(this.editData.stateName);
-    this.formGroup.controls['cityId'].setValue(this.editData.cityName);
+    this.formGroup.controls['clientId'].setValue(this.editData.clientId);
+    this.formGroup.controls['countryId'].setValue(this.editData.countryId);
+    this.formGroup.controls['stateId'].setValue(this.editData.stateId);
+    this.formGroup.controls['cityId'].setValue(this.editData.cityId);
     this.formGroup.controls['siteName'].setValue(this.editData.siteName);
     this.formGroup.controls['isActive'].setValue(this.editData.isActive);
   }
@@ -185,7 +185,7 @@ export class SiteDetailsDialogComponent implements OnInit {
     const client = this.formGroup.get('clientId')?.value;
   
     if (client) { // Fix: Check if client is truthy, not this.client
-      this.countryList = this.countryMainList.filter((item: any) => item.clientName === client);
+      this.countryList = this.countryMainList.filter((item: any) => item.clientId === client);
       this.formGroup.get('countryId')?.enable(); 
     } else {
       // Reset the countryList and disable the country dropdown
@@ -196,11 +196,12 @@ export class SiteDetailsDialogComponent implements OnInit {
   }
   
   onCountryChange() {
+
     const country = this.formGroup.get('countryId')?.value;
     const client = this.formGroup.get('clientId')?.value;
   
     if (country && client) { // Fix: Check if country and client are truthy, not this.country
-      this.stateList = this.stateMainList.filter((item: any) => item.country === country && item.clientName === client);
+      this.stateList = this.stateMainList.filter((item: any) => item.countryId === country && item.clientId === client);
       this.formGroup.get('stateId')?.enable(); 
     } else {
       // Reset the stateList and disable the state dropdown
@@ -216,7 +217,7 @@ export class SiteDetailsDialogComponent implements OnInit {
     const client = this.formGroup.get('clientId')?.value;
   
     if (country && state && client) { // Fix: Check if country, state, and client are truthy, not this.state
-      this.cityList = this.cityMainList.filter((item: any) => item.countryName === country && item.stateName === state && item.clientName === client);
+      this.cityList = this.cityMainList.filter((item: any) => item.countryId === country && item.stateId === state && item.clientId === client);
       this.formGroup.get('cityId')?.enable(); 
     } else {
       // Reset the cityList and disable the city dropdown
@@ -235,35 +236,11 @@ export class SiteDetailsDialogComponent implements OnInit {
       }
     }
 
-    for (var i = 0; i < this.countryList.length; i++) {
-      if (this.countryList[i].countryName == this.formGroup.get('countryId')?.value) {
-        this.countryId = this.countryList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.stateList.length; i++) {
-      if (this.stateList[i].name == this.formGroup.get('stateId')?.value) {
-        this.stateId = this.stateList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.cityList.length; i++) {
-      if (this.cityList[i].cityName == this.formGroup.get('cityId')?.value) {
-        this.cityId = this.cityList[i].id;
-      }
-    }
-
-    for (var i = 0; i < this.orgList.length; i++) {
-      if (this.orgList[i].organizationName == this.formGroup.value.clientId) {
-        this.clientId = this.orgList[i].id;
-      }
-    }
-
     let formData = {
-      "clientId": this.clientId,
-      "countryId":this.countryId,
-      "stateId":this.stateId,
-      "cityId":this.cityId,
+      "clientId": this.formGroup.value.clientId,
+      "countryId":this.formGroup.get('countryId')?.value,
+      "stateId":this.formGroup.get('stateId')?.value,
+      "cityId":this.formGroup.get('cityId')?.value,
       "siteName":this.formGroup.value.siteName,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy

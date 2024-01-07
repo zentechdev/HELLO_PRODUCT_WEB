@@ -185,7 +185,7 @@ export class ParkingNumberDialogComponent implements OnInit {
       "createdBy":this.formGroup.value.createdBy
     }
 
-    debugger;
+;
 
     if (!this.editData) {
       if (this.formGroup.valid) {

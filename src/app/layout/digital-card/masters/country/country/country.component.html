@@ -8,7 +8,7 @@
                         <mat-label>Select Organization</mat-label>
                         <mat-select formControlName="clientId" placeholder="Organization" (change)="getAllOrganisation()">
                             <mat-option *ngFor="let org of orgList"
-                                [value]="org.organizationName">{{org.organizationName}}</mat-option>
+                                [value]="org.id">{{org.organizationName}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('clientId')?.hasError('required')">
                             Organization Type is <strong>required</strong>

@@ -164,7 +164,7 @@ export class VisitorDetailsComponent implements OnInit {
   }
  
   getAllNonInvitedVisitor(siteId: number) {
-    debugger
+
     this.service.getAllNonInvitedVisitor(siteId)
       .subscribe({
         next: (res) => {
