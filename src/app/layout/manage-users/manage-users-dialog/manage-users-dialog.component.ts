@@ -66,7 +66,7 @@ export class ManageUsersDialogComponent implements OnInit {
       statusId: ['', Validators.required],
       roleId: ['', Validators.required],
       unitId: ['', Validators.required],
-      rfid:[''],
+      rfid: [''],
       // employeeTechAccessId: ['', Validators.required],
       memberName: ['', Validators.required],
       mobileNumber: ['', Validators.required],
@@ -193,27 +193,27 @@ export class ManageUsersDialogComponent implements OnInit {
       });
   }
 
-  getAllAvailableRFID(){
+  getAllAvailableRFID() {
     this.service.getAllAvailableRFID()
-    .subscribe({
-      next :(res)=>{
-        if (this.roleName == "Master Admin") {
-          this.rfidList = res.data;
+      .subscribe({
+        next: (res) => {
+          if (this.roleName == "Master Admin") {
+            this.rfidList = res.data;
+          }
+          else if (this.roleName == "Super Admin") {
+            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId);
+          }
+          else if (this.roleName == "Site Admin") {
+            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
+          }
+          else if (this.roleName == "Unit Admin") {
+            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId);
+          }
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!");
         }
-        else if (this.roleName == "Super Admin") {
-          this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId);
-        }
-        else if (this.roleName == "Site Admin") {
-          this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
-        }
-        else if (this.roleName == "Unit Admin") {
-          this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId);
-        }
-      },
-      error :(res)=>{
-        this.alertify.error("Error While fetching The Records!!");
-      }
-    })
+      })
   }
 
   getAllUnit() {
@@ -310,7 +310,7 @@ export class ManageUsersDialogComponent implements OnInit {
     formData.append("genderId", this.genderId);
     formData.append("unitId", this.formGroup.get('unitId')?.value);
     formData.append("employeeTechAccessId", this.employeeTechAccessId);
-    formData.append("rfidId", this.formGroup.value.rfidId);
+    formData.append("rfidId", this.formGroup.value.rfid);
     formData.append("memberName", this.formGroup.value.memberName);
     formData.append("mobileNumber", this.formGroup.value.mobileNumber);
     formData.append("email", this.formGroup.value.email);
