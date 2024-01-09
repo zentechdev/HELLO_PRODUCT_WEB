@@ -98,8 +98,6 @@ export class CountryComponent implements OnInit {
       "createdBy":this.formGroup.value.createdBy
     }
 
-    debugger
-
     if (!this.editData) {
       if (this.formGroup.valid) {
         this.service.postCountry(formGroup)

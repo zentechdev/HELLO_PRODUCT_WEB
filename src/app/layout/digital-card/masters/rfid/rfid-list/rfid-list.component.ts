@@ -41,6 +41,7 @@ export class RfidListComponent implements OnInit {
   clientId: any;
   siteId: any;
   rfidData: any;
+  roleName: any;
 
   
 
@@ -52,8 +53,14 @@ export class RfidListComponent implements OnInit {
       isActiveId: ['']
     })
 
-    const clientId = String(localStorage.getItem("siteId"));
-    this.clientId = this.storageEncryptionService.decryptData(clientId);
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
+
+    const roleName = String(localStorage.getItem("roleName"));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
 
     // // Conversion of string array to number array
     // const stringArrayAction: string[] = this.actionName;
@@ -115,12 +122,25 @@ export class RfidListComponent implements OnInit {
 
   getAllRFID(): void {
     this.service.getAllRFID().subscribe(
-      (data) => {
-        this.data=data.data
-        this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        console.log(this.data)
+      (res) => {
+        if(this.roleName=="Master Admin"){
+          this.data=res.data;
+          this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+        else if(this.roleName=="Super Admin"){
+          this.data=res.data.filter((item:any)=>item.clientId == this.clientId);
+          this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+        else if(this.roleName=="Site Admin"){
+          this.data=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
       },
       (error) => {
         console.error('Error fetching RFID data:', error);

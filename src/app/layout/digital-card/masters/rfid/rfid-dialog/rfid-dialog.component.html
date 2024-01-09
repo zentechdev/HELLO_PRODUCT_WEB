@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-    <h3 mat-dialog-title><b>WING</b></h3>
+    <h3 mat-dialog-title><b>RFID</b></h3>
     <div class="container mb-5">
         <form [formGroup]="formGroup">
             <div class="row">
@@ -7,16 +7,27 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Site Name</mat-label>
                         <mat-select formControlName="siteName" placeholder="Site Name">
-                          <mat-option *ngFor="let site of siteList" [value]="site.siteName">
+                          <mat-option *ngFor="let site of siteList" [value]="site.id">
                             {{ site.siteName }}
                           </mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('siteName')?.hasError('required')">
                           Site Name is <strong>required</strong>
                         </mat-error>
-                      </mat-form-field>
-                      
-                      
+                      </mat-form-field>    
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Unit</mat-label>
+                        <mat-select formControlName="unitId" placeholder="Unit Name">
+                          <mat-option *ngFor="let unit of unitList" [value]="unit.id">
+                            {{ unit.name }} - {{unit.siteName}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="formGroup.get('unitId')?.hasError('required')">
+                            Unit Name is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>    
                 </div>
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">

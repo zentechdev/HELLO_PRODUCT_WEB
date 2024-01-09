@@ -38,7 +38,7 @@ export class OrganizationDialogComponent implements OnInit {
       orgnisationTypeId: ['', Validators.required],
       visitorTechTypeId: ['', Validators.required],
       employeeTechTypeId: ['', Validators.required],
-      logo: ['', Validators.required],
+      logo: [''],
       isActive: ['', Validators.required],
     })
 
@@ -186,7 +186,6 @@ export class OrganizationDialogComponent implements OnInit {
 
 
   putData(formGroup: any) {
-    
     if (this.formGroup.valid) {
       this.service.putOrganizationDetails(formGroup, this.editData.id)
         .subscribe({

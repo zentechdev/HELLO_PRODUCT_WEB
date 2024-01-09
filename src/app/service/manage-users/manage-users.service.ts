@@ -14,6 +14,10 @@ export class ManageUsersService {
     return this.http.get<any>(`${baseUrl}/api/Status/getIsActive`);
   }
 
+  getAllAvailableRFID(){
+    return this.http.get<any>(`${baseUrl}/api/RFID/getAllAvailableRFID`);
+  }
+
   getAllUnit() {
     return this.http.get<any>(`${baseUrl}/api/Unit/getAllUnit`);
   }

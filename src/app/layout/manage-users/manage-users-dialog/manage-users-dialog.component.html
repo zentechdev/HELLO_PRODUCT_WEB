@@ -7,7 +7,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Site Name</mat-label>
                         <mat-select formControlName="siteId" placeholder="Site Name">
-                            <mat-option *ngFor="let site of siteList" [value]="site.siteName">
+                            <mat-option *ngFor="let site of siteList" [value]="site.id">
                                 {{ site.siteName }}
                             </mat-option>
                         </mat-select>
@@ -15,16 +15,14 @@
                             Site Name is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
-
-
                 </div>
 
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Unit Name</mat-label>
                         <mat-select formControlName="unitId" placeholder="Unit Name">
-                            <mat-option *ngFor="let unit of unitList" [value]="unit.name">
-                                {{ unit.name }}
+                            <mat-option *ngFor="let unit of unitList" [value]="unit.id">
+                                {{ unit.name }} - {{siteName}}
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('unitId')?.hasError('required')">
@@ -63,7 +61,6 @@
                             Email <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
-
                 </div>
 
                 <div class="col-md-6">
@@ -81,9 +78,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Gender Name</mat-label>
                         <mat-select formControlName="genderId" placeholder="Gender Name">
-                            <mat-option value="Male">Male</mat-option>
-                            <mat-option value="Female">Female</mat-option>
-                            <mat-option value="Others">Others</mat-option>
+                            <mat-option *ngFor="let gen of genderList" [value]="gen.gender">{{gen.gender}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('genderId')?.hasError('required')">
                             Gender Name is <strong>required</strong>
@@ -126,6 +121,18 @@
                             Role Name is <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
+                </div>
+
+                <div class="col-md-6" *ngIf="employeeTechAccessId==5">
+                   <mat-form-field appearance="outline">
+                    <mat-label>Select RFID</mat-label>
+                    <mat-select formControlName="rfid" placeholder="Select RFID">
+                        <mat-option *ngFor="let rfid of rfidList" [value]="rfid.id">{{rfid.rfidNumber}} - {{rfid.siteName}} - {{rfid.unitName}} </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formGroup.get('rfid')?.hasError('required')">
+                        Role Name is <strong>required</strong>
+                    </mat-error>
+                   </mat-form-field>
                 </div>
 
                 <!-- <div class="col-md-6">

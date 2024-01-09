@@ -17,15 +17,9 @@ export class RfidService {
   getSiteDetails(){
     return this.http.get<any>(`${baseUrl}/api/SiteDetails/getAllSiteDetails`);
   }
-  
 
-
-  // getAllRfidBySiteId(siteId: any){
-  //   return this.http.get<any>(`${baseUrl}/api/RFID/getAllRFIDBySiteId/` +siteId);
-  // }
-
-  getAllRfidBySiteId(siteId: any){
-    return this.http.get<any>(`${baseUrl}/api/RFID/getAllRFIDBySiteId/` + siteId);
+  getAllUnit() {
+    return this.http.get<any>(`${baseUrl}/api/Unit/getAllUnit`);
   }
 
   getAllRFID(){

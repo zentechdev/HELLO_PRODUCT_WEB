@@ -6,7 +6,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { InquiryOrgnizationService } from 'src/app/service/client-details/inquiry-orgnization.service';
 import { SiteDetailsDialogComponent } from '../site-details-dialog/site-details-dialog.component';
 import { SiteDetailsService } from 'src/app/service/client-details/site-details.service';
 
@@ -44,10 +43,10 @@ export class SiteDetailsListComponent implements OnInit {
     })
 
     const clientId = String(localStorage.getItem("clientId"));
-    this.clientId = this.storageEncryptionService.decryptData(clientId);
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
 
     const siteId = String(localStorage.getItem("siteId"));
-    this.siteId = this.storageEncryptionService.decryptData(siteId);
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
 
     const roleName = String(localStorage.getItem("roleName"));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
@@ -124,7 +123,7 @@ export class SiteDetailsListComponent implements OnInit {
             this.dataSource.sort = this.sort;
           }
           else if(this.roleName=="Site Admin"){
-            this.data=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+            this.data=res.data.filter((item:any)=>item.clientId == this.clientId && item.id == this.siteId);
             this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;

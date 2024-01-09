@@ -46,10 +46,10 @@ export class FloorListComponent implements OnInit {
     })
 
     const clientId = String(localStorage.getItem("clientId"));
-    this.clientId = this.storageEncryptionService.decryptData(clientId);
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
 
     const siteId = String(localStorage.getItem("siteId"));
-    this.siteId = this.storageEncryptionService.decryptData(siteId);
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
 
     const roleName = String(localStorage.getItem("roleName"));
     this.roleName = this.storageEncryptionService.decryptData(roleName);

@@ -6,7 +6,6 @@ import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { UnitService } from 'src/app/service/masters/unit.service';
 import { RfidUnitService } from 'src/app/service/rfid-details/rfid-unit.service';
 
 @Component({
@@ -127,6 +126,7 @@ export class UnitRfidDialogComponent implements OnInit {
         }
       });
   }
+
 
   getAllUnit() {
     this.service.getAllUnit()

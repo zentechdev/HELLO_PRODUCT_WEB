@@ -35,6 +35,8 @@ isActive: any;
   wingList: any;
   id: any;
   rfidNumber: any;
+  roleName: any;
+  unitList: any;
 
 
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: RfidService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<RfidDialogComponent>) { this.dialogRef.disableClose = true }
@@ -43,6 +45,7 @@ isActive: any;
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       siteName:['', Validators.required],
+      unitId:['',Validators.required],
       rfidNumber: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
@@ -51,17 +54,40 @@ isActive: any;
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
 
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
+
+    const roleName = String(localStorage.getItem("roleName"));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
+
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['siteName'].setValue(this.editData.siteName);
+      this.formGroup.controls['siteName'].setValue(this.editData.siteId);
+      this.formGroup.controls['unitId'].setValue(this.editData.unitId);
       this.formGroup.controls['rfidNumber'].setValue(this.editData.rfidNumber);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
+    if (this.roleName == "Master Admin") {
+
+    } else if (this.roleName == "Super Admin") {
+
+    } else if (this.roleName == "Site Admin") {
+      this.formGroup.controls['siteName'].setValue(this.siteId);
+      this.formGroup.get('siteName')?.disable();
+    }
+    else if (this.roleName == "Unit Admin") {
+      this.formGroup.controls['siteName'].setValue(this.siteId);
+      this.formGroup.get('siteName')?.disable();
+    }
+
     this.getIsActive();
     this.getSiteDetails();
-
+    this.getAllUnit();
   }
 
 
@@ -81,7 +107,35 @@ isActive: any;
     this.service.getSiteDetails()
       .subscribe({
         next: (res) => {
-          this.siteList = res.data;
+          if(this.roleName=="Master Admin"){
+            this.siteList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId && item.id == this.siteId);
+          }
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!");
+        }
+      });
+  }
+
+  getAllUnit() {
+    this.service.getAllUnit()
+      .subscribe({
+        next: (res) => {
+          if(this.roleName=="Master Admin"){
+            this.unitList=res.data;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.unitList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          }
+          else if(this.roleName=="Site Admin"){
+            this.unitList=res.data.filter((item:any)=>item.clientId == this.clientId && item.id == this.siteId);
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -97,21 +151,9 @@ isActive: any;
       }
     }
 
-    for (var i = 0; i < this.siteList.length; i++) {
-      if (this.siteList[i].siteName == this.formGroup.value.siteName) {
-        this.siteId = this.siteList[i].id;
-      }
-    }
-
-    // for (var i = 0; i < this.wingList.length; i++) {
-    //   if (this.wingList[i].wingName == this.formGroup.value.wingName) {
-    //     this.wingId = this.wingList[i].wingId;
-    //   }
-    // }
-
     let formGroup = {
-      "siteId": this.siteId,
-      // "name":this.formGroup.value.name,
+      "siteId": this.formGroup.value.siteName,
+      "unitId":this.formGroup.value.unitId,
       "rfidNumber":this.formGroup.value.rfidNumber,
       "isActiveId": this.isActiveId,
       "createdBy":this.formGroup.value.createdBy
