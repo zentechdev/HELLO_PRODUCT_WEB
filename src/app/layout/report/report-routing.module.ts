@@ -6,10 +6,10 @@ import { VisitingCardShareDialogComponent } from './visiting-card/visiting-card-
 import { VisitingCardShareListComponent } from './visiting-card/visiting-card-share/visiting-card-share-list/visiting-card-share-list.component';
 import { AppDownloadListComponent } from './app-download/app-download-list/app-download-list.component';
 import { BookingReportComponent } from './booking-report/booking-report.component';
-import { VisitorDetailsComponent } from './visitor/visitor-details/visitor-details.component';
 import { VisitingCardExternalListComponent } from './visiting-card/visiting-card-external-share/visiting-card-external-list/visiting-card-external-list.component';
-import { VisitorDetailsDialogComponent } from './visitor/visitor-details-dialog/visitor-details-dialog.component';
 import { BrochureShareReportComponent } from './brochure-share-report/brochure-share-report/brochure-share-report.component';
+import { WalkInVisitorComponent } from './visitor/walk-in-visitor/walk-in-visitor.component';
+import { InvitedVisitorComponent } from './visitor/invited-visitor/invited-visitor.component';
 
 const routes: Routes = [
   {path:'visiting-card-scan-dialog',component:VisitingCardScanDialogComponent},
@@ -19,10 +19,9 @@ const routes: Routes = [
   {path:'visiting-card-share-dialog',component:VisitingCardShareDialogComponent},
   {path:'app-download',component:AppDownloadListComponent},
   {path:'booking-report', component:BookingReportComponent},
-  {path:'visitor-details', component:VisitorDetailsComponent},
-  {path:'visitor-details-dialog', component:VisitorDetailsDialogComponent},
   {path:'brochure-share-report', component:BrochureShareReportComponent},
-  
+  {path:'walk-in-visitor',component:WalkInVisitorComponent},
+  {path:'invited-visitor',component:InvitedVisitorComponent}
 ];
 
 @NgModule({

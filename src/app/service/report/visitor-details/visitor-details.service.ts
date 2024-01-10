@@ -9,33 +9,16 @@ export class VisitorDetailsService {
  
   constructor(private http:HttpClient) { }
  
-  checkOut(mobileNumber:String,data:any){
-    return this.http.put<any>(`${baseUrl}/api/Visitor/putCheckOutStatus/`+mobileNumber,data)
+  checkOut(mobileNumber:string,data:any){
+    return this.http.put<any>(`${baseUrl}/api/Visitors/putCheckOutStatus/`+mobileNumber,data)
   }
  
-  getAllInvitedVisitor() {
-    return this.http.get<any>(`${baseUrl}/api/InviteVisitor/getTodayInviteVisitor`)
-  }
- 
-  getAllNonInvitedVisitor(siteId:any) {
-    return this.http.get<any>(`${baseUrl}/api/Visitors/getTodayVisitor/`+siteId)
-   
-  }
- 
-  getInvitedVisitorByDateRange(data:any){
-    return this.http.post<any>(`${baseUrl}/api/Visitor/getInviteVisitorByDateRange/`,data)
+  getAllTodaysVisitor() {
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getTodayVisitor/`)
   }
  
   getNonInvitedVisitorByDateRange(data:any){
     return this.http.post<any>(`${baseUrl}/api/Visitors/getVisitorByDateRange/`,data)
   }
- 
-  getTodayInvitedVisitorByBranchId(branchId:Number){
-    return this.http.get<any>(`${baseUrl}/api/Visitors/getVisitorByDateRange/`+branchId)
-  }
- 
-  getTodayNonInviteVisitorByBranchId(branchId:Number){
-    return this.http.get<any>(`${baseUrl}/api/Visitors/getTodayVisitor/`+branchId)
-  }
- 
+
 }

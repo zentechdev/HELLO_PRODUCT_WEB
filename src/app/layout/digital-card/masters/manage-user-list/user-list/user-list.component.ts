@@ -37,6 +37,10 @@ export class UserListComponent implements OnInit {
   branchList: any;
   filteredBranches: any;
   branchId: any;
+  clientId!: number;
+  siteId!: number;
+  unitId!: number;
+  roleName: any;
  
   filterBranches(event: any) {
     const searchText = event.target.value.toLowerCase();
@@ -48,78 +52,29 @@ export class UserListComponent implements OnInit {
  
   async ngOnInit(): Promise<void> {
  
-    // this.formGroup = this.formBuilder.group({
-    //   // isActiveId:[''],
-    //   memberId:['']
-    // })
- 
-    // const branchList = String(localStorage.getItem('branchList'));
-    // this.branchList = this.storageEncryptionService.decryptData(branchList);
- 
-    // const actionName = String(localStorage.getItem('actionName'));
-    // this.actionName = this.storageEncryptionService.decryptData(actionName);
- 
-    // const encryptedData = String(localStorage.getItem('employeeCode'));
-    // let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
- 
-    // this.getAllBranchByEmployeeCode(employeeCode);
- 
-    // Conversion of string array to number array
-    // const stringArrayAction: string[] = this.actionName;
-    // const numberArrayAction: string[] = stringArrayAction[0].split(',');
- 
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Insert'){
-    //     this.Insert = true;
-    //   }
-    // }
- 
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Update'){
-    //     this.Update = true;
-    //   }
-    // }
- 
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Delete'){
-    //     this.Delete = true;
-    //   }
-    // }
- 
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Select'){
-    //     this.Select = true;
-    //   }
-    // }
  
     await Promise.all([
     this.getAllEmployeeDetail(),
-    // this.getAllStatus(),
- 
     ])
+
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
+
+    const unitId = String(localStorage.getItem("unitId"));
+    this.unitId = Number(this.storageEncryptionService.decryptData(unitId));
+
+    const roleName = String(localStorage.getItem('roleName'));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
   }
  
   showAllBranches() {
     this.filteredBranches = this.branchList;
   }
  
- 
-  // selectStatus(event: any) {
- 
-  //   const value = this.formGroup.value.isActiveId;
-  //   if(value == 0){
-  //     this.value = this.data;
-  //     this.dataSource = new MatTableDataSource(this.value);
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.data = this.value;
-  //   }
-  //   else{
-  //     this.value = this.data.filter((item: any) => item.isActive === value);
-  //     this.dataSource = new MatTableDataSource(this.value);
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.data = this.value;
-  //   }
-  // }
+
  
   selectBranch(event: any) {
     this.value = this.formGroup.value.memberId;
@@ -148,10 +103,28 @@ export class UserListComponent implements OnInit {
     this.service.getAllEmployeeDetail()
       .subscribe({
         next: (res) => {    
-          this.data=res.data;
-          this.dataSource = new MatTableDataSource(this.data);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          if(this.roleName=="Master Admin"){
+            this.data = res.data;
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.roleName=='Super Admin'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if(this.roleName=="Super Admin"){
+            this.data = res.data;
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.clientId == this.clientId && item.roleName=='Site Admin'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }else if(this.roleName=="Site Admin"){
+            this.data = res.data;
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active'  && item.clientId == this.clientId && item.siteId == this.siteId && item.roleName=='Unit Admin'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }else if(this.roleName=="Unit Admin"){
+            this.data = res.data;
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId &&  item.roleName=='Employee'));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")

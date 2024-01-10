@@ -15,15 +15,15 @@ import { debounceTime, map, startWith } from 'rxjs';
   styleUrls: ['./attendance-list.component.css']
 })
 export class AttendanceListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'branchName', 'ipAddress', 'portNumber', 'employeeCode', 'employeeName', 'employeeType', 'entryExitType', 'eventDateTime'];
-  // displayedColumns: string[] = ['visitorId', 'visitorName', 'mobileNumber', 'emailId', 'location', 'branchName', 'departmentName', 'actions',];
+  displayedColumns: string[] = ['id', 'siteName', 'ipAddress', 'portNumber', 'employeeCode', 'employeeName', 'employeeType', 'entryExitType', 'eventDateTime'];
+
   dataSource!: MatTableDataSource<any>;
   data1: any[] = [];
   formGroup!: FormGroup;
   formGroup1!: FormGroup;
   ArrayList: any[] = [];
 
-  @ViewChild('paginator') paginator!: MatPaginator; // Assuming you have a paginator element with the template reference variable 'paginator'
+  @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild('paginator1') paginator1!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatSort) sort1!: MatSort;
@@ -39,29 +39,16 @@ export class AttendanceListComponent implements OnInit {
   filteredBranches: any;
   options: any;
   finaldata: any;
-  // formGroup2: any;
+  clientId!: number;
+  siteId!: number;
+  unitId!: number;
+  roleName: any;
 
-  // filterBranches(event: any) {
-  //   const searchText = event.target.value.toLowerCase();
-  //   this.filteredBranches = this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
-  //     return branch.branchName.toLowerCase().includes(searchText) || branch.stateName.toLowerCase().includes(searchText);
-  //   });
-  // }
-  
   constructor(private storageEncryptionService: StorageEncryptionService, private _formBuilder: FormBuilder, private alertify: AlertifyService, private service: AttendanceService) {
-    // this.service.getAllEmployee().subscribe(item => {
-    //   this.options = item;
-    // })
+
   }
 
   async ngOnInit(): Promise<void> {
-    // this.formGroup = this._formBuilder.group({
-    //   branchId: ['']
-    // })
-
-
-    this.getAllTodaysAttendance();
-    // this.getAllAvilableEmployee();
 
     this.formGroup = await this._formBuilder.group({
       DatePicker1: [''],
@@ -70,39 +57,38 @@ export class AttendanceListComponent implements OnInit {
       employeeCode: []
     })
 
-    // this.finaldata = this.formGroup.get("employeeCode")?.valueChanges.pipe(
-    //   debounceTime(500),
-    //   startWith(''),
-    //   map((item: any) => {
-    //     const employeeCode = item;
-    //     return employeeCode ? this._filter(employeeCode as number) : this.options
-    //   })
-    // )
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
 
-    // const branchList = String(localStorage.getItem('branchList'));
-    // this.branchList = this.storageEncryptionService.decryptData(branchList);
-    // const actionName = String(localStorage.getItem('actionName'));
-    // this.actionName = this.storageEncryptionService.decryptData(actionName);
-    // const encryptedData = String(localStorage.getItem('employeeCode'));
-    // let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
+
+    const unitId = String(localStorage.getItem("unitId"));
+    this.unitId = Number(this.storageEncryptionService.decryptData(unitId));
+
+    const roleName = String(localStorage.getItem('roleName'));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
+
+    this.getAllTodaysAttendance();
+
   }
-
-  // private _filter(employeeCode: number): Employee[] {
-
-  //   const filterValue = employeeCode.toString();
-
-  //   return this.options.filter((opt: { employeeCode: { toString: () => string | string[]; }; }) => opt.employeeCode.toString().includes(filterValue));
-
-  // }
   
   getAllTodaysAttendance() {
     this.service.getAllTodaysAttendance()
       .subscribe({
         next: (res) => {
-          this.data = res;
-          this.dataSource = new MatTableDataSource(res);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          if(this.roleName=="Master Admin"){
+            this.data = res;
+            this.dataSource = new MatTableDataSource(res);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else{
+            this.data = res;
+            this.dataSource = new MatTableDataSource(res.filter((item:any)=>item.siteId==this.siteId));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
         },
         error: (res) => {
 
@@ -123,10 +109,18 @@ export class AttendanceListComponent implements OnInit {
       this.service.getAllAttendanceByDateRange(queryParams)
         .subscribe({
           next: (res) => {
-            this.data = res;
-            this.dataSource = new MatTableDataSource(res);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+            if(this.roleName=="Master Admin"){
+              this.data = res;
+              this.dataSource = new MatTableDataSource(res);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+            else{
+              this.data = res;
+              this.dataSource = new MatTableDataSource(res.filter((item:any)=>item.siteId==this.siteId));
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
           },
           error: (res) => {
             this.alertify.error("Error While fetching The Records!!")

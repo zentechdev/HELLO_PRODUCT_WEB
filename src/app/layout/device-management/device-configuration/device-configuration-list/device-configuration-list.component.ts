@@ -35,13 +35,10 @@ displayedColumns: string[] = ['id','siteId','siteName','cardReaderIp','portNumbe
   branchList: any;
   filteredBranches: any;
   branchId: any;
-
-  // filterBranches(event: any) {
-  //   const searchText = event.target.value.toLowerCase();
-  //   this.filteredBranches = this.branchList.filter((branch: { branchName: string; stateName: string; }) => {
-  //     return branch.branchName.toLowerCase().includes(searchText) || branch.stateName.toLowerCase().includes(searchText);
-  //   });
-  // }
+  clientId!: number;
+  siteId!: number;
+  unitId!: number;
+  roleName: any;
 
   constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service:DeviceConfigurationService, private alertify: AlertifyService, public dialog: MatDialog) { }
 
@@ -54,58 +51,24 @@ displayedColumns: string[] = ['id','siteId','siteName','cardReaderIp','portNumbe
     })
 
     
-    // const branchList = String(localStorage.getItem('branchList'));
-    // this.branchList = this.storageEncryptionService.decryptData(branchList);
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
 
-    // const actionName = String(localStorage.getItem('actionName'));
-    // this.actionName = this.storageEncryptionService.decryptData(actionName);
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
 
-    // const encryptedData = String(localStorage.getItem('employeeCode'));
-    // let employeeCode = this.storageEncryptionService.decryptData(encryptedData);
+    const unitId = String(localStorage.getItem("unitId"));
+    this.unitId = Number(this.storageEncryptionService.decryptData(unitId));
+
+    const roleName = String(localStorage.getItem('roleName'));
+    this.roleName = this.storageEncryptionService.decryptData(roleName);
 
     await Promise.all([
       this.getAllDeviceDetails(),
       this.getAllStatus()
     ]);
 
-    // const stringArrayAction: string[] = this.actionName;
-    // const numberArrayAction: string[] = stringArrayAction[0].split(',');
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Insert'){
-    //     this.Insert = true;
-    //   }
-    // }
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Update'){
-    //     this.Update = true;
-    //   }
-    // }
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Delete'){
-    //     this.Delete = true;
-    //   }
-    // }
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Select'){
-    //     this.Select = true;
-    //   }
-    // }
   }
-
-  // openDialog() {
-  //   this.dialog.open(DeviceConfigurationDialogComponent, {
-  //     width: '100%',
-  //     disableClose:true
-  //   }).afterClosed().subscribe(val => {
-  //     if (val === 'SAVE') {
-  //       this.getState();
-  //     }
-  //   })
-  // }
 
   editData(row: any) {
     this.dialog.open(DeviceConfigurationDialogComponent, {
@@ -118,34 +81,6 @@ displayedColumns: string[] = ['id','siteId','siteName','cardReaderIp','portNumbe
       }
     })
   }
-
-  // showAllBranches() {
-  //   this.filteredBranches = this.branchList;
-  // }
-
-  
-
-  // selectBranch(event: any) {
-  //   if(this.formGroup.value.branchId == "None"){
-  //     this.value = this.data;
-  //     this.dataSource = new MatTableDataSource(this.value);
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.data = this.value;
-  //   }
-  //   else{
-  //     this.value = this.data.filter((item: any) => item.branchName === this.formGroup.value.branchId);
-  //     this.dataSource = new MatTableDataSource(this.value);
-  //     this.dataSource.paginator = this.paginator;
-  //     this.dataSource.data = this.value;
-
-  //     for(let i=0;i<this.branchList.length;i++){
-  //       if(this.branchList[i].branchName == this.formGroup.value.isActiveId){
-  //         let branchId = this.branchList[i].branchId;
-  //       }
-  //     }
-  //   }
-  // }
-
   
   selectStatus(event: any) {
     const value = this.formGroup.value.isActiveId;
@@ -167,10 +102,18 @@ displayedColumns: string[] = ['id','siteId','siteName','cardReaderIp','portNumbe
     this.service.getAllDeviceDetails()
       .subscribe({
         next: (res) => {
-          this.data=res;
-          this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          if(this.roleName=="Master Admin"){
+            this.data = res;
+            this.dataSource = new MatTableDataSource(res);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else{
+            this.data = res;
+            this.dataSource = new MatTableDataSource(res.filter((item:any)=>item.siteId==this.siteId));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")

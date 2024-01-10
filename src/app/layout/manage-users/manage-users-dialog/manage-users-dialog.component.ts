@@ -49,13 +49,15 @@ export class ManageUsersDialogComponent implements OnInit {
   employeeTechAccessId: any;
   roleName!: string;
   unitName: any;
+  rfidList: any;
+  isEmployeeTechAccessChecked!: boolean;
 
   genderList = [
     { id: 1, gender: 'Male' },
     { id: 2, gender: 'Female' },
     { id: 3, gender: 'Other' }
   ];
-  rfidList: any;
+  
 
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ManageUsersService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ManageUsersDialogComponent>) { this.dialogRef.disableClose = true }
 
@@ -77,6 +79,16 @@ export class ManageUsersDialogComponent implements OnInit {
       createdBy: ['']
     })
 
+    const employeeTechAccessId = String(localStorage.getItem('employeeTechAccessId'));
+    this.employeeTechAccessId = Number(this.storageEncryptionService.decryptData(employeeTechAccessId));
+
+    if(this.employeeTechAccessId==1){
+      this.isEmployeeTechAccessChecked=false;
+    }
+    else{
+      this.isEmployeeTechAccessChecked=true;
+    }
+
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
 
@@ -88,9 +100,6 @@ export class ManageUsersDialogComponent implements OnInit {
 
     const unitId = String(localStorage.getItem("unitId"));
     this.unitId = Number(this.storageEncryptionService.decryptData(unitId));
-
-    const employeeTechAccessId = String(localStorage.getItem('employeeTechAccessId'));
-    this.employeeTechAccessId = Number(this.storageEncryptionService.decryptData(employeeTechAccessId));
 
     const roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
@@ -120,6 +129,7 @@ export class ManageUsersDialogComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
+      this.isEmployeeTechAccessChecked=false;
       this.formGroup.controls['siteId'].setValue(this.editData.siteId);
       this.formGroup.controls['genderId'].setValue(this.editData.gender);
       this.formGroup.controls['roleId'].setValue(this.editData.roleName);

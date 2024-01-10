@@ -32,10 +32,12 @@ export class ManageUsersListComponent implements OnInit {
   isActiveList: any;
   value!: any[];
   actionName: any;
-  clientId: any;
+  clientId!: number;
   roleName: any;
   siteName: any;
   unitName: any;
+  siteId!: number;
+  unitId!: number;
 
   constructor(private formBuilder: FormBuilder, private storageEncryptionService: StorageEncryptionService, private service:ManageUsersService, private alertify: AlertifyService, public dialog: MatDialog) { }
 
@@ -44,45 +46,17 @@ export class ManageUsersListComponent implements OnInit {
       isActiveId: ['']
     })
 
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
+
+    const siteId = String(localStorage.getItem("siteId"));
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
+
+    const unitId = String(localStorage.getItem("unitId"));
+    this.unitId = Number(this.storageEncryptionService.decryptData(unitId));
+
     const roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
-
-    const siteName = String(localStorage.getItem('siteName'));
-    this.siteName = this.storageEncryptionService.decryptData(siteName);
-
-    const unitName = String(localStorage.getItem('unitName'));
-    this.unitName = this.storageEncryptionService.decryptData(unitName);
-
-    // const clientId = String(localStorage.getItem("siteId"));
-    // this.clientId = this.storageEncryptionService.decryptData(clientId);
-
-    // // Conversion of string array to number array
-    // const stringArrayAction: string[] = this.actionName;
-    // const numberArrayAction: string[] = stringArrayAction[0].split(',');
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Insert'){
-    //     this.Insert = true;
-    //   }
-    // }
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Update'){
-    //     this.Update = true;
-    //   }
-    // }
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Delete'){
-    //     this.Delete = true;
-    //   }
-    // }
-
-    // for(let i=0; i < numberArrayAction.length;i++){
-    //   if(numberArrayAction[i] == 'Select'){
-    //     this.Select = true;
-    //   }
-    // }
 
 
     await this.getAllMembers();
@@ -124,17 +98,17 @@ export class ManageUsersListComponent implements OnInit {
           }
           else if(this.roleName=="Super Admin"){
             this.data = res.data;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.siteName == this.siteName && item.roleName=='Site Admin'));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.clientId == this.clientId && item.roleName=='Site Admin'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }else if(this.roleName=="Site Admin"){
             this.data = res.data;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.siteName == this.siteName && item.roleName=='Unit Admin'));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active'  && item.clientId == this.clientId && item.siteId == this.siteId && item.roleName=='Unit Admin'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }else if(this.roleName=="Unit Admin"){
             this.data = res.data;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.unitName == this.unitName && item.siteName == this.siteName && item.roleName=='Employee'));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId &&  item.roleName=='Employee'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }

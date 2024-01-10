@@ -1,0 +1,167 @@
+<div class="container">
+    <div class="row">
+        <form [formGroup]="formGroup">
+            <div class="col-md-12 mb-3">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Filter</mat-label>
+                            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input
+                                autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- <mat-form-field appearance="outline">
+                        <mat-label>Search Branch</mat-label>
+                        <input matInput placeholder="Search Branches" formControlName="branchId"
+                            (input)="filterBranches($event)" (focus)="showAllBranches()" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectBranch($event)">
+                            <mat-option value="None">None</mat-option>
+                            <mat-option *ngFor="let branch of filteredBranches" [value]="branch.branchName">
+                                {{ branch.branchName }} || {{ branch.stateName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
+                        Branch Name is <strong>required</strong>
+                    </mat-error> -->
+                    </div>
+                    <div class="col-md-3" style="float:right ;">
+                        <mat-form-field floatLabel='never' appearance="outline">
+                            <mat-label>date range picker</mat-label>
+                            <mat-date-range-input [rangePicker]="rangePicker">
+                                <input matStartDate placeholder="Start date" formControlName="DatePicker1">
+                                <input matEndDate placeholder="End date" formControlName="DatePicker2">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="rangePicker">
+                            </mat-datepicker-toggle>
+                            <mat-date-range-picker #rangePicker>
+                                <mat-date-range-picker-actions>
+                                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                                    <button mat-raised-button color="primary" matDateRangePickerApply
+                                        (click)="dateEvent()">Apply</button>
+                                </mat-date-range-picker-actions>
+                            </mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 p-2">
+                        <button (click)="exporter.exportTable('xlsx')" class="btn_primary float-end" mat-raised-button>
+                            EXPORT TO EXCEL
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="col-md-12">
+            <mat-card class="mat-card mat-focus-indicator">
+                <mat-card-content class="p-2">
+                    <div class="container">
+                        <div>
+                            <div class="mat-elevation-z8">
+                                <table mat-table matTableExporter #exporter="matTableExporter" [dataSource]="dataSource"
+                                    matSort>
+                                    <!-- Id Column -->
+                                    <ng-container matColumnDef="Id">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
+                                        <td mat-cell *matCellDef="let row;let i = index;"> {{ paginator.pageSize *
+                                            paginator.pageIndex + i + 1 }}</td>
+                                    </ng-container>
+
+                                    <!-- employeeCode Column -->
+                                    <ng-container matColumnDef="siteName">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>SITE NAME</b></th>
+                                        <td mat-cell *matCellDef="let row"> {{row.siteName}} </td>
+                                    </ng-container>
+
+                                    <!-- employeeName Column -->
+                                    <ng-container matColumnDef="unitName">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>UNIT NAME</b></th>
+                                        <td mat-cell *matCellDef="let row"> {{row.unitName}} </td>
+                                    </ng-container>
+
+                                    <!-- grade Column -->
+                                    <ng-container matColumnDef="unitNumber">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>UNIT NUMBER</b></th>
+                                        <td mat-cell *matCellDef="let row"> {{row.unitNumber}} </td>
+                                    </ng-container>
+
+                                    <!-- categoryCode Column -->
+                                    <ng-container matColumnDef="visitorName">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>VISITOR NAME</b>
+                                        </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.visitorName}} </td>
+                                    </ng-container>
+
+                                    <!-- zone Column -->
+                                    <ng-container matColumnDef="mobileNumber">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>MOBILE NUMBER</b></th>
+                                        <td mat-cell *matCellDef="let row"> {{row.mobileNumber}} </td>
+                                    </ng-container>
+
+                                    <!-- branch Column -->
+                                    <ng-container matColumnDef="emailId">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>EMAIL ID</b></th>
+                                        <td mat-cell *matCellDef="let row"> {{row.emailId}} </td>
+                                    </ng-container>
+
+                                    <!-- createdOn Column -->
+                                    <ng-container matColumnDef="createdDate">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>DATE</b></th>
+                                        <td mat-cell *matCellDef="let row">{{row.createdDate |date}}</td>
+                                    </ng-container>
+
+                                    <!-- deviceType Column -->
+                                    <ng-container matColumnDef="image">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>VISITOR IMAGE</b></th>
+                                        <td mat-cell *matCellDef="let row"><img
+                                                style="width:50px;height:50px;border-radius:25px;"
+                                                src="{{row.image}}" /></td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="isActive">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ACTION</b></th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <button *ngIf="row.checkInStatus === true; else disabledButton"
+                                                class="btn_primary float-end" mat-raised-button
+                                                (click)="checkOut(row.mobileNumber)">CHECK OUT
+                                            </button>
+
+                                            <ng-template #disabledButton>
+                                                <button class="btn_primary float-end" mat-raised-button
+                                                    disabled>INACTIVE</button>
+                                            </ng-template>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- status Column -->
+                                    <ng-container matColumnDef="status">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>STATUS</b></th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <button *ngIf="row.status === 'Pending'; else disabledButton"
+                                                class="btn_primary float-end" mat-raised-button>{{row.status}}
+                                            </button>
+
+                                            <ng-template #disabledButton>
+                                                <button class=" btn_primary float-end" style="background-color: rgb(114, 227, 114);color: white;" mat-raised-button
+                                                    disabled>{{row.status}}</button>
+                                            </ng-template>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                </table>
+
+                                <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                    aria-label="Select page of users">
+                                </mat-paginator>
+
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

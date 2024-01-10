@@ -32,11 +32,11 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { AppDownloadListComponent } from './app-download/app-download-list/app-download-list.component';
 import { BookingReportComponent } from './booking-report/booking-report.component';
 import {MatStepperModule} from '@angular/material/stepper';
-import { VisitorDetailsComponent } from './visitor/visitor-details/visitor-details.component';
 import { VisitingCardExternalListComponent } from './visiting-card/visiting-card-external-share/visiting-card-external-list/visiting-card-external-list.component';
 import { VisitingCardExternalDialogComponent } from './visiting-card/visiting-card-external-share/visiting-card-external-dialog/visiting-card-external-dialog.component';
-import { VisitorDetailsDialogComponent } from './visitor/visitor-details-dialog/visitor-details-dialog.component';
 import { BrochureShareReportComponent } from './brochure-share-report/brochure-share-report/brochure-share-report.component';
+import { WalkInVisitorComponent } from './visitor/walk-in-visitor/walk-in-visitor.component';
+import { InvitedVisitorComponent } from './visitor/invited-visitor/invited-visitor.component';
 
 
 @NgModule({
@@ -48,11 +48,11 @@ import { BrochureShareReportComponent } from './brochure-share-report/brochure-s
     VisitingCardShareDialogComponent,
     AppDownloadListComponent,
     BookingReportComponent,
-    VisitorDetailsComponent,
     VisitingCardExternalListComponent,
     VisitingCardExternalDialogComponent,
-    VisitorDetailsDialogComponent,
-    BrochureShareReportComponent
+    BrochureShareReportComponent,
+    WalkInVisitorComponent,
+    InvitedVisitorComponent
   ],
   imports: [
     CommonModule,

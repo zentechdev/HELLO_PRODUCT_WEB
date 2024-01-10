@@ -21,6 +21,7 @@ export class AppDownloadListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  
   formGroup!: FormGroup;
   data: any[] = [];
   filteredBranches: any;
