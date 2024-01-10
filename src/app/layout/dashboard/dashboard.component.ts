@@ -69,6 +69,7 @@ export class DashboardComponent implements OnInit {
   westTotalZoneWiseType: any;
   siteId: any;
   unitId: any;
+  clientId!: number;
 
   async filterBranches(event: any): Promise<void> {
     const searchText = event.target.value.toLowerCase();
@@ -201,11 +202,14 @@ export class DashboardComponent implements OnInit {
     //   this.refreshDashboard(); // Refresh every 1 minute
     // }, 300000);
 
+    const clientId = String(localStorage.getItem("clientId"));
+    this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
+
     const siteId = String(localStorage.getItem("siteId"));
-    this.siteId = this.storageEncryptionService.decryptData(siteId);
+    this.siteId = Number(this.storageEncryptionService.decryptData(siteId));
 
     const unitId = String(localStorage.getItem("unitId"));
-    this.unitId = this.storageEncryptionService.decryptData(unitId);
+    this.unitId = Number(this.storageEncryptionService.decryptData(unitId));
 
     const roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
@@ -244,11 +248,49 @@ export class DashboardComponent implements OnInit {
     // }
 
     if(this.roleName=="Master Admin"){
-      this.getCountVisitorById(this.siteId)
-    }else if(this.roleName=="Super Admin" || this.roleName=="Site Admin"){
-      this.getCountVisitorById(this.siteId)
+      this.service1.getCountAllVisitor()
+      .subscribe({
+        next:(res)=>{
+          this.visitorBookingList = res.data;
+          this.visitorCount();
+        },
+        error:(res)=>{
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
+    }else if(this.roleName=="Super Admin"){
+      this.service1.getAllVisitorsCountByClintId(this.clientId)
+      .subscribe({
+        next:(res)=>{
+          this.visitorBookingList = res.data;
+          this.visitorCount();
+        },
+        error:(res)=>{
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
+    }else if(this.roleName=="Site Admin"){
+      this.service1.getAllVisitorsCountBySiteId(this.siteId)
+      .subscribe({
+        next:(res)=>{
+          this.visitorBookingList = res.data;
+          this.visitorCount();
+        },
+        error:(res)=>{
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
     }else if(this.roleName=="Unit Admin"){
-      this.getCountVisitorById(this.unitId)
+      this.service1.getAllVisitorsCountByUnitId(this.unitId)
+      .subscribe({
+        next:(res)=>{
+          this.visitorBookingList = res.data;
+          this.visitorCount();
+        },
+        error:(res)=>{
+          this.alertify.error("Error While fetching The Records!!")
+        }
+      })
     }
 
   }
@@ -312,62 +354,52 @@ export class DashboardComponent implements OnInit {
   //     })
   // }
 
-  getCountVisitorById(siteId: Number) {
-    this.service1.getCountVisitorByBranchId(siteId)
-      .subscribe({
-        next: (res) => {
+  visitorCount() {
 
-          this.visitorBookingList = res.data;
-          const arrayName: any[] = [];
-          const arrayCount: any[] = [];
+    const arrayName: any[] = [];
+    const arrayCount: any[] = [];
 
-          for (let i = 0; i < this.visitorBookingList.length; i++) {
-            if (this.visitorBookingList[i].visitorType !== 'allVisitor') {
-              arrayCount.push(this.visitorBookingList[i].total);
-              arrayName.push(this.visitorBookingList[i].visitorType);
-            }
-            if (this.visitorBookingList[i].visitorType == 'todayInvitedVisitor') {
-              this.todayInvitedVisitor = this.visitorBookingList[i].total
-            }
-            if (this.visitorBookingList[i].visitorType == 'todayNonInvitedVisitor') {
-              this.todayNonInvitedVisitor = this.visitorBookingList[i].total
-            }
-            if (this.visitorBookingList[i].visitorType == 'allInvitedVisitor') {
-              this.allInvitedVisitor = this.visitorBookingList[i].total
-            }
-            if (this.visitorBookingList[i].visitorType == 'allNonInvitedVisitor') {
-              this.allNonInvitedVisitor = this.visitorBookingList[i].total
-            }
-            if (this.visitorBookingList[i].visitorType !== 'allVisitor') {
-              this.allVisitor = this.todayInvitedVisitor + this.todayNonInvitedVisitor + this.allInvitedVisitor + this.allNonInvitedVisitor
+    for (let i = 0; i < this.visitorBookingList.length; i++) {
+      if (this.visitorBookingList[i].visitorType !== 'allVisitor') {
+        arrayCount.push(this.visitorBookingList[i].total);
+        arrayName.push(this.visitorBookingList[i].visitorType);
+      }
+      if (this.visitorBookingList[i].visitorType == 'todayInvitedVisitor') {
+        this.todayInvitedVisitor = this.visitorBookingList[i].total
+      }
+      if (this.visitorBookingList[i].visitorType == 'todayNonInvitedVisitor') {
+        this.todayNonInvitedVisitor = this.visitorBookingList[i].total
+      }
+      if (this.visitorBookingList[i].visitorType == 'allInvitedVisitor') {
+        this.allInvitedVisitor = this.visitorBookingList[i].total
+      }
+      if (this.visitorBookingList[i].visitorType == 'allNonInvitedVisitor') {
+        this.allNonInvitedVisitor = this.visitorBookingList[i].total
+      }
+      if (this.visitorBookingList[i].visitorType !== 'allVisitor') {
+        this.allVisitor = this.todayInvitedVisitor + this.todayNonInvitedVisitor + this.allInvitedVisitor + this.allNonInvitedVisitor
+      }
+    }
+    this.chartOptions2 = {
+      series: arrayCount,
+      chart: {
+        width: 500,
+        type: "pie"
+      },
+      labels: arrayName,
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
             }
           }
-          this.chartOptions2 = {
-            series: arrayCount,
-            chart: {
-              width: 500,
-              type: "pie"
-            },
-            labels: arrayName,
-            responsive: [
-              {
-                breakpoint: 480,
-                options: {
-                  chart: {
-                    width: 200
-                  },
-                  legend: {
-                    position: "bottom"
-                  }
-                }
-              }
-            ]
-          };
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!")
         }
-      })
-
+      ]
+    };
   }
 }

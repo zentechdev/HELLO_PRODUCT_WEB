@@ -69,8 +69,6 @@ export class PlanDetailsDialogComponent implements OnInit {
 
       this.cost=this.editData.price;
 
-      console.log(this.formGroup.value);
-
     }
 
     this.getAllOrganisation();

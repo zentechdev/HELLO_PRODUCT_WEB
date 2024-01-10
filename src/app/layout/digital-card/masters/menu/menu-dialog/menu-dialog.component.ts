@@ -59,7 +59,6 @@ export class MenuDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.isActiveList = res;
-          console.log(this.isActiveList);
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")

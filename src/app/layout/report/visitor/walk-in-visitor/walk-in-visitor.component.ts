@@ -97,23 +97,23 @@ export class WalkInVisitorComponent implements OnInit {
           next: (res) => {
             if(this.roleName=="Master Admin"){
               this.data = res.data;
-              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.roleName=='Super Admin'));
+              this.dataSource = new MatTableDataSource(this.data);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
             }
             else if(this.roleName=="Super Admin"){
               this.data = res.data;
-              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.clientId == this.clientId && item.roleName=='Site Admin'));
+              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId));
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
             }else if(this.roleName=="Site Admin"){
               this.data = res.data;
-              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.siteId == this.siteId && item.roleName=='Unit Admin'));
+              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId ));
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
             }else if(this.roleName=="Unit Admin"){
               this.data = res.data;
-              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active' && item.unitId == this.unitId && item.siteId == this.siteId && item.roleName=='Employee'));
+              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId));
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
             }

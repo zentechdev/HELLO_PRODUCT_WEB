@@ -132,7 +132,16 @@ export class DashboardService {
     return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCount`)
   }
 
-  getCountVisitorByBranchId(branchId:Number){
-    return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCountByUnitId/`+branchId)
+  getAllVisitorsCountBySiteId(id:Number){
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCountBySiteId/`+id)
   }
+
+  getAllVisitorsCountByUnitId(id:Number){
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCountByUnitId/`+id)
+  }
+
+  getAllVisitorsCountByClintId(id:Number){
+    return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCountByClintId/`+id)
+  }
+
 }

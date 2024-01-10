@@ -110,7 +110,6 @@ export class UnitNumberListComponent implements OnInit {
     this.service.getAllFloor()
       .subscribe({
         next: (res) => {
-          console.log(res);
           if(this.roleName=="Master Admin"){
             this.data=res.data;
             this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));

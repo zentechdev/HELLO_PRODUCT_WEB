@@ -151,7 +151,6 @@ export class MeetingRoomAccessListComponent implements OnInit {
     .subscribe({
      next:(res)=>{
       this.branchList = res.filter((item: any) => item.stateName).sort((a: { stateName: string; }, b: { stateName: any; }) =>  a.stateName.localeCompare(b.stateName));
-      console.log(this.branchList);
      },
      error:(res)=>{
        this.alertify.error("Error While fetching The Records!!")
