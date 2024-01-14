@@ -147,7 +147,7 @@ export class WalkInVisitorComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource<any>(); // Initialize the dataSource object
+    this.dataSource = new MatTableDataSource<any>(); 
     this.dataSource.paginator = this.paginator;
     this.dataSource.data = this.data;
   }

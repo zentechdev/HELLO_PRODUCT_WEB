@@ -2,6 +2,39 @@ mat-form-field{
     width:100%;
 }
 
+.snapshot img{
+    position: relative;
+    text-align: center;
+    width:  30px;
+    height: 30px;
+    border-radius: 125px;
+    margin: 0 auto;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+  }
+  
+  .profile-image {
+    position: relative;
+    width: 240px;
+    margin: auto;
+  }
+  
+  .profile-image > img {
+    border-radius: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .profile-image > button {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+  }
+  
+  .abc{
+    height: 800px;
+    width: 800px;
+  }
+
 .button {
     border-radius: 50%;
 }

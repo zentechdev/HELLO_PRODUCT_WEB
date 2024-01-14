@@ -1,0 +1,13 @@
+mat-form-field{
+    width:100%;
+}
+
+.snapshot img{
+    position: relative;
+    text-align: center;
+    width:  50px;
+    height: 50px;
+    border-radius: 125px;
+    margin: 0 auto;
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+}

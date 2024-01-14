@@ -46,6 +46,7 @@
     "ngx-toastr": "^16.0.2",
     "ngx-ttitan-color-picker": "^2.0.6",
     "ngx-ui-loader": "^13.0.0",
+    "ngx-webcam": "^0.4.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

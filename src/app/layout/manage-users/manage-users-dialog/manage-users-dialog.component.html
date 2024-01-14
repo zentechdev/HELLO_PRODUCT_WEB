@@ -1,178 +1,216 @@
 <div mat-dialog-content>
     <h3 mat-dialog-title><b>MANAGE USERS</b></h3>
     <div class="container">
-        <form [formGroup]="formGroup">
-            <div class="row">
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Site Name</mat-label>
-                        <mat-select formControlName="siteId" placeholder="Site Name">
-                            <mat-option *ngFor="let site of siteList" [value]="site.id">
-                                {{ site.siteName }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('siteId')?.hasError('required')">
-                            Site Name is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Unit Name</mat-label>
-                        <mat-select formControlName="unitId" placeholder="Unit Name">
-                            <mat-option *ngFor="let unit of unitList" [value]="unit.id">
-                                {{ unit.name }} - {{siteName}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('unitId')?.hasError('required')">
-                            unit Name is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Member Name</mat-label>
-                        <input formControlName="memberName" matInput placeholder="Member Name " autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('memberName')?.hasError('required')">
-                            Member Name <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Mobile Number </mat-label>
-                        <input formControlName="mobileNumber" matInput placeholder="Mobile Number" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('mobileNumber')?.hasError('required')">
-                            Mobile Number <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Email Id</mat-label>
-                        <input formControlName="email" matInput placeholder="Email" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
-                            Email <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Address</mat-label>
-                        <input formControlName="address" matInput placeholder="address" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('address')?.hasError('required')">
-                            Address <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Gender Name</mat-label>
-                        <mat-select formControlName="genderId" placeholder="Gender Name">
-                            <mat-option *ngFor="let gen of genderList" [value]="gen.gender">{{gen.gender}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('genderId')?.hasError('required')">
-                            Gender Name is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <input hidden matInput readonly name="name" />
-                        <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-                        <input hidden formControlName="image" (change)="selectFile($event)" #fileInput type="file"
-                            multiple="multiple" accept=".jepg,.png">
-                        <span class="file-name">{{ file?.name ? file.name : (image ?
-                            image.substring(image.lastIndexOf('/') + 1) : ' Size : 500KB,Type : jepg,png') }}</span>
-                            
-                        <mat-error *ngIf="formGroup.get('image')?.hasError('required')">
-                            Image is <strong>required</strong>
-                        </mat-error>
-
-                        <mat-error *ngIf="formGroup.get('image')?.hasError('incorrectFormat')">
-                            Incorrect file format. Please select a valid image file (PNG or JPEG).
-                        </mat-error>
-
-                        <mat-error *ngIf="formGroup.get('image')?.hasError('exceedsSizeLimit')">
-                            File size exceeds the limit of 500 KB.
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Role Name</mat-label>
-                        <mat-select formControlName="roleId" placeholder="Role Name">
-                            <mat-option *ngFor="let role of roleList" [value]="role.roleName">
-                                {{ role.roleName }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('roleId')?.hasError('required')">
-                            Role Name is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6" *ngIf="isEmployeeTechAccessChecked">
-                   <mat-form-field appearance="outline">
-                    <mat-label>Select RFID</mat-label>
-                    <mat-select formControlName="rfid" placeholder="Select RFID">
-                        <mat-option *ngFor="let rfid of rfidList" [value]="rfid.id">{{rfid.rfidNumber}} - {{rfid.siteName}} - {{rfid.unitName}} </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="formGroup.get('rfid')?.hasError('required')">
-                        Role Name is <strong>required</strong>
-                    </mat-error>
-                   </mat-form-field>
-                </div>
-
-                <!-- <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Status Name</mat-label>
-                        <mat-select formControlName="statusId" placeholder="Status Name">
-                            <mat-option *ngFor="let status of statusList" [value]="status.name">
-                                {{ status.name }}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('statusId')?.hasError('required')">
-                            Status Name is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Select Status</mat-label>
-                        <mat-select formControlName="isActive" placeholder="isActive">
-                            <mat-option *ngFor="let isActive of isActiveList"
-                                [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
-                            isActive Type is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div> -->
-
-            </div>
-
-            <div class=""
-                style="display: flex;background-color: white; justify-content: center;bottom:0;position:sticky">
-                <div class="col-md-6 col-lg-4 col-sm-12">
-                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close
-                        style="margin-left:25px">CANCEL</button>
-                    <button mat-flat-button class="button button4" color="primary" (click)="postData()"
-                        style="margin-left: 10px;">{{actionBtn}}</button>
+        <div class="row">
+            <div mat-card-content class="col-md-4" style="padding: 10px 20px;">
+                <div class="profile-image">
+                    <label class="mb-3" style="justify-content: center;display: flex;text-align: center;">Profile Image</label>
+                    <img width="250" height="250" [src]="image" />
+                    <button mat-fab [matMenuTriggerFor]="profile">
+                        <mat-icon>camera</mat-icon>
+                    </button>
+                    <mat-menu #profile="matMenu" class="mymegamenu">
+                        <button mat-menu-item (click)="openDialog()">
+                            <mat-icon>camera_enhance</mat-icon> Camera
+                        </button>
+                        <button mat-menu-item (click)="inputField.click()">
+                            <mat-icon>add</mat-icon>Gallery
+                        </button>
+                    </mat-menu>
                 </div>
             </div>
-        </form>
+            <div class="col-md-8">
+                <form [formGroup]="formGroup">
+                    <div class="row">
+                        <div>
+                            <input #inputField hidden type="file" (change)="onChange($event)" />
+                            <div *ngIf="webcamImage ; else imageValue;else inputValue1">
+                                <input matInput hidden formControlName="image" type="text" [ngModel]="image" />
+                            </div>
+                            <ng-template #imageValue>
+                                <input matInput hidden formControlName="image" type="text" [ngModel]="image" />
+                            </ng-template>
+                            <ng-template #inputValue1>
+                                <input matInput hidden formControlName="image" type="text" [ngModel]="image" />
+                            </ng-template>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Site Name</mat-label>
+                                <mat-select formControlName="siteId" placeholder="Site Name">
+                                    <mat-option *ngFor="let site of siteList" [value]="site.id">
+                                        {{ site.siteName }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formGroup.get('siteId')?.hasError('required')">
+                                    Site Name is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Unit Name</mat-label>
+                                <mat-select formControlName="unitId" placeholder="Unit Name">
+                                    <mat-option *ngFor="let unit of unitList" [value]="unit.id">
+                                        {{ unit.name }} - {{unit.siteName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formGroup.get('unitId')?.hasError('required')">
+                                    unit Name is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Member Name</mat-label>
+                                <input formControlName="memberName" matInput placeholder="Member Name "
+                                    autocomplete="off">
+                                <mat-error *ngIf="formGroup.get('memberName')?.hasError('required')">
+                                    Member Name <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Mobile Number </mat-label>
+                                <input formControlName="mobileNumber" matInput placeholder="Mobile Number"
+                                    autocomplete="off">
+                                <mat-error *ngIf="formGroup.get('mobileNumber')?.hasError('required')">
+                                    Mobile Number <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Email Id</mat-label>
+                                <input formControlName="email" matInput placeholder="Email" autocomplete="off">
+                                <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+                                    Email <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Address</mat-label>
+                                <input formControlName="address" matInput placeholder="address" autocomplete="off">
+                                <mat-error *ngIf="formGroup.get('address')?.hasError('required')">
+                                    Address <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Gender Name</mat-label>
+                                <mat-select formControlName="genderId" placeholder="Gender Name">
+                                    <mat-option *ngFor="let gen of genderList"
+                                        [value]="gen.gender">{{gen.gender}}</mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formGroup.get('genderId')?.hasError('required')">
+                                    Gender Name is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                            <input hidden matInput readonly name="name" />
+                            <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                            <input hidden formControlName="image" (change)="selectFile($event)" #fileInput type="file"
+                                multiple="multiple" accept=".jepg,.png">
+                            <span class="file-name">{{ file?.name ? file.name : (image ?
+                                image.substring(image.lastIndexOf('/') + 1) : ' Size : 500KB,Type : jepg,png') }}</span>
+                                
+                            <mat-error *ngIf="formGroup.get('image')?.hasError('required')">
+                                Image is <strong>required</strong>
+                            </mat-error>
+    
+                            <mat-error *ngIf="formGroup.get('image')?.hasError('incorrectFormat')">
+                                Incorrect file format. Please select a valid image file (PNG or JPEG).
+                            </mat-error>
+    
+                            <mat-error *ngIf="formGroup.get('image')?.hasError('exceedsSizeLimit')">
+                                File size exceeds the limit of 500 KB.
+                            </mat-error>
+                        </mat-form-field>
+                    </div> -->
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Role Name</mat-label>
+                                <mat-select formControlName="roleId" placeholder="Role Name">
+                                    <mat-option *ngFor="let role of roleList" [value]="role.roleName">
+                                        {{ role.roleName }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formGroup.get('roleId')?.hasError('required')">
+                                    Role Name is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="isEmployeeTechAccessChecked">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Select RFID</mat-label>
+                                <mat-select formControlName="rfid" placeholder="Select RFID">
+                                    <mat-option *ngFor="let rfid of rfidList" [value]="rfid.id">{{rfid.rfidNumber}} -
+                                        {{rfid.siteName}} - {{rfid.unitName}} </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="formGroup.get('rfid')?.hasError('required')">
+                                    Role Name is <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <!-- <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Status Name</mat-label>
+                            <mat-select formControlName="statusId" placeholder="Status Name">
+                                <mat-option *ngFor="let status of statusList" [value]="status.name">
+                                    {{ status.name }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formGroup.get('statusId')?.hasError('required')">
+                                Status Name is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Select Status</mat-label>
+                            <mat-select formControlName="isActive" placeholder="isActive">
+                                <mat-option *ngFor="let isActive of isActiveList"
+                                    [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formGroup.get('isActive')?.hasError('required')">
+                                isActive Type is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div> -->
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-12"
+            style="display: flex;background-color: white; justify-content: center;bottom:0;position:sticky">
+            <div class="col-md-6 col-lg-4 col-sm-12">
+                <button mat-flat-button class="button button4" color="warn" mat-dialog-close
+                    style="margin-left:25px">CANCEL</button>
+                <button mat-flat-button class="button button4" color="primary" (click)="postData()"
+                    style="margin-left: 10px;">{{actionBtn}}</button>
+            </div>
+        </div>
     </div>
 </div>

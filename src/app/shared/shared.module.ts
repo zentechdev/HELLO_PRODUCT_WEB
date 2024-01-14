@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { WebcamModule } from 'ngx-webcam';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -30,6 +31,8 @@ import { FooterComponent } from './component/footer/footer.component';
 import { SideNavComponent } from './component/side-nav/side-nav.component';
 import { SelectCheckAllComponent } from './component/select-check-all/select-check-all.component';
 import { ViewImageDialogComponent } from './component/view-image/view-image-dialog/view-image-dialog.component';
+import { CameraComponent } from './component/camera/camera.component';
+import { CameraDialogComponent } from './component/camera/component/camera-dialog/camera-dialog.component';
 
 
 
@@ -40,7 +43,9 @@ import { ViewImageDialogComponent } from './component/view-image/view-image-dial
     FooterComponent,
     SideNavComponent,
     SelectCheckAllComponent,
-    ViewImageDialogComponent
+    ViewImageDialogComponent,
+    CameraComponent,
+    CameraDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -69,7 +74,8 @@ import { ViewImageDialogComponent } from './component/view-image/view-image-dial
     ReactiveFormsModule,
     HttpClientModule,
     MatCheckboxModule,
-    MatExpansionModule
+    MatExpansionModule,
+    WebcamModule
   ],
   exports:[
     HeaderComponent,

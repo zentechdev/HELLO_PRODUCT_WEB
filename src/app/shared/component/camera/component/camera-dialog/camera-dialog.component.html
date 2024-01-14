@@ -1,0 +1,17 @@
+<div >
+    <app-camera (pictureTaken)="handleImage($event)"></app-camera>
+    <br>
+    <br>
+    <div class="snapshot mt-0" *ngIf="data.webcamImage" style="text-align:center;">
+        <img [height]="600" [width]="600" [src]="data.webcamImage" />
+    </div>
+</div>
+<div mat-dialog-content>
+  <div>
+    <input matInput hidden [(ngModel)]="data.webcamImage">
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.webcamImage" cdkFocusInitial>Ok</button>
+</div>

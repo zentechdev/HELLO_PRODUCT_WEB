@@ -1,10 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { WebcamImage } from 'ngx-webcam';
+import { Observable, Subscriber } from 'rxjs';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 import { ManageUsersService } from 'src/app/service/manage-users/manage-users.service';
+import { CameraDialogComponent } from 'src/app/shared/component/camera/component/camera-dialog/camera-dialog.component';
 
 @Component({
   selector: 'app-manage-users-dialog',
@@ -14,6 +17,8 @@ import { ManageUsersService } from 'src/app/service/manage-users/manage-users.se
 export class ManageUsersDialogComponent implements OnInit {
 
   formGroup!: FormGroup;
+  public webcamImage!: WebcamImage;
+  image: any = "../../../assets/images/blank-profile-picture.png";
   actionBtn: string = 'SAVE';
   colorCodeList: any;
   disabled: boolean = true;
@@ -45,7 +50,6 @@ export class ManageUsersDialogComponent implements OnInit {
   genderId: any;
   unitId: any;
   file: any;
-  image: string | undefined;
   employeeTechAccessId: any;
   roleName!: string;
   unitName: any;
@@ -59,7 +63,7 @@ export class ManageUsersDialogComponent implements OnInit {
   ];
   
 
-  constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ManageUsersService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ManageUsersDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(public dialog: MatDialog,private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ManageUsersService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ManageUsersDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
@@ -74,7 +78,7 @@ export class ManageUsersDialogComponent implements OnInit {
       mobileNumber: ['', Validators.required],
       email: ['', Validators.required],
       address: ['', Validators.required],
-      image: ['', Validators.required],
+      image: [''],
       isActive: ['', Validators.required],
       createdBy: ['']
     })
@@ -375,6 +379,85 @@ export class ManageUsersDialogComponent implements OnInit {
           }
         })
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(CameraDialogComponent, {
+      width: '50%',
+      data: { webcamImage: this.webcamImage, Image: this.image },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.image = result;
+        // Convert the Base64 image data to a Blob
+        this.file = this.dataURItoBlob(this.image);
+      }else if(this.editData){
+        this.image = this.editData.image;
+      }else{
+        this.image=this.image;
+      }
+
+    });
+  }
+  
+  handleImage(webcamImage: WebcamImage) {
+    this.image = webcamImage.imageAsDataUrl;
+        // Convert the Base64 image data to a Blob
+    this.image = this.dataURItoBlob(this.image);
+
+  }
+
+  private dataURItoBlob(dataURI: string) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ab], { type: mimeString });
+  }
+
+  onChange(event: any) {
+    const file = event.target.files[0];
+    this.convertToBase64(file);
+
+    this.file=file;
+  }
+
+  convertToBase64(file: File) {
+    const observable = new Observable((subscriber: Subscriber<any>) => {
+      this.readFile(file, subscriber);
+    });
+    observable.subscribe((d) => {
+      this.image = d;
+    })
+  }
+
+  readFile(file: File, subscriber: Subscriber<any>) {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      subscriber.next(fileReader.result);
+      subscriber.complete();
+    }
+    fileReader.onerror = (error) => {
+      subscriber.error(error);
+      subscriber.complete();
+    }
+
+  }
+
+  OpenCamera() {
+    this.dialog.open(CameraDialogComponent, {
+      width: '40%'
+    }).afterClosed().subscribe(val => {
+      if (val === 'save') {
+      }
+    })
   }
 
 }
