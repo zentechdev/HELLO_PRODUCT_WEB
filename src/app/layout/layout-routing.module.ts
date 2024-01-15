@@ -2,13 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DigitalCardComponent } from './digital-card/digital-card.component';
-import { GlobalMessageComponent } from './global-message/global-message.component';
 import { ReportComponent } from './report/report.component';
 import { UserMappingDialogComponent } from './user-mapping/user-mapping-dialog/user-mapping-dialog.component';
 import { UserMappingListComponent } from './user-mapping/user-mapping-list/user-mapping-list.component';
-import { SeatBookingComponent } from './seat-booking/seat-booking.component';
-import { MeetingBookingComponent } from './meeting-booking/meeting-booking.component';
-import { PermissionsComponent } from './permissions/permissions.component';
 import { DeviceManagementComponent } from './device-management/device-management.component';
 import { AddClientComponent } from './add-client/add-client.component';
 import { EmployeeRfidListComponent } from './rfid-details/rfid-employee-details/employee-rfid-list/employee-rfid-list.component';
@@ -38,29 +34,9 @@ const routes: Routes = [
     loadChildren:()=>import('./digital-card/digital-card.module').then(x=>x.DigitalCardModule)
   },
   {
-    path:'global-message',
-    component:GlobalMessageComponent,
-    loadChildren:()=>import('./global-message/global-message.module').then(x=>x.GlobalMessageModule)
-  },
-  {
-    path:'seat-booking',
-    component:SeatBookingComponent,
-    loadChildren:()=>import('./seat-booking/seat-booking.module').then(x=>x.SeatBookingModule)
-  },
-  {
-    path:'meeting-booking',
-    component:MeetingBookingComponent,
-    loadChildren:()=>import('./meeting-booking/meeting-booking.module').then(x=>x.MeetingBookingModule)
-  },
-  {
     path:'report',
     component:ReportComponent,
     loadChildren:()=>import('./report/report.module').then(x=>x.ReportModule)
-  },
-  {
-    path:'permissions',
-    component:PermissionsComponent,
-    loadChildren:()=>import('./permissions/permissions.module').then(x=>x.PermissionsModule)
   },
   {
     path:'device-management',

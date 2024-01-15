@@ -23,20 +23,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatStepperModule} from '@angular/material/stepper';
-
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
-
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DigitalCardModule } from './digital-card/digital-card.module';
 import { SharedModule } from '../shared/shared.module';
-import { GlobalMessageModule } from './global-message/global-message.module';
 import { ReportModule } from './report/report.module';
 import { UserMappingListComponent } from './user-mapping/user-mapping-list/user-mapping-list.component';
 import { UserMappingDialogComponent } from './user-mapping/user-mapping-dialog/user-mapping-dialog.component';
-import { SeatBookingModule } from './seat-booking/seat-booking.module';
-import { MeetingBookingModule } from './meeting-booking/meeting-booking.module';
-import { PermissionsModule } from './permissions/permissions.module';
 import { DeviceManagementModule } from './device-management/device-management.module';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { NgSelect2Module } from 'ng-select2';
@@ -93,12 +87,7 @@ import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/m
         NgbModule,
         ReactiveFormsModule,
         HttpClientModule,
-        
-        GlobalMessageModule,
         ReportModule,
-        SeatBookingModule,
-        MeetingBookingModule,
-        PermissionsModule,
         MatTableExporterModule,
         NgSelect2Module,
         AddClientModule
