@@ -41,6 +41,7 @@ import { UnitRfidListComponent } from './rfid-details/rfid-unit-details/unit-rfi
 import { UnitRfidDialogComponent } from './rfid-details/rfid-unit-details/unit-rfid-dialog/unit-rfid-dialog.component';
 import { ManageUsersListComponent } from './manage-users/manage-users-list/manage-users-list.component';
 import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/manage-users-dialog.component';
+import { BulkUploadModule } from './bulk-upload/bulk-upload.module';
 
 
 
@@ -90,7 +91,8 @@ import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/m
         ReportModule,
         MatTableExporterModule,
         NgSelect2Module,
-        AddClientModule
+        AddClientModule,
+        BulkUploadModule
     ]
 })
 export class LayoutModule { }

@@ -262,6 +262,7 @@ export class DashboardComponent implements OnInit {
       this.service1.getAllVisitorsCountByClintId(this.clientId)
       .subscribe({
         next:(res)=>{
+          debugger
           this.visitorBookingList = res.data;
           this.visitorCount();
         },

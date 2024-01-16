@@ -13,6 +13,7 @@ import { UnitRfidListComponent } from './rfid-details/rfid-unit-details/unit-rfi
 import { UnitRfidDialogComponent } from './rfid-details/rfid-unit-details/unit-rfid-dialog/unit-rfid-dialog.component';
 import { ManageUsersListComponent } from './manage-users/manage-users-list/manage-users-list.component';
 import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/manage-users-dialog.component';
+import { BulkUploadComponent } from './bulk-upload/bulk-upload.component';
 
 
 
@@ -42,6 +43,11 @@ const routes: Routes = [
     path:'device-management',
     component:DeviceManagementComponent,
     loadChildren:()=>import('./device-management/device-management.module').then(x=>x.DeviceManagementModule)
+  },
+  {
+    path:'bulk-upload',
+    component:BulkUploadComponent,
+    loadChildren:()=>import('./bulk-upload/bulk-upload.module').then(x=>x.BulkUploadModule)
   },
 
   {path:'user-mapping-list',component:UserMappingListComponent},
