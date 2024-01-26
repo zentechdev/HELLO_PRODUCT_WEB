@@ -10,8 +10,8 @@
                                 autocomplete="off">
                         </mat-form-field>
                     </div>
-                    <div class="col-md-3">
-                        <!-- <mat-form-field appearance="outline">
+                    <!-- <div class="col-md-3">
+                        <mat-form-field appearance="outline">
                         <mat-label>Search Branch</mat-label>
                         <input matInput placeholder="Search Branches" formControlName="branchId"
                             (input)="filterBranches($event)" (focus)="showAllBranches()" [matAutocomplete]="auto">
@@ -24,8 +24,8 @@
                     </mat-form-field>
                     <mat-error *ngIf="formGroup.get('branchId')?.hasError('required')">
                         Branch Name is <strong>required</strong>
-                    </mat-error> -->
-                    </div>
+                    </mat-error>
+                    </div> -->
                     <div class="col-md-3" style="float:right ;">
                         <mat-form-field floatLabel='never' appearance="outline">
                             <mat-label>date range picker</mat-label>
@@ -44,8 +44,11 @@
                             </mat-date-range-picker>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-3 p-2">
-                        <button (click)="exporter.exportTable('xlsx')" class="btn_primary float-end" mat-raised-button>
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3 adjust-export-button-space">
+                        <button (click)="exporter.exportTable('xlsx')" class="btn_primary" mat-raised-button>
                             EXPORT TO EXCEL
                         </button>
                     </div>

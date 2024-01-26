@@ -17,7 +17,7 @@ import { ManageUsersService } from 'src/app/service/manage-users/manage-users.se
 })
 export class ManageUsersListComponent implements OnInit {
 
-  displayedColumns: string[] = ['id','siteName', 'unitName', 'memberName','mobileNumber','email', 'roleName','isActive', 'Action'];
+  displayedColumns: string[] = ['id','siteName', 'unitName','unitNumber','memberName','mobileNumber','email', 'roleName','isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -131,23 +131,23 @@ export class ManageUsersListComponent implements OnInit {
       })
   }
 
-  selectStatus(event: any) {
-    const value = this.formGroup.value.isActiveId;
+  // selectStatus(event: any) {
+  //   const value = this.formGroup.value.isActiveId;
 
-    if (value == 0) {
-      this.value = this.data;
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
-    else {
-      this.value = this.data.filter((item: any) => item.isActive === value);
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
+  //   if (value == 0) {
+  //     this.value = this.data;
+  //     this.dataSource = new MatTableDataSource(this.value);
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.data = this.value;
+  //   }
+  //   else {
+  //     this.value = this.data.filter((item: any) => item.isActive === value);
+  //     this.dataSource = new MatTableDataSource(this.value);
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.data = this.value;
+  //   }
 
-  }
+  // }
 
 
   deleteData(id: number) {

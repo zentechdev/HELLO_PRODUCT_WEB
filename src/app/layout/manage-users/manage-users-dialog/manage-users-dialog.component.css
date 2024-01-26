@@ -108,6 +108,7 @@ mat-form-field{
     width: 35%;
 }
 
+
 /* Media query for screens smaller than 768px (typical tablets) */
 @media (max-width: 768px) {
     .button {

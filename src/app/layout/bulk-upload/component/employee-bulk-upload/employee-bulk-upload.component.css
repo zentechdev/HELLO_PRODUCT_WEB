@@ -1,0 +1,128 @@
+mat-form-field{
+    width:100%;
+}
+
+.button {
+    border-radius: 50%;
+}
+.button-right-align{
+    display: flex;
+    justify-content: right;
+    align-items: right;
+}
+
+.button {
+    background-color: primary;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 20%;
+    margin: 4px 2px;
+}
+
+.button1 {
+    border-radius: 2px;
+}
+
+.button2 {
+    border-radius: 4px;
+}
+
+.button3 {
+    border-radius: 8px;
+}
+
+.button4 {
+    border-radius: 30px;
+}
+
+.button5 {
+    border-radius: 50%;
+}
+
+.hi{
+    width:50px;
+    height:50px;
+    background:black;
+    margin:10px; color:white;
+    padding:20px;
+  }
+
+  @media (min-width: 350px) and (max-width: 575px) {
+
+    .button {
+        line-height: 15px;
+        background-color: primary;
+        border: none;
+        color: white;
+        padding: 0px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 10px;
+        /* width: 25%; */
+        margin: 0px;
+    }
+
+    .mat-dialog-actions {
+        justify-content: flex-end;
+    }
+}
+
+.button {
+    /* Your button styles here */
+    font-size: 16px;
+    padding: 5px;
+    /* width: 35%; */
+}
+
+.file-input-container {
+    position: relative;
+}
+
+.file-label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #080808;
+}
+
+.file-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgb(245, 243, 243);
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.file-input:hover,
+.file-input:focus {
+    border-color: #080808;
+}
+
+
+/* Media query for screens smaller than 768px (typical tablets) */
+@media (max-width: 768px) {
+    .button {
+        font-size: 12px;
+        padding: 12px 12px;
+    }
+}
+
+/* Media query for screens smaller than 576px (typical phones) */
+@media (max-width: 576px) {
+    .button {
+        font-size: 12px;
+        padding: 12px 12px;
+    }
+}
+

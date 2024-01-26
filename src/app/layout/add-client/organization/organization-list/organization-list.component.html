@@ -8,7 +8,7 @@
                         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input autocomplete="off">
                     </mat-form-field>
                 </div>
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                     <form [formGroup]="formGroup">
                         <mat-form-field appearance="outline">
                             <mat-label>Select Status</mat-label>
@@ -22,13 +22,13 @@
                                 <strong>required</strong></mat-error>
                         </mat-form-field>
                     </form>
-                </div>
+                </div> -->
 
-                <div class="col-md-4 col-lg-4 col-sm-12 p-2">
-                    <button class="btn_primary " mat-raised-button (click)="openDialog()" style="margin-right: 10px;">
+                <div class="col-md-4 adjust-button-space">
+                    <button class="btn_primary " mat-raised-button (click)="openDialog()">
                         ADD NEW
                     </button>
-                    <button (click)="exporter.exportTable('xlsx')" class="btn_primary float-end" mat-raised-button
+                    <button (click)="exporter.exportTable('xlsx')" class="btn_primary" mat-raised-button
                         style="margin-right: 10px;">
                         EXPORT TO EXCEL
                     </button>

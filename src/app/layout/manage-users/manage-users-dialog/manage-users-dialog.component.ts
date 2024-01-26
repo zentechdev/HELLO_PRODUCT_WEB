@@ -83,15 +83,9 @@ export class ManageUsersDialogComponent implements OnInit {
       createdBy: ['']
     })
 
+
     const employeeTechAccessId = String(localStorage.getItem('employeeTechAccessId'));
     this.employeeTechAccessId = Number(this.storageEncryptionService.decryptData(employeeTechAccessId));
-
-    if(this.employeeTechAccessId==1){
-      this.isEmployeeTechAccessChecked=false;
-    }
-    else{
-      this.isEmployeeTechAccessChecked=true;
-    }
 
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
@@ -115,6 +109,12 @@ export class ManageUsersDialogComponent implements OnInit {
     this.unitName = this.storageEncryptionService.decryptData(unitName);
 
 
+    if(this.employeeTechAccessId==1){
+      this.isEmployeeTechAccessChecked=false;
+    }
+    else{
+      this.isEmployeeTechAccessChecked=true;
+    }
 
     if (this.roleName == "Master Admin") {
 
@@ -207,29 +207,6 @@ export class ManageUsersDialogComponent implements OnInit {
       });
   }
 
-  getAllAvailableRFID() {
-    this.service.getAllAvailableRFID()
-      .subscribe({
-        next: (res) => {
-          if (this.roleName == "Master Admin") {
-            this.rfidList = res.data;
-          }
-          else if (this.roleName == "Super Admin") {
-            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId);
-          }
-          else if (this.roleName == "Site Admin") {
-            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
-          }
-          else if (this.roleName == "Unit Admin") {
-            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId);
-          }
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!");
-        }
-      })
-  }
-
   getAllUnit() {
     this.service.getAllUnit()
       .subscribe({
@@ -251,6 +228,29 @@ export class ManageUsersDialogComponent implements OnInit {
           this.alertify.error("Error While fetching The Records!!");
         }
       });
+  }
+
+  getAllAvailableRFID() {
+    this.service.getAllAvailableRFID()
+      .subscribe({
+        next: (res) => {
+          if (this.roleName == "Master Admin") {
+            this.rfidList = res.data;
+          }
+          else if (this.roleName == "Super Admin") {
+            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId);
+          }
+          else if (this.roleName == "Site Admin") {
+            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
+          }
+          else if (this.roleName == "Unit Admin") {
+            this.rfidList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId);
+          }
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!");
+        }
+      })
   }
 
   getAllRole() {
