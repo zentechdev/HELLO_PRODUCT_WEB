@@ -95,7 +95,7 @@ export class ChangePasswordComponent implements OnInit {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
- 
+
     this.http.post(url, body, { headers, responseType: 'text' })
       .subscribe(
         (response) => {
@@ -119,28 +119,27 @@ export class ChangePasswordComponent implements OnInit {
 
     this.otpNumber = this.generateRandom4DigitNumber();
 
-    const url = `https://sms.cell24x7.in/smsReceiver/sendSMS`;
+    let formData = {
+      "otp": this.otpNumber,
+      "mobileNumber": mobileNumber
+    }
 
-    const body = `user=zentech&pwd=apizentech&sender=ZTISPL&mobile=${mobileNumber}&msg=Your+login+OTP+is+${this.otpNumber}+Use+this+OTP+to+validate+your+login.+-Zentechinfo+Solutions+Private+Limited&mt=0`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
- 
-    this.http.post(url, body, { headers, responseType: 'text' })
-      .subscribe(
-        (response) => {
-          // You can also check for specific status codes
-          if (response) {
-            this.alertify.success('OTP is sent successfully');
+    this.service.postOTP(formData)
+      .subscribe({
+        next: (res) => {
+          if (res.isSuccess == true) {
+            this.alertify.success(res.message);
             this.OnMobileChange();
-          } else {
-            this.alertify.error('Failed to send OTP. Please try again.');
+          }
+          else {
+            this.alertify.error(res.message);
           }
         },
-        (error) => {
-          this.alertify.error('Failed to send OTP. Please try again.');
+        error: (res) => {
+          this.alertify.error("500 Internal Server Error");
         }
-      );
+      })
+
   }
 
   generateRandom4DigitNumber(): number {
@@ -173,8 +172,8 @@ export class ChangePasswordComponent implements OnInit {
 
   putPassword() {
 
-   let formData = {
-      "password":this.formGroup.value.password
+    let formData = {
+      "password": this.formGroup.value.password
     }
 
     this.service.putPassword(formData, this.formGroup.value.mobileNumber)

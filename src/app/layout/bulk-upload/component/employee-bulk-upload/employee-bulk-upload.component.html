@@ -1,1 +1,45 @@
-<p>employee-bulk-upload works!</p>
+<div mat-dialog-content>
+    <div class="mb-4" style="padding: 5px;" mat-dialog-titile>
+        <b>Upload Employee</b>
+    </div>
+    <div class="col-md-12 mb-4  button-right-align" style="padding: 0px 5px;">
+        <button type="button" class="button button4" color="primary" mat-flat-button (click)="downloadExcel()">Download
+            Template</button>
+    </div>
+    <div class="container">
+        <form [formGroup]="formGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>select Site</mat-label>
+                        <mat-select formControlName="siteId">
+                            <mat-option *ngFor="let site of siteList" [value]="site.id">{{site.siteName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>select unit</mat-label>
+                        <mat-select formControlName="unitId" placeholder="Select Unit">
+                            <mat-option *ngFor="let unit of unitList" [value]="unit.id">{{unit.name}} -
+                                {{unit.siteName}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 file-input-container" appearance="outline">
+                    <!-- <label for="fileInput" class="file-label">Choose an Excel file:</label> -->
+                    <input type="file" id="fileInput" formControlName="file" accept=".xlsx" autocomplete="off" (change)="onChange($event)" class="file-input">
+                </div>                
+            </div>
+        </form>
+    </div>
+    <div class="col-md-12 mt-5"
+        style="display: flex;background-color: white; justify-content: center;bottom:0;position:sticky">
+        <div class="col-md-6 col-lg-4 col-sm-12">
+            <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:25px"
+                (click)="clearData()">CANCEL</button>
+            <button mat-flat-button class="button button4" color="primary" (click)="postData()"
+                style="margin-left: 10px;">{{actionBtn}}</button>
+        </div>
+    </div>
+</div>

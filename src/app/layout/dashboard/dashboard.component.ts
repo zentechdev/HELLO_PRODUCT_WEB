@@ -182,25 +182,17 @@ export class DashboardComponent implements OnInit {
   options: any;
 
   constructor(private formBuilder: FormBuilder, private storageEncryptionService: StorageEncryptionService, private service: BranchService, private service1: DashboardService) {
-    setTimeout(
-      function () {
-        location.reload();
-      }, 300000);
-    // this.chartOptions5 = {};
-
   }
 
 
   async ngOnInit(): Promise<void> {
-
     this.formGroup = await this.formBuilder.group({
       branchId: ['']
     })
 
-    // Initial refresh when the component is loaded
-    // setInterval(() => {
-    //   this.refreshDashboard(); // Refresh every 1 minute
-    // }, 300000);
+    setInterval(() => {
+      this.getCountAllVisitor(); // Refresh every 1 minute
+    }, 300000);
 
     const clientId = String(localStorage.getItem("clientId"));
     this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
@@ -214,41 +206,16 @@ export class DashboardComponent implements OnInit {
     const roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
 
+    await Promise.all([
+      this.getCountAllVisitor(),
+      this.visitorCount()
+    ])
 
+  }
 
-    // if (this.roleName == 'Super Admin') {
-    //   if (this.condition == false) {
-    //     this.condition1 = true;
-    //   }
-    //   else {
-    //     this.condition = false;
-    //   }
-    // }
-
-    // const branchList = String(localStorage.getItem("branchList"));
-    // this.branchList = this.storageEncryptionService.decryptData(branchList)
-    // .filter((item: any) => item.stateName)
-    // .sort((a: { stateName: string; }, b: { stateName: any; }) => a.stateName.localeCompare(b.stateName));
-
-    // if (this.roleName.length > 0) {
-    //   if (this.condition1 == false) {
-    //     this.condition1 = true;
-    //   }
-    //   else {
-    //     this.condition = false;
-    //   }
-    // }
-    // else {
-    //   if (this.condition == false) {
-    //     this.condition = true;
-    //   }
-    //   else {
-    //     this.condition1 = false;
-    //   }
-    // }
-
+   async getCountAllVisitor(){
     if(this.roleName=="Master Admin"){
-      this.service1.getCountAllVisitor()
+     await this.service1.getCountAllVisitor()
       .subscribe({
         next:(res)=>{
           this.visitorBookingList = res.data;
@@ -259,10 +226,9 @@ export class DashboardComponent implements OnInit {
         }
       })
     }else if(this.roleName=="Super Admin"){
-      this.service1.getAllVisitorsCountByClintId(this.clientId)
+      await this.service1.getAllVisitorsCountByClintId(this.clientId)
       .subscribe({
         next:(res)=>{
-          debugger
           this.visitorBookingList = res.data;
           this.visitorCount();
         },
@@ -271,7 +237,7 @@ export class DashboardComponent implements OnInit {
         }
       })
     }else if(this.roleName=="Site Admin"){
-      this.service1.getAllVisitorsCountBySiteId(this.siteId)
+      await this.service1.getAllVisitorsCountBySiteId(this.siteId)
       .subscribe({
         next:(res)=>{
           this.visitorBookingList = res.data;
@@ -282,7 +248,7 @@ export class DashboardComponent implements OnInit {
         }
       })
     }else if(this.roleName=="Unit Admin"){
-      this.service1.getAllVisitorsCountByUnitId(this.unitId)
+      await this.service1.getAllVisitorsCountByUnitId(this.unitId)
       .subscribe({
         next:(res)=>{
           this.visitorBookingList = res.data;
@@ -293,67 +259,8 @@ export class DashboardComponent implements OnInit {
         }
       })
     }
-
   }
 
-  // getCountAllVisitor() {
-  //   this.service1.getCountAllVisitor()
-  //     .subscribe({
-  //       next: (res) => {
-  //         this.visitorBookingList = res;
-  //         const arrayName: any[] = [];
-  //         const arrayCount: any[] = [];
-
-  //         for (let i = 0; i < this.visitorBookingList.length; i++) {
-  //           if (this.visitorBookingList[i].visitorType !== 'allVisitor') {
-  //             arrayCount.push(res[i].total);
-  //             arrayName.push(res[i].visitorType);
-
-  //           }
-  //           if (this.visitorBookingList[i].visitorType == 'todayInvitedVisitor') {
-  //             this.todayInvitedVisitor = res[i].total
-  //           }
-  //           if (this.visitorBookingList[i].visitorType == 'todayNonInvitedVisitor') {
-  //             this.todayNonInvitedVisitor = res[i].total
-  //           }
-  //           if (this.visitorBookingList[i].visitorType == 'allInvitedVisitor') {
-  //             this.allInvitedVisitor = res[i].total
-  //           }
-  //           if (this.visitorBookingList[i].visitorType == 'allNonInvitedVisitor') {
-  //             this.allNonInvitedVisitor = res[i].total
-  //           }
-  //           if (this.visitorBookingList[i].visitorType == 'allVisitor') {
-  //             this.allVisitor = res[i].total
-  //           }
-
-  //         }
-  //         this.chartOptions2 = {
-  //           series: arrayCount,
-  //           chart: {
-  //             width: 500,
-  //             type: "pie"
-  //           },
-  //           labels: ["Todays Invited Visitors", "Todays Non-Invited Visitors", " All Invited Visitors", "All Non Invited Visitors",],
-  //           responsive: [
-  //             {
-  //               breakpoint: 480,
-  //               options: {
-  //                 chart: {
-  //                   width: 200
-  //                 },
-  //                 legend: {
-  //                   position: "bottom"
-  //                 }
-  //               }
-  //             }
-  //           ]
-  //         };
-  //       },
-  //       error: (res) => {
-  //         this.alertify.error("Error While fetching The Records!!")
-  //       }
-  //     })
-  // }
 
   visitorCount() {
 

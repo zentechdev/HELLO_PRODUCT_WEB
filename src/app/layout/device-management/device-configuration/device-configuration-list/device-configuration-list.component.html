@@ -27,7 +27,7 @@
                             Branch Name is <strong>required</strong>
                         </mat-error>
                     </div> -->
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <mat-form-field appearance="outline">
                             <mat-label>Select Status</mat-label>
                             <mat-select formControlName="isActiveId" placeholder="isActive"
@@ -39,9 +39,11 @@
                             <mat-error *ngIf="formGroup.get('isActiveId')?.hasError('required')">isActive Type is
                                 <strong>required</strong></mat-error>
                         </mat-form-field>
-                    </div>
+                    </div> -->
+                    <div class="col-md-4">
 
-                    <div class="col-md-2 p-2">
+                    </div>
+                    <div class="col-md-4 p-2">
                         <button (click)="exporter.exportTable('xlsx')" class="btn_primary float-end" mat-raised-button>
                             EXPORT TO EXCEL
                         </button>

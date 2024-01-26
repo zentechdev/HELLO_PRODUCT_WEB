@@ -566,6 +566,20 @@ button.btn_primary {
     overflow-x: scroll;
 }
 
+.adjust-button-space{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-around;
+}
+
+.adjust-export-button-space{
+    display: flex;
+    align-items: center;
+    justify-content:flex-end;
+}
+
+
 @media print {
     .mat-dialog-container {
         -webkit-box-shadow: none;

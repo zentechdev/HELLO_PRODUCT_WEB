@@ -15,7 +15,7 @@ import { debounceTime, map, startWith } from 'rxjs';
   styleUrls: ['./attendance-list.component.css']
 })
 export class AttendanceListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'siteName', 'ipAddress', 'portNumber', 'employeeCode', 'employeeName', 'employeeType', 'entryExitType', 'eventDateTime'];
+  displayedColumns: string[] = ['id', 'siteName', 'unitName', 'unitNumber', 'employeeName', 'employeeType', 'entryExitType', 'eventDateTime'];
 
   dataSource!: MatTableDataSource<any>;
   data1: any[] = [];
@@ -72,26 +72,37 @@ export class AttendanceListComponent implements OnInit {
     this.getAllTodaysAttendance();
 
   }
-  
+
   getAllTodaysAttendance() {
     this.service.getAllTodaysAttendance()
       .subscribe({
         next: (res) => {
-          if(this.roleName=="Master Admin"){
+          if (this.roleName == "Master Admin") {
             this.data = res;
-            this.dataSource = new MatTableDataSource(res);
+            this.dataSource = new MatTableDataSource(this.data);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }
-          else{
+          else if (this.roleName == "Super Admin") {
             this.data = res;
-            this.dataSource = new MatTableDataSource(res.filter((item:any)=>item.siteId==this.siteId));
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if (this.roleName == "Site Admin") {
+            this.data = res;
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId));
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          else if (this.roleName == "Unit Admin") {
+            this.data = res;
+            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }
         },
         error: (res) => {
-
           this.alertify.error("Error While fetching The Records!!")
         }
       })
@@ -109,15 +120,27 @@ export class AttendanceListComponent implements OnInit {
       this.service.getAllAttendanceByDateRange(queryParams)
         .subscribe({
           next: (res) => {
-            if(this.roleName=="Master Admin"){
+            if (this.roleName == "Master Admin") {
               this.data = res;
-              this.dataSource = new MatTableDataSource(res);
+              this.dataSource = new MatTableDataSource(this.data);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
             }
-            else{
+            else if (this.roleName == "Super Admin") {
               this.data = res;
-              this.dataSource = new MatTableDataSource(res.filter((item:any)=>item.siteId==this.siteId));
+              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId));
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+            else if (this.roleName == "Site Admin") {
+              this.data = res;
+              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId));
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            }
+            else if (this.roleName == "Unit Admin") {
+              this.data = res;
+              this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId));
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
             }

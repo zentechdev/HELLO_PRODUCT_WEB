@@ -31,11 +31,11 @@ export class SideNavComponent implements OnInit {
     window.location.reload();
   }
 
-  getParentMenuList() {
+  async getParentMenuList() {
     const encryptedData = String(localStorage.getItem("memberId"));
     this.employeeCode = this.storageEncryptionService.decryptData(encryptedData);
 
-    this.service.getParentMenuList(this.employeeCode)
+    await this.service.getParentMenuList(this.employeeCode)
       .subscribe({
         next: (res) => {
           this.parentMenuList = res;

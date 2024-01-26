@@ -147,23 +147,23 @@ export class SiteDetailsListComponent implements OnInit {
       })
   }
 
-  selectStatus(event: any) {
-    const value = this.formGroup.value.isActiveId;
+  // selectStatus(event: any) {
+  //   const value = this.formGroup.value.isActiveId;
 
-    if(value==0){
-      this.value = this.data;
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
-    else{
-      this.value = this.data.filter((item: any) => item.isActive === value);
-      this.dataSource = new MatTableDataSource(this.value);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.data = this.value;
-    }
+  //   if(value==0){
+  //     this.value = this.data;
+  //     this.dataSource = new MatTableDataSource(this.value);
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.data = this.value;
+  //   }
+  //   else{
+  //     this.value = this.data.filter((item: any) => item.isActive === value);
+  //     this.dataSource = new MatTableDataSource(this.value);
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.data = this.value;
+  //   }
 
-  }
+  // }
 
   deleteData(planId: number) {
     this.alertify.confirm('Delete Role', 'Are you sure to delete role',

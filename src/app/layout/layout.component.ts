@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewChild, HostListener} from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { MenuNameService } from '../service/data/menu-name.service';
 import { browserRefresh } from '../app.component';
 import { Router } from '@angular/router';
@@ -22,10 +22,10 @@ export class LayoutComponent implements OnInit {
     this.windowWidth = window.innerWidth;
   }
   @HostListener('window:resize', ['$event'])
-onResize(event: any) {
+  onResize(event: any) {
     this.windowWidth = event.target.innerWidth;
     this.checkSidenav();
-}
+  }
 
   ngOnInit(): void {
     //check if page is reload

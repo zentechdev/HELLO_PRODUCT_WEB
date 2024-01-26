@@ -20,5 +20,9 @@ export class LoginService {
   getStatusByMobileNumber(mobileNumber:string){
    return this.http.get<any>(`${baseUrl}/api/ManageUsers/getEmployeeStatus/`+mobileNumber)
   }
+
+  postOTP(data:any){
+    return this.http.post<any>(`${baseUrl}/api/Sms/sendOTP`, data)
+  }
   
 }

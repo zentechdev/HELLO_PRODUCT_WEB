@@ -88,9 +88,9 @@ import { BulkUploadModule } from './bulk-upload/bulk-upload.module';
         NgbModule,
         ReactiveFormsModule,
         HttpClientModule,
-        ReportModule,
         MatTableExporterModule,
         NgSelect2Module,
+                ReportModule,
         AddClientModule,
         BulkUploadModule
     ]
