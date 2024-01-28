@@ -114,6 +114,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   async sendOtpOnMobile() {
+    debugger
     // Get the mobile number from the form
     const mobileNumber = this.formGroup.value.mobileNumber;
 
