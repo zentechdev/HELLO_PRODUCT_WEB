@@ -180,10 +180,11 @@ export class EmployeeBulkUploadComponent implements OnInit {
           next: (res) => {
             if (res.isSuccess == true) {
               this.alertify.success(res.message);
-              this.formGroup.reset();
+              this.formGroup.get('file')?.setValue('');
             }
             else {
               this.alertify.error(res.message);
+              this.formGroup.get('file')?.setValue('');
             }
           },
           error: (res) => {

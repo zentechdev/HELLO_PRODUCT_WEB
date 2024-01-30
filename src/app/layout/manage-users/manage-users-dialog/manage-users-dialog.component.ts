@@ -257,15 +257,29 @@ export class ManageUsersDialogComponent implements OnInit {
     this.service.getAllRole()
       .subscribe({
         next: (res) => {
-          if (this.roleName == "Master Admin") {
-            this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Employee' && role.roleName !== 'Site Admin' && role.roleName !== 'Unit Admin');
+          if(this.editData){
+            if (this.roleName == "Master Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin');
+            }
+            else if (this.roleName == "Super Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' &&  role.roleName !== 'Super Admin' && role.roleName !== 'Visitor Device');
+            } else if (this.roleName == "Site Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin'  && role.roleName !== 'Visitor Device');
+            } else if (this.roleName == "Unit Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Unit Admin' && role.roleName !== 'Visitor Device');
+            }
           }
-          else if (this.roleName == "Super Admin") {
-            this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Employee' && role.roleName !== 'Super Admin' && role.roleName !== 'Unit Admin' && role.roleName !== 'Visitor Device');
-          } else if (this.roleName == "Site Admin") {
-            this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Employee' && role.roleName !== 'Visitor Device');
-          } else if (this.roleName == "Unit Admin") {
-            this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Unit Admin' && role.roleName !== 'Visitor Device');
+          else{
+            if (this.roleName == "Master Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Employee' && role.roleName !== 'Site Admin' && role.roleName !== 'Unit Admin');
+            }
+            else if (this.roleName == "Super Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Employee' && role.roleName !== 'Super Admin' && role.roleName !== 'Unit Admin' && role.roleName !== 'Visitor Device');
+            } else if (this.roleName == "Site Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Employee' && role.roleName !== 'Visitor Device');
+            } else if (this.roleName == "Unit Admin") {
+              this.roleList = res.data.filter((role: any) => role.isActive == 'Active' && role.roleName !== 'Master Admin' && role.roleName !== 'Site Admin' && role.roleName !== 'Super Admin' && role.roleName !== 'Unit Admin' && role.roleName !== 'Visitor Device');
+            }
           }
         },
         error: (res) => {
@@ -371,7 +385,7 @@ export class ManageUsersDialogComponent implements OnInit {
               this.dialogRef.close('UPDATE');
             }
             else {
-              alert(res.message);
+              this.alertify.error(res.message);
             }
           },
           error: (res) => {
