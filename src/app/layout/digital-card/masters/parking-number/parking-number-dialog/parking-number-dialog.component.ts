@@ -44,19 +44,20 @@ export class ParkingNumberDialogComponent implements OnInit {
   unitNumberList: any;
   vehicleTypeList: any;
   vehicleTypeId: any;
+  parkingTypeList:any;
 
 
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ParkingNumberService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ParkingNumberDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      siteName:['', Validators.required],
-      wingName:['', Validators.required],
+      siteName: ['', Validators.required],
+      wingName: ['', Validators.required],
       floorName: ['', Validators.required],
-      vehicleName:['', Validators.required],
+      vehicleName: ['', Validators.required],
       parkingNumber: ['', Validators.required],
       isActive: ['', Validators.required],
-      createdBy:['']
+      createdBy: ['']
     })
 
     const encryptedData = String(localStorage.getItem('memberId'));
@@ -79,6 +80,9 @@ export class ParkingNumberDialogComponent implements OnInit {
     this.getfloorDetails();
     this.getVehicleType();
 
+    // Amol
+    this.getParkingList();
+
   }
 
 
@@ -93,7 +97,7 @@ export class ParkingNumberDialogComponent implements OnInit {
         }
       })
   }
-  
+
   getSiteDetails() {
     this.service.getSiteDetails()
       .subscribe({
@@ -177,15 +181,15 @@ export class ParkingNumberDialogComponent implements OnInit {
 
     let formGroup = {
       "siteId": this.siteId,
-      "wingId":this.wingId,
-      "floorId":this.floorId,
-      "vehicleTypeId":this.vehicleTypeId,
-      "parkingNumber":this.formGroup.value.parkingNumber,
+      "wingId": this.wingId,
+      "floorId": this.floorId,
+      "vehicleTypeId": this.vehicleTypeId,
+      "parkingNumber": this.formGroup.value.parkingNumber,
       "isActiveId": this.isActiveId,
-      "createdBy":this.formGroup.value.createdBy
+      "createdBy": this.formGroup.value.createdBy
     }
 
-;
+      ;
 
     if (!this.editData) {
       if (this.formGroup.valid) {
@@ -231,6 +235,17 @@ export class ParkingNumberDialogComponent implements OnInit {
           }
         })
     }
+  }
+
+  getParkingList() {
+    // Temporary list of parkinhg type..!
+    
+    this.parkingTypeList= [{ id: 1, "name": "test_1" },
+    { id: 2, "name": "test_2" },
+    { id: 3, "name": "test_3" },
+    { id: 4, "name": "test_4" },
+    { id: 5, "name": "test_5" }]
+    return this.parkingTypeList;
   }
 
 }

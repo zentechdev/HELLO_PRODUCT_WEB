@@ -9,8 +9,15 @@ export const environment = {
 // export const baseUrl=`http://192.168.0.152:5000`;
 // export const baseUrl=`https://localhost:7010`;
 
-// export const baseUrl=`http://192.168.1.5:5000`;
- export const baseUrl=`https://localhost:7010`;
+//  export const baseUrl=`http://192.168.1.5:5000`;
+
+// local
+    // export const baseUrl=`https://localhost:7010`;
+
+// production 
+export const baseUrl=`https://helloproduct.azurewebsites.net`;
+
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
