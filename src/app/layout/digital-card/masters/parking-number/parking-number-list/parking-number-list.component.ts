@@ -72,10 +72,8 @@ export class ParkingNumberListComponent implements OnInit {
     //   }
     // }
 
-
     await this.getAllParkingNumber();
     await this.getAllStatus();
-
   }
 
   openDialog() {
@@ -116,6 +114,8 @@ export class ParkingNumberListComponent implements OnInit {
       })
   }
 
+ 
+   
   getAllStatus() {
     this.service.getIsActive()
       .subscribe({

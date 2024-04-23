@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: true  //false ->true
 };
 // export const baseUrl=`http://192.168.0.152:5000`;
 // export const baseUrl=`http://192.168.0.152:5000`;
@@ -11,8 +11,8 @@ export const environment = {
 
 //  export const baseUrl=`http://192.168.1.5:5000`;
 
-// local
-    // export const baseUrl=`https://localhost:7010`;
+// local  
+    // export const baseUrl=`https://192.168.0.152:7010`;
 
 // production 
 export const baseUrl=`https://helloproduct.azurewebsites.net`;

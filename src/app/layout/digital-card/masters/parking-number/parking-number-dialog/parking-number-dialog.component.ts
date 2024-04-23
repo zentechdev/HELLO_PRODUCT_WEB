@@ -44,7 +44,8 @@ export class ParkingNumberDialogComponent implements OnInit {
   unitNumberList: any;
   vehicleTypeList: any;
   vehicleTypeId: any;
-  parkingTypeList:any;
+  parkingTypeList: any;
+  parkingTypeId: any;
 
 
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ParkingNumberService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ParkingNumberDialogComponent>) { this.dialogRef.disableClose = true }
@@ -55,6 +56,7 @@ export class ParkingNumberDialogComponent implements OnInit {
       wingName: ['', Validators.required],
       floorName: ['', Validators.required],
       vehicleName: ['', Validators.required],
+      parkingType: ['', Validators.required],
       parkingNumber: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy: ['']
@@ -69,6 +71,7 @@ export class ParkingNumberDialogComponent implements OnInit {
       this.formGroup.controls['wingName'].setValue(this.editData.wingName);
       this.formGroup.controls['floorName'].setValue(this.editData.floorName);
       this.formGroup.controls['vehicleName'].setValue(this.editData.vehicleTypeName);
+      this.formGroup.controls['parkingType'].setValue(this.editData.parkingType);  // parking data type list 
       this.formGroup.controls['parkingNumber'].setValue(this.editData.parkingNumber);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
@@ -79,12 +82,8 @@ export class ParkingNumberDialogComponent implements OnInit {
     this.getWingDetails()
     this.getfloorDetails();
     this.getVehicleType();
-
-    // Amol
     this.getParkingList();
-
   }
-
 
   getIsActive() {
     this.service.getIsActive()
@@ -146,6 +145,7 @@ export class ParkingNumberDialogComponent implements OnInit {
       });
   }
 
+// ________________________________________________________________________
 
   postData() {
 
@@ -179,41 +179,51 @@ export class ParkingNumberDialogComponent implements OnInit {
       }
     }
 
+    for (var i = 0; i < this.parkingTypeList.length; i++) {
+      if (this.parkingTypeList[i].name == this.formGroup.value.parkingType) {
+        this.parkingTypeId = this.parkingTypeList[i].id;
+      }
+    }
+
+
     let formGroup = {
       "siteId": this.siteId,
       "wingId": this.wingId,
       "floorId": this.floorId,
       "vehicleTypeId": this.vehicleTypeId,
+      "parkingTypeId": this.formGroup.value.parkingType,
       "parkingNumber": this.formGroup.value.parkingNumber,
       "isActiveId": this.isActiveId,
       "createdBy": this.formGroup.value.createdBy
-    }
+    };
 
-      ;
+    console.log("Form data for submiting at the end test :", formGroup);
 
-    if (!this.editData) {
-      if (this.formGroup.valid) {
-        this.service.postParkingNumber(formGroup)
-          .subscribe({
-            next: (res) => {
-              if (res.isSuccess == true) {
-                this.alertify.success(res.message);
-                this.formGroup.reset();
-                this.dialogRef.close('SAVE');
-              }
-              else {
-                this.alertify.error(res.message);
-              }
-            },
-            error: (res) => {
-              this.alertify.error("500 Internal Server Error");
-            }
-          })
-      }
-    }
-    else {
-      this.putData(formGroup);
-    }
+    //  Prevent this code for action.
+    //   if (this.formGroup.valid) {
+    //     this.service.postParkingNumber(formGroup)
+    //       .subscribe({
+    //         next: (res) => {
+    //           if (res.isSuccess == true) {
+    //             this.alertify.success(res.message);
+    //             this.formGroup.reset();
+    //             this.dialogRef.close('SAVE');
+    //           }
+    //           else {
+    //             this.alertify.error(res.message);
+    //           }
+    //         },
+    //         error: (res) => {
+    //           this.alertify.error("500 Internal Server Error");
+    //         }
+    //       })
+    //   }
+    // }
+    // else {
+    //   this.putData(formGroup);
+    // }
+    
+
   }
 
   putData(formGroup: any) {
@@ -238,14 +248,15 @@ export class ParkingNumberDialogComponent implements OnInit {
   }
 
   getParkingList() {
-    // Temporary list of parkinhg type..!
-    
-    this.parkingTypeList= [{ id: 1, "name": "test_1" },
-    { id: 2, "name": "test_2" },
-    { id: 3, "name": "test_3" },
-    { id: 4, "name": "test_4" },
-    { id: 5, "name": "test_5" }]
-    return this.parkingTypeList;
+    this.service.getParkingType()
+      .subscribe({
+        next: (res) => {
+          this.parkingTypeList = res.data;
+          // console.log("PArking data >>", this.parkingTypeList);
+        },
+        error: (res) => {
+          this.alertify.error("Error While fetching The Records!!");
+        }
+      });
   }
-
 }

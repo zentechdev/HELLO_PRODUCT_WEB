@@ -47,6 +47,10 @@ export class ParkingNumberService {
     return this.http.get<any>(`${baseUrl}/api/ParkingNumber/getAllParkingNumber`)
   }
 
+  getParkingType(){
+    return this.http.get<any>(`${baseUrl}/api/ParkingType/getAllParkingType`)
+  }
+
   putParkingNumber(data: any, id: Number) {
     return this.http.put<any>(`${baseUrl}/api/ParkingNumber/putParkingNumber/` + id, data)
   }
@@ -54,4 +58,5 @@ export class ParkingNumberService {
   deleteParkingNumber(id:Number){
     return this.http.delete<any>(`${baseUrl}/api/ParkingNumber/deleteParkingNumber/`+id)
   }
+
 }
