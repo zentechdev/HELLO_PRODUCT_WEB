@@ -26,15 +26,13 @@ export class WingDialogComponent implements OnInit {
   clientId: any;
   stateList: any;
   stateId: any;
-siteId: any;
-siteName: any;
+  siteId: any;
+  siteName: any;
   siteList: any;
-isActive: any;
+  isActive: any;
   wingId: any;
   wingList: any;
   roleName: any;
-
-
   constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: WingService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<WingDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
@@ -57,6 +55,7 @@ isActive: any;
     const roleName = String(localStorage.getItem("roleName"));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
 
+   
     if (this.editData) {
       this.actionBtn = 'UPDATE';
       this.formGroup.controls['siteName'].setValue(this.editData.siteId);
@@ -67,7 +66,7 @@ isActive: any;
 
     this.getIsActive();
     this.getSiteDetails();
-
+    this.getSelectDropdownRelatedFields(this.siteId);
   }
 
 
@@ -164,5 +163,14 @@ isActive: any;
           }
         })
     }
+  }
+
+  getSelectDropdownRelatedFields(data: any) {
+    this.service.getWing().subscribe((res: any) =>{
+      console.log(res);
+      this.wingList = res.data.filter((item: any) =>{
+        return item.siteId === data ? item.name : null;
+      })
+    })
   }
 }
