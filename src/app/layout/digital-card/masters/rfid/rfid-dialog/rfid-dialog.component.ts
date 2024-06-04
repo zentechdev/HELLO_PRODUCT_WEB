@@ -27,10 +27,10 @@ export class RfidDialogComponent implements OnInit {
   clientId: any;
   stateList: any;
   stateId: any;
-siteId: any;
-siteName: any;
+  siteId: any;
+  siteName: any;
   siteList: any;
-isActive: any;
+  isActive: any;
   wingId: any;
   wingList: any;
   id: any;
@@ -39,7 +39,15 @@ isActive: any;
   unitList: any;
 
 
-  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: RfidService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<RfidDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(
+    private storageEncryptionService: StorageEncryptionService,
+    private formBuilder: FormBuilder, 
+    private router: Router, 
+    private alertify: AlertifyService, 
+    private service: RfidService, @Inject(MAT_DIALOG_DATA) public editData: any, 
+    private dialogRef: MatDialogRef<RfidDialogComponent>) { 
+      this.dialogRef.disableClose = true 
+    }
 
 
   ngOnInit(): void {
@@ -87,7 +95,8 @@ isActive: any;
 
     this.getIsActive();
     this.getSiteDetails();
-    this.getAllUnit();
+    // this.getAllUnit();
+    this.selectUnit(this.siteId);
   }
 
 
@@ -202,6 +211,20 @@ isActive: any;
             this.alertify.error("500 Internal Server Error");
           }
         })
+    }
+  }
+
+  selectUnit(event: any) {
+    try {
+      this.service.getAllUnit().subscribe((res: any) =>{
+        if (res && res.data.length !== null) {
+          this.unitList = res.data.filter((item: any) =>{
+            return item.siteId == event ? item.name : null;
+          })
+        }
+      })
+    } catch(err) {
+      console.error('something went wrong', err);
     }
   }
 

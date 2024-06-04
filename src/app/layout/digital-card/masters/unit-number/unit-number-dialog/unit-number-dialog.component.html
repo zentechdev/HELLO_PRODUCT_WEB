@@ -6,8 +6,8 @@
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Site Name</mat-label>
-                        <mat-select formControlName="siteName" placeholder="Site Name">
-                          <mat-option *ngFor="let site of siteList" [value]="site.id">
+                        <mat-select formControlName="siteName" placeholder="Site Name" [(ngModel)]="defaultSiteName" [disabled]="true">
+                          <mat-option *ngFor="let site of siteList" [value]="site.siteName" selected>
                             {{ site.siteName }}
                           </mat-option>
                         </mat-select>
@@ -21,7 +21,7 @@
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Wing Name</mat-label>
-                        <mat-select formControlName="wingName" placeholder="Wing Name">
+                        <mat-select formControlName="wingName" placeholder="Wing Name" (selectionChange)="getSelectFloor($event)">
                           <mat-option *ngFor="let wing of wingList" [value]="wing.id">
                             {{ wing.name }} - {{wing.siteName}}
                           </mat-option>
@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                   <mat-form-field appearance="outline">
                       <mat-label>Floor Name</mat-label>
-                      <mat-select formControlName="floorName" placeholder="Wing Name">
+                      <mat-select formControlName="floorName" placeholder="Wing Name" >
                         <mat-option *ngFor="let floor of floorList" [value]="floor.id">
                           {{ floor.name }} - {{floor.siteName}}
                         </mat-option>

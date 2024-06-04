@@ -77,8 +77,10 @@ export class FloorDialogComponent implements OnInit {
 
     this.getIsActive();
     this.getSiteDetails();
-    this.getWingDetails();
+    this.selectFloor(this.siteId);
+    // this.getWingDetails();
     this.getAllFloorType();
+
   }
 
 
@@ -216,4 +218,20 @@ export class FloorDialogComponent implements OnInit {
     }
   }
 
+  selectFloor(data: any){
+    try{
+      if (data !== null){
+        this.service.getWingDetails().subscribe((res: any) =>{
+          if (res && res.data.length !== 0){
+            console.log('response of wing', res);
+            this.wingList = res.data.filter((item: any) =>{
+              return item.siteId == data ? item.name : null;
+            });
+          }
+        });
+      }
+    } catch(error: any){
+      console.error('something went wrong', error);
+    }
+  }
 }

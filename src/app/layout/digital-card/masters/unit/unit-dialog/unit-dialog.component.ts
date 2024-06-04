@@ -40,11 +40,14 @@ export class UnitDialogComponent implements OnInit {
   floorNumberList: any;
   unitNumberList: any;
   roleName: any;
-
+  defaultSiteName: any;
 
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: UnitService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<UnitDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
+    // const siteName = String(localStorage.getItem("siteName"));
+    // this.defaultSiteName = this.storageEncryptionService.decryptData(siteName);
+
     this.formGroup = this.formBuilder.group({
       siteName:['', Validators.required],
       wingName:['', Validators.required],
@@ -68,6 +71,7 @@ export class UnitDialogComponent implements OnInit {
     const roleName = String(localStorage.getItem("roleName"));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
     
+    
     if (this.editData) {
       this.actionBtn = 'UPDATE';
       this.formGroup.controls['siteName'].setValue(this.editData.siteId);
@@ -82,9 +86,11 @@ export class UnitDialogComponent implements OnInit {
 
     this.getIsActive();
     this.getSiteDetails();
-    this.getWingDetails()
-    this.getfloorDetails();
-    this.getUnitDetails();
+    // this.getWingDetails()
+    // this.getfloorDetails();
+    // this.getUnitDetails();
+
+    this.getSelectDropdownRelatedFields(this.siteId);
 
   }
 
@@ -251,4 +257,52 @@ export class UnitDialogComponent implements OnInit {
     }
   }
 
+
+
+  getSelectDropdownRelatedFields(data: any){
+    console.log('data list', data);
+    this.service.getWingDetails().subscribe((res: any) =>{
+      this.wingList = res.data.filter((item: any) =>{
+        console.log(item.siteName, data);
+        return item.siteId == data ? item.name : null;
+      });
+    });
+  }
+
+  getSelectFloor(event: any){
+    try {
+      if (event.value !== '') {
+        this.service.getfloorDetails().subscribe((res: any) =>{
+          if (res && res.data.length !== null) {
+            this.floorList  = res.data.filter((item: any) =>{
+              return item.siteId == this.siteId && item.wingId == event.value ? item.name : null;
+            });
+            console.log('floor list', this.floorList);
+          }
+        });
+      }
+    }
+    catch(error) {
+      console.error('something went wrong');
+    }
+  }
+
+  getSelectUnit(event: any){
+    try {
+      if (event.value !== '') {
+        this.service.getUnitDetails().subscribe((res: any) =>{
+          if (res && res.data.length !== null) {
+            console.log('response of unit list', res);
+            this.unitNumberList  = res.data.filter((item: any) =>{
+              return item.siteId == this.siteId && item.wingId == event.value ? item.name : null;
+            });
+            console.log('unit list', this.unitNumberList);
+          }
+        });
+      }
+    }
+    catch(error) {
+      console.error('something went wrong');
+    }
+  }
 }

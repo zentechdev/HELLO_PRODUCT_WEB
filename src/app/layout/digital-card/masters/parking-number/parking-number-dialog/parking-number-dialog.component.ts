@@ -40,17 +40,20 @@ export class ParkingNumberDialogComponent implements OnInit {
   floorList: any;
   floorId: any;
   id: any;
-  floorNumberList: any;
+  // floorNumberList: any;
   unitNumberList: any;
   vehicleTypeList: any;
   vehicleTypeId: any;
   parkingTypeList: any;
   parkingTypeId: any;
-
-
+  defaultSiteName: any;
+  disabledSiteField: boolean = true;
   constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ParkingNumberService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ParkingNumberDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
+    let siteName: any = String;
+    siteName = localStorage.getItem('siteName');
+    this.defaultSiteName = this.storageEncryptionService.decryptData(siteName);
     this.formGroup = this.formBuilder.group({
       siteName: ['', Validators.required],
       wingName: ['', Validators.required],
@@ -79,10 +82,12 @@ export class ParkingNumberDialogComponent implements OnInit {
 
     this.getIsActive();
     this.getSiteDetails();
-    this.getWingDetails()
-    this.getfloorDetails();
+    // this.getWingDetails()
+    // this.getfloorDetails();
     this.getVehicleType();
     this.getParkingList();
+
+    this.getSelectDropdownList(this.defaultSiteName);
   }
 
   getIsActive() {
@@ -113,7 +118,7 @@ export class ParkingNumberDialogComponent implements OnInit {
     this.service.getWingDetails()
       .subscribe({
         next: (res) => {
-          this.wingList = res.data;
+          // this.wingList = res.data;
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -126,6 +131,7 @@ export class ParkingNumberDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.floorList = res.data;
+          // console.log('floor list', res.data);
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
@@ -143,6 +149,8 @@ export class ParkingNumberDialogComponent implements OnInit {
           this.alertify.error("Error While fetching The Records!!");
         }
       });
+
+      this.getSelectDropdownList(this.defaultSiteName);
   }
 
 // ________________________________________________________________________
@@ -197,31 +205,31 @@ export class ParkingNumberDialogComponent implements OnInit {
       "createdBy": this.formGroup.value.createdBy
     };
 
-    console.log("Form data for submiting at the end test :", formGroup);
+    // console.log("Form data for submiting at the end test :", formGroup);
 
     //  Prevent this code for action.
-    //   if (this.formGroup.valid) {
-    //     this.service.postParkingNumber(formGroup)
-    //       .subscribe({
-    //         next: (res) => {
-    //           if (res.isSuccess == true) {
-    //             this.alertify.success(res.message);
-    //             this.formGroup.reset();
-    //             this.dialogRef.close('SAVE');
-    //           }
-    //           else {
-    //             this.alertify.error(res.message);
-    //           }
-    //         },
-    //         error: (res) => {
-    //           this.alertify.error("500 Internal Server Error");
-    //         }
-    //       })
-    //   }
+      if (this.formGroup.valid) {
+        this.service.postParkingNumber(formGroup)
+          .subscribe({
+            next: (res) => {
+              if (res.isSuccess == true) {
+                this.alertify.success(res.message);
+                this.formGroup.reset();
+                this.dialogRef.close('SAVE');
+              }
+              else {
+                this.alertify.error(res.message);
+              }
+            },
+            error: (res) => {
+              this.alertify.error("500 Internal Server Error");
+            }
+          })
+      }
     // }
-    // else {
-    //   this.putData(formGroup);
-    // }
+    else {
+      this.putData(formGroup);
+    }
     
 
   }
@@ -252,11 +260,31 @@ export class ParkingNumberDialogComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.parkingTypeList = res.data;
-          // console.log("PArking data >>", this.parkingTypeList);
         },
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!");
         }
       });
-  }
+    }
+
+
+    getSelectDropdownList(data: any) {
+      this.service.getWingDetails().subscribe((res: any) =>{
+        this.wingList = res.data.filter((item: any) =>{
+          return item.siteName == data ? item.name : null;
+        });
+      });
+    }
+
+    getSelectFloor(event: any){
+      if(event.value !== ''){
+        this.service.getfloorDetails().subscribe((res: any) =>{
+          if (res && res.data) {
+            this.floorList = res.data.filter((item: any) =>{
+              return item.wingName == event.value && item.floorType == "Parking" && item.siteName == this.defaultSiteName ? item.name : null;
+            });
+          }
+        });
+      }
+    }
 }

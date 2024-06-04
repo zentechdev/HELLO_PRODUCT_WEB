@@ -40,11 +40,20 @@ export class UnitNumberDialogComponent implements OnInit {
   floorId: any;
   id: any;
   roleName: any;
+  defaultSiteName: any;
 
-
-  constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: UnitNumberService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<UnitNumberDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(
+    private storageEncryptionService: StorageEncryptionService, 
+    private formBuilder: FormBuilder, 
+    private router: Router, 
+    private alertify: AlertifyService, 
+    private service: UnitNumberService, @Inject(MAT_DIALOG_DATA) public editData: any, 
+    private dialogRef: MatDialogRef<UnitNumberDialogComponent>) { this.dialogRef.disableClose = true }
 
   ngOnInit(): void {
+    const siteName = String(localStorage.getItem('siteName'));
+    this.defaultSiteName = this.storageEncryptionService.decryptData(siteName);
+
     this.formGroup = this.formBuilder.group({
       siteName:['', Validators.required],
       wingName:['', Validators.required],
@@ -68,19 +77,20 @@ export class UnitNumberDialogComponent implements OnInit {
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
-      this.formGroup.controls['siteName'].setValue(this.editData.siteId);
-      this.formGroup.controls['wingName'].setValue(this.editData.wingId);
-      this.formGroup.controls['floorName'].setValue(this.editData.floorId);
-      this.formGroup.controls['name'].setValue(this.editData.name);
-      this.formGroup.controls['isActive'].setValue(this.editData.isActive);
+      this.formGroup.get('siteName')?.setValue(this.editData.siteId);
+      this.formGroup.get('wingName')?.setValue(this.editData.wingId);
+      this.formGroup.get('floorName')?.setValue(this.editData.floorId);
+      this.formGroup.get('name')?.setValue(this.editData.name);
+      this.formGroup.get('isActive')?.setValue(this.editData.isActive);
     }
 
     this.formGroup.controls['createdBy'].setValue(this.memberId);
 
     this.getIsActive();
     this.getSiteDetails();
-    this.getWingDetails()
-    this.getfloorDetails();
+    this.getSelectWing(this.defaultSiteName);
+    // this.getWingDetails()
+    // this.getfloorDetails();
 
   }
 
@@ -101,14 +111,18 @@ export class UnitNumberDialogComponent implements OnInit {
     this.service.getSiteDetails()
       .subscribe({
         next: (res) => {
-          if(this.roleName=="Master Admin"){
-            this.siteList=res.data;
+          console.log('response of site details', res);
+          if(this.roleName == "Master Admin"){
+            this.siteList = res.data;
           }
-          else if(this.roleName=="Super Admin"){
-            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          else if(this.roleName == "Super Admin"){
+            this.siteList = res.data.filter((item:any)=>item.clientId == this.clientId);
           }
           else if(this.roleName=="Site Admin"){
-            this.siteList=res.data.filter((item:any)=>item.clientId == this.clientId && item.id == this.siteId);
+            this.siteList = res.data.filter((item:any)=>
+              item.clientId == this.clientId && item.id == this.siteId
+          );
+          console.log('site list ', this.siteList);
           }
         },
         error: (res) => {
@@ -124,14 +138,15 @@ export class UnitNumberDialogComponent implements OnInit {
     this.service.getWingDetails()
       .subscribe({
         next: (res) => {
-          if(this.roleName=="Master Admin"){
-            this.wingList=res.data;
+          if(this.roleName == "Master Admin"){
+            this.wingList = res.data;
           }
-          else if(this.roleName=="Super Admin"){
-            this.wingList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          else if(this.roleName == "Super Admin"){
+            this.wingList = res.data.filter((item:any)=>item.clientId == this.clientId);
           }
-          else if(this.roleName=="Site Admin"){
-            this.wingList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          else if(this.roleName == "Site Admin"){
+            this.wingList = res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+            console.log('wing list data', this.wingList);
           }
         },
         error: (res) => {
@@ -221,5 +236,40 @@ export class UnitNumberDialogComponent implements OnInit {
           }
         })
     }
+  }
+
+  getSelectWing(data: any){
+    try {
+      if (data !== null) {
+        this.service.getWingDetails().subscribe((res: any) =>{
+          if (res && res.data.length !== null) {
+            this.wingList = res.data.filter((item: any) =>{
+              return item.siteName == data ? item.name : null;
+            });
+          }
+        });
+      }
+    } catch(error) {
+      console.error('something went wrong', error);
+    }
+  }
+
+  getSelectFloor(event: any){
+    try {
+      if (event.value !== '') {
+        this.service.getfloorDetails().subscribe((res: any) =>{
+          if (res && res.data.length !== null){
+            // console.log('response of floor', res);
+            this.floorList = res.data.filter((item: any) =>{
+              return item.wingId == event.value && item.siteName == this.defaultSiteName ? item.name : null;
+            });
+            // console.log('floor list', this.floorList);
+          }
+        });
+      }
+    } catch(error) {
+      console.error('something went wrong', error);
+    }
+    
   }
 }
