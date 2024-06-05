@@ -1,7 +1,18 @@
-
+<!-- <div class="container">
+  <div class="row mb-3">
+    <div class="col-md-12 col-sm-6" style="display: flex; justify-content: space-around;">
+      <button mat-button [color]="selectedTab === 'visitors' ? 'primary' : ''" (click)="selectTab('visitors')">
+        Visitor Details
+      </button>
+      <button mat-button [color]="selectedTab === 'parking' ? 'primary' : ''" (click)="selectTab('parking')">
+        Parking Details
+      </button>
+    </div>
+  </div>
+</div> -->
   <div>
-    <div class="row">
-      <div class="col-sm-4 col-x4-4 col-md-3 mb-sm-3">
+    <div class="row" style="margin-left: 2px;">
+      <!-- <div class="col-sm-4 col-x4-4 col-md-3 mb-sm-3">
         <div class="card" style="background-color: #d82a1b; height: 120px; color: white; font-size: 30px;">
           <div class="card-body">
             <h2>All Invited Visitor</h2>
@@ -34,7 +45,19 @@
             <p style="text-align: right; ">{{todayNonInvitedVisitor}}</p>
           </div>
         </div>
+      </div> -->
+
+      <div class="row" style="margin-left: 2px; white-space: nowrap; overflow-x: auto;">
+        <div class="col-4 col-sm-4 col-md-3" *ngFor="let list of visitorBookingList">
+          <div class="card" style="background-color: #d82a1b; height: 120px; color: white; font-size: 30px; display: inline-block; margin-right: 5px;">
+            <div class="card-body">
+              <h2>{{addSpaceAndTitleCase(list?.visitorType)}}</h2>
+              <p style="text-align: center;">{{list?.total}}</p>
+            </div>
+          </div>
+        </div>
       </div>
+      
     </div>
     <div class="card" style="padding: 15px;">
       <div class="row">
@@ -77,3 +100,53 @@
         </div>
       </div>
     </div>
+
+    <div class="card" style="padding: 15px;">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 style="display: flex; justify-content: center"><strong>All Parking Details</strong></h3>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <thead>
+              <tr>
+                <th scope="colgroup" colspan="2" style="text-align: center;">Wing Type</th>
+                <th scope="colgroup" colspan="2" style="text-align: center;">Floor Type</th>
+                <th scope="col" rowspan="2" >Total</th>
+              </tr>
+              <tr>
+                <th scope="col">A</th>
+                <th scope="col">B</th>
+                <th scope="col">Parking</th>
+                <th scope="col">Unit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detail of parkingDetails">
+                <td>{{ detail.wingName === 'A' ? 'Yes' : '-' }}</td>
+                <td>{{ detail.wingName === 'B' ? 'Yes' : '-' }}</td>
+                <td>{{ detail.floorType === 'Parking' ? 'Yes' : '-' }}</td>
+                <td>{{ detail.floorType === 'Unit' ? 'Yes' : '-' }}</td>
+                <td>{{ detail.name }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: bold;">{{ wingATotal }}</td>
+                <td style="font-weight: bold;">{{ wingBTotal }}</td>
+                <td style="font-weight: bold;">{{ parkingTotal }}</td>
+                <td style="font-weight: bold;">{{ unitTotal }}</td>
+                <td>Totals</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <div class="report-section">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+              [responsive]="chartOptions.responsive" [colors]="chartOptions.colors"></apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

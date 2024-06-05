@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -28,7 +28,12 @@ export class WalkInVisitorComponent implements OnInit {
   unitId!: number;
   roleName: any;
 
-  constructor(private storageEncryptionService:StorageEncryptionService,private service:VisitorDetailsService,private alertify:AlertifyService,private formBuilder:FormBuilder) { }
+  constructor(
+    private storageEncryptionService:StorageEncryptionService,
+    private service:VisitorDetailsService,
+    private alertify:AlertifyService,
+    private formBuilder:FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -126,15 +131,18 @@ export class WalkInVisitorComponent implements OnInit {
   }
 
   checkOut(mobileNumber: string) {
-
     let data = null;
-
     this.service.checkOut(mobileNumber, data)
       .subscribe({
         next: (res) => {
           if (res.isSuccess == true) {
             this.alertify.success(res.message);
-            this.getAllTodaysVisitor();
+            // this.getAllTodaysVisitor();
+            const row = this.data.find((detail: any) => detail.mobileNumber === mobileNumber);
+            if (row) {
+              row.checkInStatus = false;
+            }
+            this.changeDetectorRef.detectChanges();
           }
           else {
             this.alertify.error(res.message);

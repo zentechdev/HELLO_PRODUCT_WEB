@@ -3,7 +3,7 @@
         <div class="col-md-4">
             <mat-form-field appearance="outline">
                 <mat-label>Filter</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input autocomplete="off">
+                <input matInput (keyup.enter)="$event.preventDefault(); applyFilter($event)" placeholder="Ex. Mia" #input autocomplete="off">
             </mat-form-field>
         </div>
         <!-- <div class="col-md-2">

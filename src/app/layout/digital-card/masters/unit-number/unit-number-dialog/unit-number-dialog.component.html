@@ -48,8 +48,9 @@
           
               <div class="col-md-6">
                     <mat-form-field appearance="outline">
-                        <mat-label>Unit Name </mat-label>
-                        <input formControlName="name" matInput placeholder="Unit Name " autocomplete="off">
+                        <mat-label>Unit Number </mat-label>
+                        <input oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                         formControlName="name" matInput placeholder="Unit Number " autocomplete="off">
                         <mat-error *ngIf="formGroup.get('name')?.hasError('required')">
                             Floor Name  <strong>required</strong>
                         </mat-error>
