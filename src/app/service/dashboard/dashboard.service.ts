@@ -144,4 +144,12 @@ export class DashboardService {
     return this.http.get<any>(`${baseUrl}/api/Visitors/getAllVisitorsCountByClintId/`+id)
   }
 
+
+  getAllOccupiedParking(){
+    return this.http.get(`${baseUrl}/api/OccupiedParking/getAllOccupiedParking`);
+  }
+
+  getAllParkingBySiteID(Id: any){
+    return this.http.get(`${baseUrl}/api/parkingDetails/getParkingBySiteId/` +Id);
+  }
 }
