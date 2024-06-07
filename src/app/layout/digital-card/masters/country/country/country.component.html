@@ -30,7 +30,7 @@
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Country Name</mat-label>
-                        <input formControlName="countryName" matInput placeholder="Country Name" autocomplete="off">
+                        <input formControlName="countryName" matInput placeholder="Country Name" appNotAllowNumber autocomplete="off">
                         <mat-error *ngIf="formGroup.get('countryName')?.hasError('required')">
                             Country Name is <strong>required</strong>
                         </mat-error>

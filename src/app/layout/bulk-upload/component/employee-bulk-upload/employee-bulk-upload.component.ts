@@ -26,7 +26,6 @@ export class EmployeeBulkUploadComponent implements OnInit {
   unitName: any;
   actionBtn = 'SAVE';
   employeeTechAccessId:any;
-
   constructor(private excelService:DownloadExcelService,private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private service: MemberBulkUploadService, private alertify: AlertifyService) { }
 
   ngOnInit(): void {
@@ -103,7 +102,10 @@ export class EmployeeBulkUploadComponent implements OnInit {
   }
 
   clearData(){
-    this.formGroup.reset();
+    this.formGroup.get('unitId')?.reset();
+    this.formGroup.get('file')?.reset();
+    this.formGroup.get('isActive')?.reset();
+    this.formGroup.get('statusId')?.reset();
   }
 
   getAllSiteDetails() {

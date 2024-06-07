@@ -80,6 +80,7 @@ import { RfidListComponent } from './rfid/rfid-list/rfid-list.component';
 import { RfidDialogComponent } from './rfid/rfid-dialog/rfid-dialog.component';
 import { ParkingNumberDialogComponent } from './parking-number/parking-number-dialog/parking-number-dialog.component';
 import { ParkingNumberListComponent } from './parking-number/parking-number-list/parking-number-list.component';
+import { NotAllowNumberDirective } from './directive/not-allow-number.directive';
 
 
 
@@ -139,6 +140,7 @@ import { ParkingNumberListComponent } from './parking-number/parking-number-list
     RfidDialogComponent,
     ParkingNumberDialogComponent,
     ParkingNumberListComponent,
+    NotAllowNumberDirective,
   ],
   imports: [
     CommonModule,
