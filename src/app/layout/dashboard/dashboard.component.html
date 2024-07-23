@@ -132,19 +132,54 @@
                 <td>{{ detail.name }}</td>
               </tr>
               <tr>
-                <td style="font-weight: bold;">{{ wingATotal }}</td>
-                <td style="font-weight: bold;">{{ wingBTotal }}</td>
-                <td style="font-weight: bold;">{{ parkingTotal }}</td>
-                <td style="font-weight: bold;">{{ unitTotal }}</td>
-                <td>Totals</td>
+                <td>{{ wingATotal }}</td>
+                <td>{{ wingBTotal }}</td>
+                <td>{{ parkingTotal }}</td>
+                <td>{{ unitTotal }}</td>
+                <td>{{wingATotal + wingBTotal + parkingTotal + unitTotal}}</td>
+              </tr>
+            </tbody>              
+          </table>
+        </div>
+        <div class="col-md-6">
+          <div class="report-section">
+            <apx-chart [series]="chartOptions.series" 
+             [chart]="chartOptions.chart" 
+             [plotOptions]="chartOptions.plotOptions" 
+             [xaxis]="chartOptions.xaxis" 
+             [title]="chartOptions.title" 
+             [dataLabels]="chartOptions.dataLabels">
+            </apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding: 15px;" *ngIf="roleName == 'Unit Admin'">
+      <div class="row">
+        <div class="row">
+          <div class="col-md-12">
+            <h3 style="display: flex; justify-content: center"><strong>Parking Active and Inactive Details</strong></h3>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <table class="table table-bordered border-primary">
+            <tbody>
+              <tr>
+                <th scope="row">Parking Active Status</th>
+                <td>{{countTotalActive}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Parking Inactive Status</th>
+                <td>{{countTotalInactive}}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="col-md-6">
           <div class="report-section">
-            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
-              [responsive]="chartOptions.responsive" [colors]="chartOptions.colors"></apx-chart>
+            <apx-chart [series]="optionChart1.series" [chart]="optionChart1.chart" [labels]="optionChart1.labels"
+              [responsive]="optionChart1.responsive" [colors]="optionChart1.colors"></apx-chart>
           </div>
         </div>
       </div>

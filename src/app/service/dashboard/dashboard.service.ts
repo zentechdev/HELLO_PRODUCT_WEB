@@ -152,4 +152,8 @@ export class DashboardService {
   getAllParkingBySiteID(Id: any){
     return this.http.get(`${baseUrl}/api/parkingDetails/getParkingBySiteId/` +Id);
   }
+
+  getUnitMember(){
+    return this.http.get(`${baseUrl}/api/ManageUsers/getAllMembers`);
+  }
 }

@@ -39,9 +39,7 @@ export class ApproveVisitorComponent implements OnInit {
     let formData={
       statusId : 1 ,
     }
-
     let mobileNumber = String(localStorage.getItem('parmValue'));
-
     this.service.updateVisitorStatus(formData,mobileNumber)
       .subscribe({
         next: (res) => {
@@ -60,13 +58,10 @@ export class ApproveVisitorComponent implements OnInit {
   }
 
   rejectVisitor() {
-    
     let formData={
-      statusId : 2 ,
+      statusId : 3 ,
     }
-
     let mobileNumber = String(localStorage.getItem('parmValue'))
-
     this.service.updateVisitorStatus(formData,mobileNumber)
       .subscribe({
         next: (res) => {

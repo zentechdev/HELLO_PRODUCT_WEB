@@ -64,6 +64,11 @@ export class DashboardComponent implements OnInit {
   wingATotal: any;
   wingBTotal: any;
   chartOptions: any;
+  unitName: any;
+  countTotalActive = 0;
+  countTotalInactive = 0;
+  optionChart1: any;
+  wingCounts: any = [];
   constructor(
     private formBuilder: FormBuilder,
     private storageEncryptionService: StorageEncryptionService,
@@ -100,6 +105,9 @@ export class DashboardComponent implements OnInit {
 
     const roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
+
+    const unitName = String(localStorage.getItem('unitName'));
+    this.unitName = this.storageEncryptionService.decryptData(unitName);
 
     this.getParkingDetails(this.siteId);
 
@@ -148,9 +156,9 @@ export class DashboardComponent implements OnInit {
       await this.service1.getAllVisitorsCountByUnitId(this.unitId)
         .subscribe({
           next: (res) => {
-            console.log('unit admin response', res.data);
             this.visitorBookingList = res.data;
             this.visitorCount();
+            this.getUnitAdminData("Unit Admin");
           },
           error: (res) => {
             this.alertify.error("Error While fetching The Records!!")
@@ -223,6 +231,7 @@ export class DashboardComponent implements OnInit {
     this.service1.getAllParkingBySiteID(siteId).subscribe((res: any) => {
       if (res && res.parkingfloor) {
         const allParkingDetails = res.parkingfloor.filter((item: any) => item.siteId == siteId);
+        console.log('check how many unit have a parkings', allParkingDetails);
         this.getCountParkingDetails(allParkingDetails);
       }
     });
@@ -230,28 +239,35 @@ export class DashboardComponent implements OnInit {
 
   getCountParkingDetails(data: any) {
     this.parkingDetails = data;
+    const wingCountMap:any = {};
     this.wingATotal = data.filter((detail: any) => detail.wingName === 'A').length;
     this.wingBTotal = data.filter((detail: any) => detail.wingName === 'B').length;
     this.parkingTotal = data.filter((detail: any) => detail.floorType === 'Parking').length;
     this.unitTotal = data.filter((detail: any) => detail.floorType === 'Unit').length;
+    console.log('wing Count Map', wingCountMap);
     this.chartOptions = {
       series: [{
         name: 'count',
-        data: [{
+        data: [
+          {
           x: 'Wing A',
-          y: this.wingATotal
+          y: this.wingATotal,
+          fillColor: '#008ffb'
         },
         {
           x: 'Wing B',
-          y: this.wingBTotal
+          y: this.wingBTotal,
+          fillColor: '#ff4560'
         }, 
         {
           x: 'Parking',
-          y: this.parkingTotal
+          y: this.parkingTotal,
+          fillColor: '#feb019'
         }, 
         {
           x: 'Unit',
-          y: this.unitTotal
+          y: this.unitTotal,
+          fillColor: '#00e396'
         }
       ]}
     ],
@@ -271,9 +287,8 @@ export class DashboardComponent implements OnInit {
       text: 'Wing and Parking Details'
     },
     dataLabels: {
-      enabled: true
+      enabled: false
     },
-    colors: ['#ff4560'],
     responsive: [
       {
         breakpoint: 480,
@@ -289,6 +304,7 @@ export class DashboardComponent implements OnInit {
     ]
     }
   }
+
 
   exportToPDF() {
     const pdfWidth = this.el.nativeElement.offsetWidth;
@@ -309,4 +325,85 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  //  unit admin parking details functionality started here 
+
+  getUnitAdminData(roleName: any) {
+    this.service1.getAllParkingBySiteID(this.siteId).subscribe({
+      next: (res: any) => {
+        if (res && res.parkingfloor && res.parkingfloor.length !== null) {
+          if (roleName === 'Unit Admin') {
+            res.parkingfloor.forEach((floor: any) => {
+              const allCurrentParkingStatus = floor.parking.filter((item: any) => item.status === true);
+              const allCurrentStatus = floor.parking.filter((item: any) => item.status === false);
+              console.log(allCurrentParkingStatus, allCurrentStatus);
+              this.getParkingStatus(allCurrentParkingStatus, allCurrentStatus);
+            });
+          }
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching parking data', err);
+      }
+    });
+  }
+  
+  getParkingStatus(active: any, inactive: any) {
+    try {
+      const seriesData = [];
+      if (active.length > 0) {
+        this.countTotalActive = active.length;
+        seriesData.push({ x: 'Active', y: this.countTotalActive });
+      }
+  
+      if (inactive.length > 0) {
+        this.countTotalInactive = inactive.length;
+        seriesData.push({ x: 'InActive', y: this.countTotalInactive });
+      }
+  
+      // if (seriesData.length > 0) {     
+        this.optionChart1 = {
+          series: [this.countTotalActive, this.countTotalInactive],
+          chart: {
+            width: 380,
+            type: 'donut',
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                labels: {
+                  show: true,
+                  name: {
+                    show: false
+                  },
+                  value: {
+                    show: true
+                  },
+                  total: {
+                    show: true,
+                    showAlways: false
+                  }
+                }
+              }
+            }
+          },
+          colors: [
+            '#008ffb',
+            '#ff4560',
+          ],
+          labels: ['Active', 'InActive'],
+          dataLabels: {
+            enabled: true,
+          },
+          legend: {
+            show: true
+          },
+        };
+      // }
+    } catch (err) {
+      console.error('Error setting parking status', err);
+    }
+  }
+  
+  
 }

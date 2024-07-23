@@ -2,6 +2,21 @@ mat-form-field{
     width:100%;
 }
 
+.MgmtTable {
+    th, td{
+        padding: 0px 11px 3px  15px;
+    }
+    
+}
+
+.action-column{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-top: 45%;
+
+}
+
 .button {
     border-radius: 50%;
 }
