@@ -292,11 +292,9 @@ export class UnitDialogComponent implements OnInit {
       if (event.value !== '') {
         this.service.getUnitDetails().subscribe((res: any) =>{
           if (res && res.data.length !== null) {
-            console.log('response of unit list', res);
             this.unitNumberList  = res.data.filter((item: any) =>{
-              return item.siteId == this.siteId && item.wingId == event.value ? item.name : null;
+              return item.siteId == this.siteId && item.floorId == event.value ? item.name : null;
             });
-            console.log('unit list', this.unitNumberList);
           }
         });
       }
