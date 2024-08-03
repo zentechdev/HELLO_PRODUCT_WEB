@@ -2,16 +2,16 @@
     <div class="row" style="justify-content: space-around;">
         <div class="col-md-12 mb-3">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <mat-form-field appearance="outline">
                         <mat-label>Filter</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input autocomplete="off">
                     </mat-form-field>
                 </div>
-                <div class="col-md-4">
-
-                </div>
                 <!-- <div class="col-md-4">
+
+                </div> -->
+                <div class="col-md-3">
                     <form [formGroup]="formGroup">
                         <mat-form-field appearance="outline">
                             <mat-label>Select Status</mat-label>
@@ -25,7 +25,7 @@
                                 <strong>required</strong></mat-error>
                         </mat-form-field>
                     </form>
-                </div> -->
+                </div>
                 <div class="col-md-4 adjust-button-space">
                     <button class="btn_primary " mat-raised-button (click)="openDialog()">
                         ADD NEW

@@ -170,4 +170,17 @@ export class WalkInVisitorComponent implements OnInit {
     }
   }
 
+  setStatusColor(status: any) {
+    console.log(status);
+    switch(status) {
+      case 'Rejected':
+        return 'orange';
+      case 'Approved':
+        return 'green';
+      case 'Pending':
+        return 'yellow';
+      default: 
+        return 'white'
+    }
+  }
 }

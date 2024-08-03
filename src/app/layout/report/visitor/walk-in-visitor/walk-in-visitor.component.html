@@ -110,7 +110,7 @@
                                     <!-- createdOn Column -->
                                     <ng-container matColumnDef="createdDate">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>DATE</b></th>
-                                        <td mat-cell *matCellDef="let row">{{row.createdDate}}</td>
+                                        <td mat-cell *matCellDef="let row">{{row.createdDate | date:"dd/MM/yyyy hh:mm a"}}</td>
                                     </ng-container>
 
                                     <!-- deviceType Column -->
@@ -140,12 +140,12 @@
                                     <ng-container matColumnDef="status">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>STATUS</b></th>
                                         <td mat-cell *matCellDef="let row">
-                                            <button *ngIf="row.status === 'Pending'; else disabledButton"
-                                                class="btn_primary float-end" mat-raised-button>{{row.status}}
+                                            <button *ngIf="row.status === 'Pending'; else disabledButton" [ngStyle]="{'background-color': setStatusColor(row.status)}"
+                                                class="btn_primary float-end" mat-raised-button > {{row.status}}
                                             </button>
 
                                             <ng-template #disabledButton>
-                                                <button class=" btn_primary float-end" style="background-color: rgb(114, 227, 114);color: white;" mat-raised-button
+                                                <button class=" btn_primary float-end" [ngStyle]="{'background-color': setStatusColor(row.status), 'color': 'white'}" mat-raised-button
                                                     disabled>{{row.status}}</button>
                                             </ng-template>
                                         </td>
