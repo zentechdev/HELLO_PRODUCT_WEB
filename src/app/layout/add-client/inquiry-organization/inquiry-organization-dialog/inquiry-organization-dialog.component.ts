@@ -54,6 +54,7 @@ export class InquiryOrganizationDialogComponent implements OnInit {
     })
 
     if (this.editData) {
+      console.log(this.editData);
       this.actionBtn = 'UPDATE';
       this.formGroup.controls['organizationName'].setValue(this.editData.organizationName);
       this.formGroup.controls['organizationAddress'].setValue(this.editData.organizationAddress);

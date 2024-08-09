@@ -2,12 +2,13 @@ mat-form-field{
     width:100%;
 }
 
-/* .MgmtTable {
-    th, td {
-        padding: 0px 11px 3px 15px;
-      }
-    
-} */
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    padding-left: 23px;
+    padding-right: 21px;
+}
 
 .action-column{
     position: relative;
