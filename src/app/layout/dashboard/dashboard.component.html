@@ -93,8 +93,8 @@
           </table>
         </div>
         <div class="col-md-6">
-          <div class="report-section">
-            <apx-chart [series]="chartOptions2.series" [chart]="chartOptions2.chart" [labels]="chartOptions2.labels"
+          <div class="report-section" id="chartOptions2">
+            <apx-chart *ngIf="chartOptions2" [series]="chartOptions2.series" [chart]="chartOptions2.chart" [labels]="chartOptions2.labels"
               [responsive]="chartOptions2.responsive"></apx-chart>
           </div>
         </div>
@@ -142,8 +142,8 @@
           </table>
         </div>
         <div class="col-md-6">
-          <div class="report-section">
-            <apx-chart [series]="chartOptions.series" 
+          <div class="report-section" id="chartOptions">
+            <apx-chart *ngIf="chartOptions" [series]="chartOptions.series" 
              [chart]="chartOptions.chart" 
              [plotOptions]="chartOptions.plotOptions" 
              [xaxis]="chartOptions.xaxis" 
@@ -177,8 +177,8 @@
           </table>
         </div>
         <div class="col-md-6">
-          <div class="report-section">
-            <apx-chart [series]="optionChart1.series" [chart]="optionChart1.chart" [labels]="optionChart1.labels"
+          <div class="report-section" id="optionChart1">
+            <apx-chart *ngIf="optionChart1" [series]="optionChart1.series" [chart]="optionChart1.chart" [labels]="optionChart1.labels"
               [responsive]="optionChart1.responsive" [colors]="optionChart1.colors"></apx-chart>
           </div>
         </div>

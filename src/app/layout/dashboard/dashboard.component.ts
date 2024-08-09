@@ -86,14 +86,15 @@ export class DashboardComponent implements OnInit {
 
 
   async ngOnInit(): Promise<void> {
-    this.formGroup = await this.formBuilder.group({
-      branchId: ['']
-    })
-
     setInterval(() => {
       this.getCountAllVisitor(); // Refresh every 1 minute
     }, 300000);
 
+    this.formGroup = this.formBuilder.group({
+      branchId: ['']
+    })
+
+    
     const clientId = String(localStorage.getItem("clientId"));
     this.clientId = Number(this.storageEncryptionService.decryptData(clientId));
 
@@ -113,7 +114,7 @@ export class DashboardComponent implements OnInit {
 
     await Promise.all([
       this.getCountAllVisitor(),
-      this.visitorCount(),
+      // this.visitorCount(this.visitorBookingList),
     ])
 
   }
@@ -124,7 +125,7 @@ export class DashboardComponent implements OnInit {
         .subscribe({
           next: (res) => {
             this.visitorBookingList = res.data;
-            this.visitorCount();
+            this.visitorCount(res.data);
           },
           error: (res) => {
             this.alertify.error("Error While fetching The Records!!")
@@ -133,9 +134,9 @@ export class DashboardComponent implements OnInit {
     } else if (this.roleName == "Super Admin") {
       await this.service1.getAllVisitorsCountByClintId(this.clientId)
         .subscribe({
-          next: (res) => {
-            this.visitorBookingList = res.data;
-            this.visitorCount();
+          next: (list) => {
+            this.visitorBookingList = list.data;
+            this.visitorCount(list.data);
           },
           error: (res) => {
             this.alertify.error("Error While fetching The Records!!")
@@ -146,7 +147,7 @@ export class DashboardComponent implements OnInit {
         .subscribe({
           next: (res) => {
             this.visitorBookingList = res.data;
-            this.visitorCount();
+            this.visitorCount(res.data);
           },
           error: (res) => {
             this.alertify.error("Error While fetching The Records!!")
@@ -155,9 +156,9 @@ export class DashboardComponent implements OnInit {
     } else if (this.roleName == "Unit Admin") {
       await this.service1.getAllVisitorsCountByUnitId(this.unitId)
         .subscribe({
-          next: (res) => {
-            this.visitorBookingList = res.data;
-            this.visitorCount();
+          next: (data) => {
+            this.visitorBookingList = data.data;
+            this.visitorCount(data.data);
             this.getUnitAdminData("Unit Admin");
           },
           error: (res) => {
@@ -168,27 +169,27 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  visitorCount() {
+  visitorCount(data: any) {
     const arrayName: any[] = [];
     const arrayCount: any[] = [];
-    for (let i = 0; i < this.visitorBookingList.length; i++) {
-      if (this.visitorBookingList[i].visitorType !== 'allVisitor') {
-        arrayCount.push(this.visitorBookingList[i].total);
-        arrayName.push(this.visitorBookingList[i].visitorType);
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].visitorType !== 'allVisitor') {
+        arrayCount.push(data[i].total);
+        arrayName.push(data[i].visitorType);
       }
-      if (this.visitorBookingList[i].visitorType == 'todayInvitedVisitor') {
-        this.todayInvitedVisitor = this.visitorBookingList[i].total
+      if (data[i].visitorType == 'todayInvitedVisitor') {
+        this.todayInvitedVisitor = data[i].total
       }
-      if (this.visitorBookingList[i].visitorType == 'todayNonInvitedVisitor') {
-        this.todayNonInvitedVisitor = this.visitorBookingList[i].total
+      if (data[i].visitorType == 'todayNonInvitedVisitor') {
+        this.todayNonInvitedVisitor = data[i].total
       }
-      if (this.visitorBookingList[i].visitorType == 'allInvitedVisitor') {
-        this.allInvitedVisitor = this.visitorBookingList[i].total
+      if (data[i].visitorType == 'allInvitedVisitor') {
+        this.allInvitedVisitor = data[i].total
       }
-      if (this.visitorBookingList[i].visitorType == 'allNonInvitedVisitor') {
-        this.allNonInvitedVisitor = this.visitorBookingList[i].total
+      if (data[i].visitorType == 'allNonInvitedVisitor') {
+        this.allNonInvitedVisitor = data[i].total
       }
-      if (this.visitorBookingList[i].visitorType !== 'allVisitor') {
+      if (data[i].visitorType !== 'allVisitor') {
         this.allVisitor = this.todayInvitedVisitor + this.todayNonInvitedVisitor + this.allInvitedVisitor + this.allNonInvitedVisitor
       }
     }
@@ -231,7 +232,6 @@ export class DashboardComponent implements OnInit {
     this.service1.getAllParkingBySiteID(siteId).subscribe((res: any) => {
       if (res && res.parkingfloor) {
         const allParkingDetails = res.parkingfloor.filter((item: any) => item.siteId == siteId);
-        console.log('check how many unit have a parkings', allParkingDetails);
         this.getCountParkingDetails(allParkingDetails);
       }
     });
@@ -244,7 +244,6 @@ export class DashboardComponent implements OnInit {
     this.wingBTotal = data.filter((detail: any) => detail.wingName === 'B').length;
     this.parkingTotal = data.filter((detail: any) => detail.floorType === 'Parking').length;
     this.unitTotal = data.filter((detail: any) => detail.floorType === 'Unit').length;
-    console.log('wing Count Map', wingCountMap);
     this.chartOptions = {
       series: [{
         name: 'count',
