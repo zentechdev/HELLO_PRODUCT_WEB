@@ -63,7 +63,7 @@ export class InviteVisitorComponent implements OnInit {
     const currentTime = this.datePipe.transform(currentDate,'M/dd/yyyy h:mm:ss a');
     let fromDate: any = this.datePipe.transform(this.expectedEntryTime, 'M/dd/yyyy h:mm:ss a');
 
-    if (currentTime! >= fromDate) {
+    if (currentTime! >= fromDate) { 
       if (isExpired !== true) {
         if (this.valid == false) {
           this.value = this.qrNumber;

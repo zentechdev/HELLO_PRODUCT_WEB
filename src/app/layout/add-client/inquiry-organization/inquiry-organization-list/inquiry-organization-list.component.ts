@@ -32,8 +32,14 @@ export class InquiryOrganizationListComponent implements OnInit {
   isActiveList: any;
   value!: any[];
   actionName:any;
-
-  constructor(private formBuilder: FormBuilder,private storageEncryptionService: StorageEncryptionService, private service:InquiryOrgnizationService, private alertify: AlertifyService, public dialog: MatDialog) { }
+  expandedRows: boolean[] = [];
+  
+  constructor(
+    private formBuilder: FormBuilder,
+    private storageEncryptionService: StorageEncryptionService, 
+    private service:InquiryOrgnizationService, 
+    private alertify: AlertifyService, 
+    public dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
 
@@ -74,6 +80,10 @@ export class InquiryOrganizationListComponent implements OnInit {
 
     await this.getAllInquiryOrganization();
     await this.getAllStatus();
+  }
+
+  toggleReadMore(index: number) {
+    this.expandedRows[index] = !this.expandedRows[index];
   }
 
   openDialog() {

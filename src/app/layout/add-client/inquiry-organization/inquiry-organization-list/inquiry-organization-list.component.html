@@ -42,7 +42,7 @@
         <mat-card class="mat-card mat-focus-indicator">
             <mat-card-content class="p-2">
                 <div class="container">
-                    <div>
+                    <div class="row">
                         <div class="mat-elevation-z8">
                             <table mat-table matTableExporter #exporter="matTableExporter" [dataSource]="dataSource"
                                 matSort>
@@ -62,8 +62,18 @@
                                 <!-- roleName Column -->
                                 <ng-container matColumnDef="organizationAddress">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ORGANIZATION ADDRESS</b></th>
-                                    <td mat-cell *matCellDef="let row"> {{row.organizationAddress}} </td>
+                                    <td mat-cell *matCellDef="let row; let i = index">
+                                        <ng-container *ngIf="row.organizationAddress.length > 10; else shortAddress">
+                                            <span *ngIf="!expandedRows[i]">{{ row.organizationAddress | slice:0:10 }}...</span>
+                                            <span *ngIf="expandedRows[i]">{{ row.organizationAddress }}</span>
+                                            <a (click)="toggleReadMore(i)" style="cursor: pointer; color: blue;">{{ expandedRows[i] ? 'Read Less' : 'Read More' }}</a>
+                                        </ng-container>
+                                        <ng-template #shortAddress>
+                                            {{ row.organizationAddress }}
+                                        </ng-template>
+                                    </td>
                                 </ng-container>
+                                
 
 
                                 <!-- roleName Column -->

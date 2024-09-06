@@ -89,6 +89,7 @@ export class UnitNumberDialogComponent implements OnInit {
     this.getIsActive();
     this.getSiteDetails();
     this.getSelectWing(this.defaultSiteName);
+    this.getSelectFloor(this.editData.wingId);
     // this.getWingDetails()
     // this.getfloorDetails();
 
@@ -111,18 +112,16 @@ export class UnitNumberDialogComponent implements OnInit {
     this.service.getSiteDetails()
       .subscribe({
         next: (res) => {
-          console.log('response of site details', res);
           if(this.roleName == "Master Admin"){
             this.siteList = res.data;
           }
           else if(this.roleName == "Super Admin"){
             this.siteList = res.data.filter((item:any)=>item.clientId == this.clientId);
           }
-          else if(this.roleName=="Site Admin"){
+          else if(this.roleName == "Site Admin"){
             this.siteList = res.data.filter((item:any)=>
               item.clientId == this.clientId && item.id == this.siteId
-          );
-          console.log('site list ', this.siteList);
+            );
           }
         },
         error: (res) => {
@@ -159,14 +158,14 @@ export class UnitNumberDialogComponent implements OnInit {
     this.service.getfloorDetails()
       .subscribe({
         next: (res) => {
-          if(this.roleName=="Master Admin"){
-            this.floorList=res.data;
+          if(this.roleName == "Master Admin"){
+            this.floorList = res.data;
           }
-          else if(this.roleName=="Super Admin"){
-            this.floorList=res.data.filter((item:any)=>item.clientId == this.clientId);
+          else if(this.roleName == "Super Admin"){
+            this.floorList = res.data.filter((item:any)=>item.clientId == this.clientId);
           }
-          else if(this.roleName=="Site Admin"){
-            this.floorList=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+          else if(this.roleName == "Site Admin"){
+            this.floorList = res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
           }
         },
         error: (res) => {
@@ -176,7 +175,6 @@ export class UnitNumberDialogComponent implements OnInit {
   }
 
   postData() {
-
     for (var i = 0; i < this.isActiveList.length; i++) {
       if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {
         this.isActiveId = this.isActiveList[i].isActiveId;
@@ -184,12 +182,12 @@ export class UnitNumberDialogComponent implements OnInit {
     }
 
     let formGroup = {
-      "siteId": this.formGroup.value.siteName,
-      "wingId":this.formGroup.value.wingName,
-      "floorId":this.formGroup.value.floorName,
-      "name":this.formGroup.value.name,
+      "siteId": this.siteId,
+      "wingId": this.formGroup.value.wingName,
+      "floorId": this.formGroup.value.floorName,
+      "name": this.formGroup.value.name,
       "isActiveId": this.isActiveId,
-      "createdBy":this.formGroup.value.createdBy
+      "createdBy": this.formGroup.value.createdBy
     }
 
     if (!this.editData) {
@@ -255,15 +253,14 @@ export class UnitNumberDialogComponent implements OnInit {
   }
 
   getSelectFloor(event: any){
+    let value = event.value ?? event;
     try {
-      if (event.value !== '') {
+      if (value !== '') {
         this.service.getfloorDetails().subscribe((res: any) =>{
           if (res && res.data.length !== null){
-            // console.log('response of floor', res);
             this.floorList = res.data.filter((item: any) =>{
-              return item.wingId == event.value && item.siteName == this.defaultSiteName ? item.name : null;
+              return item.wingId == value && item.siteName == this.defaultSiteName ? item.name : null;
             });
-            // console.log('floor list', this.floorList);
           }
         });
       }
