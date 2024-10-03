@@ -5,15 +5,10 @@
 }
 
 .card {
-  /* height: 250px; */
   display: flex;
   justify-content: center;
-  /* margin: 20px; */
   border-radius: 10px;
   width: 100%;
-  /* height: 100%; */
-  /* padding: 20px; */
-  /* align-items: center; */
   margin-bottom: 20px;
 
 }
@@ -56,12 +51,10 @@ button.active {
   margin-bottom: 10px;
 }
 
-mat-form-field {
-
+.mat-form-field {
   display: flex;
   align-items: end;
   justify-content: end;
-
 }
 
 .report-section p {
@@ -79,29 +72,18 @@ mat-form-field {
 }
 
 .dashboard_main {
-
   display: flex;
-
   justify-content: space-between;
 
 }
 
 .dashboard {
-
   border-radius: 10px;
-
   width: 23%;
-
   float: left;
-
   padding: 22px;
-
   background: #d82a1b;
-
   color: #fff;
-
-  box-shadow: 0px 4px 15px rgb(78 78 78 / 36%);
-
 }
 
 
@@ -110,15 +92,10 @@ mat-form-field {
 .dashboard .dash2,
 .dashboard .dash3,
 .dashboard .dash4 {
-
   display: flex;
-
   flex-direction: column-reverse;
-
   justify-content: space-between;
-
   row-gap: 10px;
-
 }
 /* .row{
   display: flex;
@@ -180,4 +157,99 @@ mat-form-field {
 table{
   margin-left: 80px;
   margin-right: 80px
+}
+
+.box {
+  flex: 1;
+  border-radius: 10px;
+  padding: 2px;
+  background-color: #fff;
+  position: relative;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); */
+}
+
+.visitor-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FFFBE6;
+  padding: 10px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  width: -webkit-fill-available;
+}
+
+.stat-item .icon {
+  margin-right: 10px;
+  font-size: 20px;
+  /* color: red; */
+}
+
+.stat-item .label {
+  flex-grow: 1;
+  font-weight: bold;
+}
+
+.stat-item .value {
+  font-size: 1.2em;
+  color: #343a40;
+}
+
+.wing-floor-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.grid-header {
+  font-weight: bold;
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
+
+.wing-floor-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.wing-type, .floor-type {
+  margin-bottom: 10px;
+}
+
+.active {
+  color: green;
+  font-weight: bold;
+}
+
+.inactive {
+  color: red;
+}
+
+.totals {
+  grid-column: span 3;
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
+
+table{
+  background-color: #FFFBE6;
 }

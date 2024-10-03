@@ -4,10 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
-import { CityService } from 'src/app/service/masters/city.service';
 import { ParkingNumberService } from 'src/app/service/masters/parking-number.service';
-import { TechnologyTypeService } from 'src/app/service/masters/technology-type.service';
-import { UnitService } from 'src/app/service/masters/unit.service';
 
 @Component({
   selector: 'app-parking-number-dialog',
@@ -48,7 +45,16 @@ export class ParkingNumberDialogComponent implements OnInit {
   parkingTypeId: any;
   defaultSiteName: any;
   disabledSiteField: boolean = true;
-  constructor(private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ParkingNumberService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ParkingNumberDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(
+    private storageEncryptionService: StorageEncryptionService, 
+    private formBuilder: FormBuilder, 
+    private router: Router, 
+    private alertify: AlertifyService, 
+    private service: ParkingNumberService, 
+    @Inject(MAT_DIALOG_DATA) public editData: any, 
+    private dialogRef: MatDialogRef<ParkingNumberDialogComponent>) { 
+      this.dialogRef.disableClose = true 
+    }
 
   ngOnInit(): void {
     let siteName: any = String;
@@ -99,7 +105,7 @@ export class ParkingNumberDialogComponent implements OnInit {
         error: (res) => {
           this.alertify.error("Error While fetching The Records!!")
         }
-      })
+      });
   }
 
   getSiteDetails() {

@@ -9,7 +9,7 @@ import { MastersModule } from './masters/masters.module';
 
 @NgModule({
   declarations: [
-    DigitalCardComponent,
+    DigitalCardComponent
   ],
   imports: [
     CommonModule,

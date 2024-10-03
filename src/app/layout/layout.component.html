@@ -4,17 +4,17 @@
         <app-side-nav></app-side-nav>
     </mat-sidenav>
     <mat-sidenav-content class="dashboard_bg">
-        <mat-toolbar color="primary" class="header_toolbar">
+        <mat-toolbar color="primary" class="header_toolbar" style="background-color: #d82a1b;">
             <!-- *ngIf="sidenav.close" -->
             <button *ngIf="sidenav.close" [hidden]="sidenav.opened" mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
+                <mat-icon style="color: white;">menu</mat-icon>
             </button>
             <!-- *ngIf="sidenav.opened" -->
             <button *ngIf="sidenav.opened" mat-icon-button (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
+                <mat-icon style="color: white;">menu</mat-icon>
             </button>
 
-            <h3 class="userName"><b>{{menuService.menuName}}</b></h3>
+            <h3 class="userName" style="color: white;"><b>{{menuService.menuName}}</b></h3>
             <span class="toolbar-spacer"></span>
             <app-header></app-header>
         </mat-toolbar>

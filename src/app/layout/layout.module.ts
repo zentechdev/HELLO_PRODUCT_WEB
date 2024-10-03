@@ -42,9 +42,12 @@ import { UnitRfidDialogComponent } from './rfid-details/rfid-unit-details/unit-r
 import { ManageUsersListComponent } from './manage-users/manage-users-list/manage-users-list.component';
 import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/manage-users-dialog.component';
 import { BulkUploadModule } from './bulk-upload/bulk-upload.module';
-
-
-
+import { ParkingBookingListComponent } from './parking-booking/parking-booking-list/parking-booking-list.component';
+import { ParkingBookingDialogComponent } from './parking-booking/parking-booking-dialog/parking-booking-dialog.component';
+import { BookingSlotComponent } from './parking-booking/booking-slot/booking-slot.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
     declarations: [
         LayoutComponent,
@@ -55,7 +58,10 @@ import { BulkUploadModule } from './bulk-upload/bulk-upload.module';
         UnitRfidListComponent,
         UnitRfidDialogComponent,
         ManageUsersListComponent,
-        ManageUsersDialogComponent
+        ManageUsersDialogComponent,
+        ParkingBookingListComponent,
+        ParkingBookingDialogComponent,
+        BookingSlotComponent
     ],
     imports: [
         CommonModule,
@@ -64,7 +70,6 @@ import { BulkUploadModule } from './bulk-upload/bulk-upload.module';
         DigitalCardModule,
         SharedModule,
         DeviceManagementModule,
-
         FormsModule,
         MatButtonModule,
         MatAutocompleteModule,
@@ -90,9 +95,12 @@ import { BulkUploadModule } from './bulk-upload/bulk-upload.module';
         HttpClientModule,
         MatTableExporterModule,
         NgSelect2Module,
-                ReportModule,
+        ReportModule,
         AddClientModule,
-        BulkUploadModule
+        BulkUploadModule,
+        MatTooltipModule,
+        MatSnackBarModule,
+        MatTabsModule
     ]
 })
 export class LayoutModule { }

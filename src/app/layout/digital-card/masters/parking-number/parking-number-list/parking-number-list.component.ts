@@ -168,7 +168,7 @@ export class ParkingNumberListComponent implements OnInit {
       },
       () => {
         this.alertify.error('Cancel');
-      })
+    })
   }
 
   ngAfterViewInit() {

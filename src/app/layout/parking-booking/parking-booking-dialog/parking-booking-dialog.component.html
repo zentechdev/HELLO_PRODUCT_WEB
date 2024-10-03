@@ -1,0 +1,57 @@
+<h3 style="text-align: center;"><b>Book Parking Slot</b></h3>
+
+<div class="col-md-12">
+  <div class="button-container">
+    <button mat-flat-button class="button button4" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+
+  <!-- Floor Selection Tabs -->
+  <div class="tabbed text-center">
+    <ul class="floor-list">
+      <li *ngFor="let floor of parkingFloor" (click)="getParkingSlot(floor?.floorName)" 
+        [ngClass]="{'active-floor': selectedFloor === floor?.floorName}">
+        {{floor?.floorName}}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="container parking-container mt-5">
+  <!-- Check if parking slots exist for p3 and p4 -->
+  <div *ngIf="parkingSlot && parkingSlot.length > 0; else noParkingMessage">
+    <div class="row justify-content-center mb-3">
+      <div class="col-auto parking-spot" 
+           *ngFor="let spot of parkingSlot"
+           [ngClass]="{
+             'occupied': spot.availabilityStatus === 'Occupied',
+             'available': spot.availabilityStatus === 'Available',
+             'permanent': spot.availabilityStatus === 'Permanent',
+             'selected':  spot.selected === true
+           }" 
+           (click)="openToggle(spot)"
+           [matTooltip]="spot.availabilityStatus + ' Parking Slot'">
+        <div class="parking-info">
+          <span class="parking-name">{{spot.parkingName}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Display this message when no parking slots are available -->
+  <ng-template #noParkingMessage>
+    <div class="no-parking-message text-center">
+      <p>No parking is available for this floor at the moment.</p>
+    </div>
+  </ng-template>
+</div>
+
+
+  <!-- Legend to explain slot status -->
+  <div class="parking-legend text-center mb-3">
+    <span class="legend-item available-legend">Available</span>
+    <span class="legend-item permanent-legend">Permanent</span>
+    <span class="legend-item occupied-legend">Occupied</span>
+  </div>

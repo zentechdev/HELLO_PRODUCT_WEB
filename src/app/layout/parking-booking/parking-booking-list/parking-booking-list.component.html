@@ -1,0 +1,116 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Filter</mat-label>
+                        <input matInput placeholder="Search here..." #input autocomplete="off" (keyup)="applyFilter($event)">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select placeholder="isActive" (selectionChange)="selectStatus($event)">
+                            <mat-option [value]="0">None</mat-option>
+                            <mat-option value="Pending">Pending</mat-option>
+                            <mat-option value="Occupied">Occupied</mat-option>
+                            <mat-option value="Canceled">Canceled</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 d-flex col-sm-12 p-1">
+                    <button class="btn_primary meeting-btn" mat-raised-button style="margin-left: 20%;" (click)="open()">
+                        BOOK PARKING
+                    </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="btn_primary float-end excel-btn" mat-raised-button>
+                        EXPORT TO EXCEL
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <mat-card class="mat-card mat-focus-indicator">
+                <mat-card-content class="col-md-12">
+                    <div class="mat-elevation-z8">
+                        <table mat-table matTableExporter  [dataSource]="dataSource"  matSort>
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
+                                <td mat-cell *matCellDef="let row;let i = index;"> 
+                                    {{ Paginator.pageSize * Paginator.pageIndex + i + 1 }}</td>
+                            </ng-container>
+                            <!-- wing name column -->
+                            <ng-container matColumnDef="wingName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>WING NAME</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.wingName}}</td>
+                            </ng-container>
+                            <!-- floor name column -->
+                            <ng-container matColumnDef="floorName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>FLOOR NAME</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.floorName}}</td>
+                            </ng-container>
+                            <!-- person name column -->
+                            <ng-container matColumnDef="personName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>PERSON NAME</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.personName}}</td>
+                            </ng-container>
+                            <!-- mobile number column -->
+                            <ng-container matColumnDef="mobileNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>MOBILE NAME</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.mobileNumber}}</td>
+                            </ng-container>
+                            <!-- vehical number column -->
+                            <ng-container matColumnDef="vehicaleNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>VEHICAL NUMBER</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.vehicaleNumber}}</td>
+                            </ng-container>
+                            <!-- parking number column -->
+                            <ng-container matColumnDef="parkingNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>PARKING NUMBER</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.parkingNumber}}</td>
+                            </ng-container>
+                            <!-- to date column -->
+                            <ng-container matColumnDef="toDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>START OF DATE BOOKING</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.fromDate | date: 'd/M/yy'}}</td>
+                            </ng-container>
+                            <!-- end date column -->
+                            <ng-container matColumnDef="fromDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>TIME OF BOOKING</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.fromDate | date: 'h:mm a'}}</td>
+                            </ng-container>
+                            <!-- booking hour column -->
+                            <ng-container matColumnDef="bookingHours">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>BOOKING HOUR</b></th>
+                                <td mat-cell *matCellDef="let row;">{{row?.bookingHours}}</td>
+                            </ng-container>
+                            <!-- booking Status column-->
+                            <ng-container matColumnDef="bookingStatus">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>STATUS</b></th>
+                                <td mat-cell *matCellDef="let row;" [ngClass]="getBookingStatusColor(row?.bookingStatus)">{{row?.bookingStatus}}</td>
+                            </ng-container>
+                            <!-- action column -->
+                             <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ACTION</b></th>
+                                <td mat-cell *matCellDef="let row">
+                                    <ng-container>
+                                        <button [disabled]="row.bookingStatus === 'Canceled'" style="border-radius: 20px;" 
+                                        mat-flat-button color="warn"  (click)="cancelParkingBooking(row?.id)">
+                                            CANCEL BOOKING
+                                        </button>
+                                    </ng-container>
+                                </td>
+                             </ng-container>
+                             <tr mat-header-row *matHeaderRowDef="displayBookingColumn"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayBookingColumn;"></tr>
+                        </table>
+                        <mat-paginator #Paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                            aria-label="Select page of users">
+                        </mat-paginator>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

@@ -81,6 +81,8 @@ import { RfidDialogComponent } from './rfid/rfid-dialog/rfid-dialog.component';
 import { ParkingNumberDialogComponent } from './parking-number/parking-number-dialog/parking-number-dialog.component';
 import { ParkingNumberListComponent } from './parking-number/parking-number-list/parking-number-list.component';
 import { NotAllowNumberDirective } from './directive/not-allow-number.directive';
+import { ParkingTypeListComponent } from './parking-Type/parking-type-list/parking-type-list.component';
+import { ParkingTypeDialogComponent } from './parking-Type/parking-type-dialog/parking-type-dialog.component';
 
 
 
@@ -141,11 +143,12 @@ import { NotAllowNumberDirective } from './directive/not-allow-number.directive'
     ParkingNumberDialogComponent,
     ParkingNumberListComponent,
     NotAllowNumberDirective,
+    ParkingTypeListComponent,
+    ParkingTypeDialogComponent
   ],
   imports: [
     CommonModule,
     MastersRoutingModule,
-
     FormsModule,
     MatButtonModule,
     MatAutocompleteModule,

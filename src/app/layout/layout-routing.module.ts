@@ -14,7 +14,7 @@ import { UnitRfidDialogComponent } from './rfid-details/rfid-unit-details/unit-r
 import { ManageUsersListComponent } from './manage-users/manage-users-list/manage-users-list.component';
 import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/manage-users-dialog.component';
 import { BulkUploadComponent } from './bulk-upload/bulk-upload.component';
-
+import { ParkingBookingListComponent } from './parking-booking/parking-booking-list/parking-booking-list.component';
 
 
 
@@ -50,14 +50,15 @@ const routes: Routes = [
     loadChildren:()=>import('./bulk-upload/bulk-upload.module').then(x=>x.BulkUploadModule)
   },
 
-  {path:'user-mapping-list',component:UserMappingListComponent},
-  {path:'user-mapping-dialog',component:UserMappingDialogComponent},
-  {path:'employee-rfid-list',component:EmployeeRfidListComponent},
-  {path:'employee-rfid-dialog',component:EmployeeRfidDialogComponent},
-  {path:'unit-rfid-list',component:UnitRfidListComponent},
-  {path:'unit-rfid-dialog',component:UnitRfidDialogComponent},
-  {path:'manage-users-list',component:ManageUsersListComponent},
-  {path:'manage-users-dialog',component:ManageUsersDialogComponent}
+  { path: 'user-mapping-list', component:UserMappingListComponent},
+  { path: 'user-mapping-dialog', component:UserMappingDialogComponent},
+  { path: 'employee-rfid-list', component:EmployeeRfidListComponent},
+  { path: 'employee-rfid-dialog', component:EmployeeRfidDialogComponent},
+  { path: 'unit-rfid-list', component:UnitRfidListComponent},
+  { path: 'unit-rfid-dialog', component:UnitRfidDialogComponent},
+  { path: 'manage-users-list', component:ManageUsersListComponent},
+  { path: 'manage-users-dialog', component:ManageUsersDialogComponent},
+  { path: 'parking-booking-list', component: ParkingBookingListComponent}
 ];
 
 @NgModule({

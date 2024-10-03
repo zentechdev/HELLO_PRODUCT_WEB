@@ -1,0 +1,34 @@
+<div mat-dialog-content>
+    <h3 mat-dialog-title>
+        <b>PARKING TYPE</b>
+    </h3>
+    <div class="container mb-5">
+        <form [formGroup]="parkingType">
+            <div class="d-flex">
+                <mat-form-field appearance="outline" class="me-5">
+                    <mat-label>Parking Type</mat-label>
+                    <input matInput placeholder="Enter Parking Type" autocomplete="off" formControlName="type">
+                    <mat-error *ngIf="parkingType.get('type')?.hasError('required')">
+                        Parking Type  <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Select Status</mat-label>
+                    <mat-select formControlName="isActive" placeholder="isActive" (selectionChange)="selectedStatus($event)">
+                        <mat-option *ngFor="let isActive of ActiveList" [value]="isActive.isActive">{{isActive.isActive}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="parkingType.get('isActive')?.hasError('required')">
+                        Status is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row" style="display: flex; justify-content: center">
+                <div class="col-md-6 col-sm-12 d-flex" >
+                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:25px">CANCEL</button>
+                    <button mat-flat-button class="button button4" color="primary"
+                     style="margin-left: 10px;" (click)="addParkingType()">{{actionbtn}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

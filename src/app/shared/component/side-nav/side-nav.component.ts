@@ -14,7 +14,7 @@ import { SideNavService } from 'src/app/service/shared/side-nav/side-nav.service
 export class SideNavComponent implements OnInit {
 
   siteId!: number;
-  siteLogoImage: any = "../../../../../../../../assets/images/main logo.png";
+  // siteLogoImage: any = "../../../../../../../../assets/images/main logo.png";
   parentMenuList: any;
   childMenuList: any;
   standalone!: true;

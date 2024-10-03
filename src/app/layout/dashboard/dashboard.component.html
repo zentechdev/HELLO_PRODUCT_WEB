@@ -48,11 +48,16 @@
       </div> -->
 
       <div class="row" style="margin-left: 2px; white-space: nowrap; overflow-x: auto;">
-        <div class="col-4 col-sm-4 col-md-3" *ngFor="let list of visitorBookingList">
-          <div class="card" style="background-color: #d82a1b; height: 120px; color: white; font-size: 30px; display: inline-block; margin-right: 5px;">
+        <div class="col-4 col-sm-4 col-md-3 box" *ngFor="let list of visitorBookingList">
+          <div class="card"
+          [ngStyle]="{'background-color': list?.color}">
             <div class="card-body">
-              <h2>{{addSpaceAndTitleCase(list?.visitorType)}}</h2>
-              <p style="text-align: center;">{{list?.total}}</p>
+              <p style="text-align: center; color: white; font-size: x-large;"><b> {{list?.total}}</b></p>
+              <h2 style="text-align: center; color: white; font-size: large;">
+                <i [class]="list.icon" style="text-align: center;">
+                  {{addSpaceAndTitleCase(list?.visitorType)}}
+                </i>
+              </h2>
             </div>
           </div>
         </div>
@@ -66,38 +71,50 @@
             <h3 style="display: flex; justify-content: center"><strong>All Visitors Details</strong></h3>
           </div>
         </div>
-        <div class="col-md-6">
-          <table class="table table-bordered border-primary">
-            <tbody>
-              <tr>
-                <th scope="row">Todays Invited Visitors</th>
-                <td>{{todayInvitedVisitor}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Todays Non invited Visitors</th>
-                <td>{{todayNonInvitedVisitor}}</td>
-              </tr>
-              <tr>
-                <th scope="row">All Invited Visitors</th>
-                <td>{{allInvitedVisitor}}</td>
-              </tr>
-              <tr>
-                <th scope="row">All Non invited Visitors</th>
-                <td>{{allNonInvitedVisitor}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Total All Visitors</th>
-                <td>{{allVisitor}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-6">
-          <div class="report-section" id="chartOptions2">
-            <apx-chart *ngIf="chartOptions2" [series]="chartOptions2.series" [chart]="chartOptions2.chart" [labels]="chartOptions2.labels"
-              [responsive]="chartOptions2.responsive"></apx-chart>
+
+        <div class="row">
+          <!-- Visitor Stats Section -->
+          <div class="col-md-6">
+            <div class="visitor-info">
+              <div class="d-flex">
+                <div class="stat-item me-2">
+                  <span class="label">Today's Invited Visitors:</span>
+                  <span class="value">{{todayInvitedVisitor}}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="label">Today's Non-invited Visitors:</span>
+                  <span class="value">{{todayNonInvitedVisitor}}</span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="stat-item me-2">
+                  <span class="label">All Invited Visitors:</span>
+                  <span class="value">{{allInvitedVisitor}}</span>
+                </div>
+                <div class="stat-item">
+                  <span class="label">All Non-invited Visitors:</span>
+                  <span class="value">{{allNonInvitedVisitor}}</span>
+                </div>
+              </div>
+              
+              <div class="stat-item">
+                <span class="label">Total All Visitors:</span>
+                <span class="value">{{allVisitor}}</span>
+              </div>
+            </div>
+          </div>
+        
+          <!-- Chart Section -->
+          <div class="col-md-6">
+            <div class="report-section" id="chartOptions2">
+              <apx-chart *ngIf="chartOptions2" [series]="chartOptions2.series" [chart]="chartOptions2.chart" 
+              [xaxis]="chartOptions2.xaxis" [yaxis]="chartOptions2.yaxis" [colors]="chartOptions2.colors"
+              [dataLabels]="chartOptions2.dataLabels" [tooltip]="chartOptions2.tooltip" [plotOptions]="chartOptions2.plotOptions"
+              [labels]="chartOptions2.labels" [responsive]="chartOptions2.responsive"></apx-chart>
+            </div>
           </div>
         </div>
+        
       </div>
     </div>
 
@@ -105,41 +122,76 @@
       <div class="row">
         <div class="row">
           <div class="col-md-12">
-            <h3 style="display: flex; justify-content: center"><strong>All Parking Details</strong></h3>
+            <h3 style="display: flex; justify-content: center"><strong>Parking and Unit Details</strong></h3>
           </div>
         </div>
         <div class="col-md-6">
           <table class="table table-bordered border-primary">
             <thead>
               <tr>
-                <th scope="colgroup" colspan="2" style="text-align: center;">Wing Type</th>
-                <th scope="colgroup" colspan="2" style="text-align: center;">Floor Type</th>
-                <th scope="col" rowspan="2" >Total</th>
+                <th scope="colgroup" colspan="2" style="text-align: center;">Parking</th>
+                <th scope="colgroup" colspan="2" style="text-align: center;">Unit</th>
+                <!-- <th scope="col" rowspan="2" >Total</th> -->
               </tr>
               <tr>
-                <th scope="col">A</th>
-                <th scope="col">B</th>
-                <th scope="col">Parking</th>
-                <th scope="col">Unit</th>
+                <th scope="col" style="text-align: center;">A</th>
+                <th scope="col" style="text-align: center;">B</th>
+                <th scope="col" style="text-align: center;">A</th>
+                <th scope="col" style="text-align: center;">B</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let detail of parkingDetails">
-                <td>{{ detail.wingName === 'A' ? 'Yes' : '-' }}</td>
-                <td>{{ detail.wingName === 'B' ? 'Yes' : '-' }}</td>
-                <td>{{ detail.floorType === 'Parking' ? 'Yes' : '-' }}</td>
-                <td>{{ detail.floorType === 'Unit' ? 'Yes' : '-' }}</td>
-                <td>{{ detail.name }}</td>
-              </tr>
-              <tr>
-                <td>{{ wingATotal }}</td>
-                <td>{{ wingBTotal }}</td>
-                <td>{{ parkingTotal }}</td>
-                <td>{{ unitTotal }}</td>
-                <td>{{wingATotal + wingBTotal + parkingTotal + unitTotal}}</td>
+              <tr style="text-align: center;">
+                <td> {{ wingATotal }} </td>
+                <td> {{ wingBTotal}} </td>
+                <td> {{ wingAUnit}} </td>
+                <td> {{ wingBUnit}} </td>
+                <!-- <td> {{ detail.name }}</td> -->
               </tr>
             </tbody>              
           </table>
+          
+          <!-- <div class="wing-floor-container">
+            <div class="grid-header">Wing Type</div>
+            <div class="grid-header">Floor Type</div>
+            <div class="grid-header">Total</div>
+            
+            <ng-container *ngFor="let detail of parkingDetails">
+              <div class="wing-floor-item">
+                <div class="wing-type">
+                  <strong>Wing A:</strong> 
+                  <span [ngClass]="{'active': detail.wingName === 'A', 'inactive': detail.wingName !== 'A'}">
+                    {{ detail.wingName === 'A' ? 'Yes' : 'No' }}
+                  </span>
+                </div>
+                <div class="wing-type">
+                  <strong>Wing B:</strong> 
+                  <span [ngClass]="{'active': detail.wingName === 'B', 'inactive': detail.wingName !== 'B'}">
+                    {{ detail.wingName === 'B' ? 'Yes' : 'No' }}
+                  </span>
+                </div>
+          
+                <div class="floor-type">
+                  <strong>Parking:</strong>
+                  <span [ngClass]="{'active': detail.floorType === 'Parking', 'inactive': detail.floorType !== 'Parking'}">
+                    {{ detail.floorType === 'Parking' ? 'Yes' : 'No' }}
+                  </span>
+                </div>
+                <div class="floor-type">
+                  <strong>Unit:</strong>
+                  <span [ngClass]="{'active': detail.floorType === 'Unit', 'inactive': detail.floorType !== 'Unit'}">
+                    {{ detail.floorType === 'Unit' ? 'Yes' : 'No' }}
+                  </span>
+                </div>
+              </div>
+            </ng-container>
+          
+            <div class="totals">
+              <strong>Total:</strong>
+              <span>{{ wingATotal + wingBTotal + parkingTotal + unitTotal }}</span>
+            </div>
+          </div> -->
+          
         </div>
         <div class="col-md-6">
           <div class="report-section" id="chartOptions">
@@ -159,22 +211,24 @@
       <div class="row">
         <div class="row">
           <div class="col-md-12">
-            <h3 style="display: flex; justify-content: center"><strong>Parking Active and Inactive Details</strong></h3>
+            <h3 style="display: flex; justify-content: center">
+              <strong>Parking Active and Inactive Details</strong>
+            </h3>
           </div>
         </div>
+       
         <div class="col-md-6">
-          <table class="table table-bordered border-primary">
-            <tbody>
-              <tr>
-                <th scope="row">Parking Active Status</th>
-                <td>{{countTotalActive}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Parking Inactive Status</th>
-                <td>{{countTotalInactive}}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="visitor-info">
+            <div class="stat-item me-2">
+              <span class="label">Parking Active Status:</span>
+              <span class="value">{{countTotalActive}}</span>
+            </div>
+            <div class="stat-item">
+              <span class="label">Parking Inactive Status:</span>
+              <span class="value">{{countTotalInactive}}</span>
+            </div>
+            
+          </div>
         </div>
         <div class="col-md-6">
           <div class="report-section" id="optionChart1">

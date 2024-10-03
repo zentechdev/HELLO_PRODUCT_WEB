@@ -1,0 +1,70 @@
+<div class="loginBox">
+    <div class="loginData">
+        <div class="loginHead">PARKING DETAILS</div>
+        <div class="container">
+            <div class="row">
+                <div class="mat-card col-md-12">
+                    <mat-card class="mat-card mat-focus-indicator">
+                        <mat-card-content class="p-2 d-flex">
+                            <p><span><b>Parking Name:</b> </span> {{editData?.parkingName}}</p>&nbsp;&nbsp;
+                            <p><span><b>Vehical Type:</b> </span> {{editData?.vehicleType}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <form [formGroup]="parkingBooking">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Owner Name</mat-label>
+                                    <input formControlName="ownerName" matInput placeholder="Owner Name"
+                                        autocomplete="off">
+                                    <mat-error *ngIf="parkingBooking.get('ownerName')?.hasError('required')">
+                                        Owner Name is <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Mobile Number</mat-label>
+                                    <input formControlName="mobileNumber" matInput placeholder="Mobile Number"
+                                           autocomplete="off" type="text" maxlength="10">
+                                    <mat-error *ngIf="parkingBooking.get('mobileNumber')?.hasError('required')">
+                                      Mobile Number <strong>required</strong>
+                                    </mat-error>
+                                    <mat-error *ngIf="parkingBooking.get('mobileNumber')?.hasError('pattern')">
+                                      Invalid Mobile Number. Must be exactly 10 digits.
+                                    </mat-error>
+                                  </mat-form-field>
+                            </div>
+                            <div class="form-group">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Vehicle Registration Number</mat-label>
+                                    <input formControlName="vehicleNumber" matInput placeholder="Vehicle Number"
+                                        autocomplete="off">
+                                    <mat-error *ngIf="parkingBooking.get('vehicleNumber')?.hasError('required')">
+                                        Vehicle Number <strong>required</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div mat-dialog-actions [align]="'end'">
+                        <button mat-flat-button class="button button4" color="warn" mat-dialog-close>CANCEL</button>
+                    </div>
+                </div>
+                <div mat-dialog-actions class="col-md-6">
+                    <div [align]="'start'">
+                        <button mat-flat-button class="button button4" style="background-color: green;" color="primary"
+                            (click)="occupiedParking()">Book</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

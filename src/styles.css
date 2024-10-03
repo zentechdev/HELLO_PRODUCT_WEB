@@ -524,6 +524,7 @@ button.btn_primary {
     background: #fff;
     padding: 8px 15px;
     text-align: left;
+    border-bottom: 2px solid white;
 }
 
 .sideNavLogo img {

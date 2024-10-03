@@ -20,7 +20,7 @@ export class AlertifyService {
     alertyfy.error(Message);
   }
 
-  alert(Title:string,Message:string){
+  alert(Title:string, Message:string){
     alertyfy.alert(Title,Message)
   }
 

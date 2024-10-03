@@ -1,0 +1,115 @@
+/* Updated Tab Design */
+.tabbed {
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  padding-bottom: 5px;
+  border-bottom: 4px solid #000;
+}
+
+.tabbed ul {
+  display: flex;
+  justify-content: center; /* Center the tabs horizontally */
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.tabbed ul li {
+  display: inline-block;
+  margin: 0 20px;
+  padding: 12px 20px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font: 600 14px/22px "Roboto", "Open Sans", Helvetica, sans-serif;
+  background-color: #f9f9f9;
+  color: #555;
+  transition: all 0.3s ease;
+  border-radius: 8px 8px 0 0;
+}
+
+.tabbed ul li:hover {
+  background-color: #eee;
+  color: #333;
+}
+
+.tabbed ul li.active-floor {
+  background-color: #007bff; /* Highlight active tab with blue */
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabbed container adjustments */
+.tabbed ul li:before,
+.tabbed ul li:after {
+  display: none; /* Hide skewed effects for a cleaner look */
+}
+
+/* Parking Slot Styling */
+.parking-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.parking-spot {
+  background-color: #f2f2f2;
+  border: 2px solid #ccc;
+  height: 60px;
+  width: 60px;
+  margin: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  position: relative;
+  border-radius: 8px;
+  transition: transform 0.3s, background-color 0.3s ease;
+}
+
+.parking-spot:hover {
+  transform: scale(1.05); /* Add a hover effect */
+  border-color: #007bff;
+}
+
+/* Available Slots */
+.parking-spot.available {
+  background-color: green;
+  color: black;
+}
+
+/* Permanent Slots */
+.parking-spot.permanent {
+  background-color: gray;
+  color: black;
+}
+
+/* Occupied Slots */
+.parking-spot.occupied {
+  background-color: red;
+  color: black;
+}
+
+/* Selected Slots */
+.parking-spot.selected {
+  background-color: #ffeeba;
+}
+
+/* Legend Styling */
+.parking-legend {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.legend-item {
+  padding: 6px 12px;
+  margin: 0 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.available-legend { background-color: green; color: white; }
+.permanent-legend { background-color: gray; color: white; }
+.occupied-legend { background-color: red; color: white; }

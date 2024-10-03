@@ -1,7 +1,7 @@
 <div class="row" style="align-items: center;">
   <!-- <div id="sign-in-button"></div> -->
   <div class="col-md-8 col-sm-4">
-    <h6 class="userName">WELCOME, {{this.userDisplayName}}</h6>
+    <h6 class="userName" style="color: white;">WELCOME, {{this.userDisplayName}}</h6>
   </div>
   <div class="col-md-2">
     <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5">
@@ -9,9 +9,24 @@
         alt="user" class="profile-pic">
     </button>
     <mat-menu #profile="matMenu" class="mymegamenu">
+      <!-- <button mat-menu-item [matMenuTriggerFor]="account"> 
+         <mat-icon>supervisor_account</mat-icon> My Account
+      </button> -->
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>Sign Out
       </button>
     </mat-menu>
+    <!-- <mat-menu #account="matMenu" class="myAccountMenu">
+      <button mat-menu-item>
+        <i class="fa fa-user-circle" aria-hidden="true">
+          Account Details   
+        </i>
+      </button>
+      <button mat-menu-item>
+        <i class="fa fa-id-card" aria-hidden="true">
+          License Details        
+        </i>
+      </button>
+    </mat-menu> -->
   </div>
 </div>
