@@ -29,4 +29,8 @@ export class ParkingBookingService {
   getVehicleList(){
     return this.http.get(`${baseUrl}/api/VehicleType/getAllVehicleType`);
   }
+
+  getParkingListDateWise(date: any){
+    return this.http.post(`${baseUrl}/api/OccupiedParking/getOccupiedParkingByDateRange`, date);
+  }
 }

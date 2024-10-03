@@ -8,6 +8,7 @@ import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 import { ParkingBookingService } from 'src/app/service/parking-booking/parking-booking.service';
 import { ParkingBookingDialogComponent } from '../parking-booking-dialog/parking-booking-dialog.component';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-parking-booking-list',
@@ -23,7 +24,7 @@ export class ParkingBookingListComponent implements OnInit {
   siteId: any;
   dataSource!: MatTableDataSource<any>;
   value: any;
-  
+  formGroup!: FormGroup;
   constructor(
     private service: ParkingBookingService,
     private decode: StorageEncryptionService,
@@ -36,9 +37,13 @@ export class ParkingBookingListComponent implements OnInit {
     let roleName = String(localStorage.getItem('siteId'));
     this.siteId = this.decode.decryptData(roleName)
     this.getAllOccupiedParking();
+    this.formGroup = new FormGroup({
+      startDate: new FormControl(''),
+      endDate: new FormControl('')
+    });
   }
 
-
+// this function are used to fetch the parking data from api and display on the table
   getAllOccupiedParking(){
     this.service.getAllOccupiedList().subscribe({
       next: (res: any) => {
@@ -60,6 +65,7 @@ export class ParkingBookingListComponent implements OnInit {
     });
   }
 
+  // this function are used to open the parking booking popup
   open(){
     this.dialog.open(ParkingBookingDialogComponent, {
       width: '40%',
@@ -71,7 +77,7 @@ export class ParkingBookingListComponent implements OnInit {
     });
   }
 
-
+// this function are used to cancel the occupied parking booking slot
   cancelParkingBooking(Id:any) {
     this.alertify.confirm('Cancel Seat Booking','Are you sure to cancel your booking',() => {
       this.service.cancelParkingBooking(Id).subscribe({
@@ -92,21 +98,19 @@ export class ParkingBookingListComponent implements OnInit {
       });
     }
 
+    // this function are used to set the css of the parking status
     getBookingStatusColor(bookingStatus: string): string {
       switch (bookingStatus) {
         case 'Canceled':
           return 'canceled-color';
-        case 'In Progress':
-          return 'in-progress-color';
         case 'Occupied':
           return 'occupied-color';
-        case 'Pending':
-          return 'pending-color';
         default:
           return '';
       }
     }
 
+    // this function are used to filter the parking data list
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -116,6 +120,7 @@ export class ParkingBookingListComponent implements OnInit {
   }
   
 
+  // this function are used to filter the parking data list through status wise
   selectStatus(event: any) {
     const value = event.value;
     if(value == 0){
@@ -131,4 +136,30 @@ export class ParkingBookingListComponent implements OnInit {
       this.dataSource.data = this.value;
     }
   }
+
+  // this function are used to filter the parking data list date range wise
+  getParkingDataDateRangeWise(){
+    let data = {
+      "startDate": this.formGroup.value.startDate.toLocaleDateString("fr-CA").split("/").reverse().join("-"),
+      "endDate": this.formGroup.value.endDate.toLocaleDateString("fr-CA").split("/").reverse().join("-")
+    }
+    this.service.getParkingListDateWise(data).subscribe({
+      next: (res: any) => {
+        this.parkingBookingList = res.data;
+        this.dataSource = new MatTableDataSource(this.parkingBookingList);
+        this.dataSource.data = this.parkingBookingList;
+        this.dataSource.paginator = this.Paginator;
+        this.dataSource.sort = this.Sorting;
+      },
+      error: (err: any) => {
+        this.alertify.error(err);
+      }
+    });
+  }
+
+  clearDateRange(){
+    this.formGroup.reset();
+    this.getAllOccupiedParking();
+  }
+  
 }
