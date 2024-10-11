@@ -83,7 +83,8 @@ import { ParkingNumberListComponent } from './parking-number/parking-number-list
 import { NotAllowNumberDirective } from './directive/not-allow-number.directive';
 import { ParkingTypeListComponent } from './parking-Type/parking-type-list/parking-type-list.component';
 import { ParkingTypeDialogComponent } from './parking-Type/parking-type-dialog/parking-type-dialog.component';
-
+import { PermanentParkingBookingListComponent } from './permanent-parking/permanent-parking-booking-list/permanent-parking-booking-list.component';
+import { PermanentParkingBookingDialogComponent } from './permanent-parking/permanent-parking-booking-dialog/permanent-parking-booking-dialog.component';
 
 
 @NgModule({
@@ -144,7 +145,9 @@ import { ParkingTypeDialogComponent } from './parking-Type/parking-type-dialog/p
     ParkingNumberListComponent,
     NotAllowNumberDirective,
     ParkingTypeListComponent,
-    ParkingTypeDialogComponent
+    ParkingTypeDialogComponent,
+    PermanentParkingBookingListComponent,
+    PermanentParkingBookingDialogComponent
   ],
   imports: [
     CommonModule,

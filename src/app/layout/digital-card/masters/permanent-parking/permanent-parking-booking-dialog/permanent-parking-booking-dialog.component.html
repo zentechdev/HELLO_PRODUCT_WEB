@@ -1,0 +1,77 @@
+<div mat-dialog-content>
+    <h3 mat-dialog-title>
+        PERMANENT PARKING
+    </h3>
+    <div class="container mb-5">
+        <form [formGroup]="permanentParking">
+            <div class="col-md-12 d-flex">
+                <div class="col-md-6 me-2">
+                    <mat-form-field appearance="outline" class="me-5">
+                        <mat-label>Owner Name</mat-label>
+                        <input matInput placeholder="Enter owner name" autocomplete="off" formControlName="ownerName">
+                        <mat-error>
+                            Owner Name is<strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Vehicle</mat-label>
+                        <mat-select formControlName="vehicleTypeId" placeholder="select vehicle type" (selectionchanged)="selectedVehicleType($event)">
+                            <mat-option *ngFor="let data of vehicleList" [value]="data?.name">
+                                {{data?.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>
+                            Vehicle Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Parking</mat-label>
+                        <mat-select formControlName="parkingId" placeholder="select parking" >
+                            <mat-option ></mat-option>
+                        </mat-select>
+                        <mat-error>
+                            Parking is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline" class="me-5">
+                        <mat-label>Mobile Number</mat-label>
+                        <input matInput placeholder="Enter Mobile Number" autocomplete="off" formControlName="mobileNumber">
+                        <mat-error>
+                            Mobile Number is<strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="me-5">
+                        <mat-label>Vehicle Number</mat-label>
+                        <input matInput placeholder="Enter vehicle Number" autocomplete="off" formControlName="vehicleNumber">
+                        <mat-error>
+                            Vehicle Number is<strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+        
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select formControlName="isActiveId" placeholder="isActive">
+                            <mat-option ></mat-option>
+                        </mat-select>
+                        <mat-error>
+                            Status is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row" style="display: flex; justify-content: center">
+        <div class="col-md-6 col-sm-12 d-flex" >
+            <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:25px">CANCEL</button>
+            <button mat-flat-button class="button button4" color="primary"
+             style="margin-left: 10px;" (click)="bookPermanentParking()">Submit</button>
+        </div>
+    </div>
+</div>

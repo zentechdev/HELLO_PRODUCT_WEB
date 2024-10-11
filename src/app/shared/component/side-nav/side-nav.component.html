@@ -1,7 +1,7 @@
 <ng-container>
     <div class="sideNavLogo" style="background-color: #d82a1b;">
         <img src="../../../../assets/images/Hello -internal-logo-white-background-Photoroom.png" (click)="reload()">
-    </div>
+    </div> 
 
     <div *ngFor="let parent of parentMenuList" class="nav flex-column text-white w-100 mainSidenav">
         <div class="noDropDown" *ngIf="parent.subMenuList?.length === 0" (click)="onClick(parent.menuName==''?'Dashboard':parent.menuName)" [routerLink]="parent.menuUrl" routerLinkActive="is-active">
@@ -22,8 +22,4 @@
             </ngb-panel>
         </ngb-accordion>
     </div>
-
-    <!-- <div class="mt-5">
-        <button class="subscribe-btn">Subscribe &#x276F;</button>
-    </div> -->
 </ng-container>

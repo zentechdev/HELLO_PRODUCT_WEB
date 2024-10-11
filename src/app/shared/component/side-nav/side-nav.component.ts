@@ -39,6 +39,7 @@ export class SideNavComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.parentMenuList = res;
+          console.log(res);
           // this.menuService.menuName=this.parentMenuList[0].subMenuList[0].menuName;
           // this.router.navigate([this.parentMenuList[0].subMenuList[0].menuUrl]);
         },

@@ -52,6 +52,7 @@ import { RfidDialogComponent } from './rfid/rfid-dialog/rfid-dialog.component';
 import { ParkingNumberListComponent } from './parking-number/parking-number-list/parking-number-list.component';
 import { ParkingNumberDialogComponent } from './parking-number/parking-number-dialog/parking-number-dialog.component';
 import { ParkingTypeListComponent } from './parking-Type/parking-type-list/parking-type-list.component';
+import { PermanentParkingBookingListComponent } from './permanent-parking/permanent-parking-booking-list/permanent-parking-booking-list.component';
 
 
 const routes: Routes = [
@@ -105,7 +106,8 @@ const routes: Routes = [
   { path:'rfid-list', component:RfidListComponent},
   { path:'rfid-dialog', component:RfidDialogComponent},
   { path:'parking-number-list', component:ParkingNumberListComponent},
-  { path:'parking-type-list', component: ParkingTypeListComponent}
+  { path:'parking-type-list', component: ParkingTypeListComponent},
+  { path:'permanent-parking-list', component: PermanentParkingBookingListComponent}
 ];
 
 @NgModule({
