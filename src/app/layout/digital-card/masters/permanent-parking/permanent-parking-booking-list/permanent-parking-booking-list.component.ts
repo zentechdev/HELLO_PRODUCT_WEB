@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PermanentParkingBookingDialogComponent } from '../permanent-parking-booking-dialog/permanent-parking-booking-dialog.component';
 import { PermanentBookingService } from 'src/app/service/masters/permanent-booking.service';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
+import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 
 @Component({
   selector: 'app-permanent-parking-booking-list',
@@ -19,14 +20,17 @@ export class PermanentParkingBookingListComponent implements OnInit {
   @ViewChild(MatSort) Sort!: MatSort; 
   dataSource!: MatTableDataSource<any>;
   permanentParkingList: any;
-  
+  roleName: any;
   constructor(
     private dialog: MatDialog,
     private service: PermanentBookingService,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private encryptedData: StorageEncryptionService
   ) { }
 
   ngOnInit(): void {
+    let roleName = String(localStorage.getItem('roleName'));
+    this.roleName = this.encryptedData.decryptData(roleName);
     this.getPermanentBookingList();
   }
 

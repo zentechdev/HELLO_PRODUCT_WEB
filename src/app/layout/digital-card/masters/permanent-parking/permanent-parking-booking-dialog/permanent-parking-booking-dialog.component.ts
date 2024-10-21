@@ -16,7 +16,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
   vehicleList: any;
   selectedVehicle: any;
   parkingList: any;
-  siteId: any;
+  unitId: any;
   statusList: any;
   
   constructor(
@@ -28,14 +28,14 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<PermanentParkingBookingDialogComponent>) { 
       this.dialogRef.disableClose = true;
 
-      let siteId = String(localStorage.getItem('unitId'));
-      this.siteId = this.decode.decryptData(siteId);
+      let unitId = String(localStorage.getItem('unitId'));
+      this.unitId = this.decode.decryptData(unitId);
     }
 
   ngOnInit(): void {
     this.initiateForm();
     this.getVehicleTypeList();
-    this.getParkingNumberList(this.siteId);
+    this.getParkingNumberList();
     this.getStatusList();
   }
 
@@ -94,11 +94,12 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     this.selectedVehicle = value.value;
   }
 
-  getParkingNumberList(siteId: any){
+  getParkingNumberList(){
     this.parkingService.getUnitSiteParkingList().subscribe({
       next: (res: any) => {
         if (res?.isSuccess === true) {
-          this.parkingList = res.data.filter((item: any) => item?.unitId == siteId);
+          this.parkingList = res.data;
+          console.log(this.parkingList);
         } else {
           this.alertify.error(res?.message);
         }
