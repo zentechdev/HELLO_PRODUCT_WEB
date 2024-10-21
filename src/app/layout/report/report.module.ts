@@ -28,13 +28,15 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import {MatStepperModule} from '@angular/material/stepper';
 import { WalkInVisitorComponent } from './visitor/walk-in-visitor/walk-in-visitor.component';
 import { InvitedVisitorComponent } from './visitor/invited-visitor/invited-visitor.component';
+import { ParkingReportComponent } from './parking/parking-report/parking-report.component';
 
 
 @NgModule({
   declarations: [
     ReportComponent,
     WalkInVisitorComponent,
-    InvitedVisitorComponent
+    InvitedVisitorComponent,
+    ParkingReportComponent
   ],
   imports: [
     CommonModule,

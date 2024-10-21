@@ -34,7 +34,11 @@ export class ParkingNumberListComponent implements OnInit {
   actionName: any;
   clientId: any;
 
-  constructor(private formBuilder: FormBuilder, private storageEncryptionService: StorageEncryptionService, private service: ParkingNumberService, private alertify: AlertifyService, public dialog: MatDialog) { }
+  constructor(
+    private formBuilder: FormBuilder,
+     private storageEncryptionService: StorageEncryptionService, 
+     private service: ParkingNumberService, 
+     private alertify: AlertifyService, public dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
     this.formGroup = this.formBuilder.group({
@@ -44,29 +48,29 @@ export class ParkingNumberListComponent implements OnInit {
     // const clientId = String(localStorage.getItem("siteId"));
     // this.clientId = this.storageEncryptionService.decryptData(clientId);
 
-    // // Conversion of string array to number array
+    // Conversion of string array to number array
     // const stringArrayAction: string[] = this.actionName;
     // const numberArrayAction: string[] = stringArrayAction[0].split(',');
 
-    // for(let i=0; i < numberArrayAction.length;i++){
+    // for(let i = 0; i < numberArrayAction.length;i++){
     //   if(numberArrayAction[i] == 'Insert'){
     //     this.Insert = true;
     //   }
     // }
 
-    // for(let i=0; i < numberArrayAction.length;i++){
+    // for(let i = 0; i < numberArrayAction.length;i++){
     //   if(numberArrayAction[i] == 'Update'){
     //     this.Update = true;
     //   }
     // }
 
-    // for(let i=0; i < numberArrayAction.length;i++){
+    // for(let i = 0; i < numberArrayAction.length;i++){
     //   if(numberArrayAction[i] == 'Delete'){
     //     this.Delete = true;
     //   }
     // }
 
-    // for(let i=0; i < numberArrayAction.length;i++){
+    // for(let i = 0; i < numberArrayAction.length;i++){
     //   if(numberArrayAction[i] == 'Select'){
     //     this.Select = true;
     //   }

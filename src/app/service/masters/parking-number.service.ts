@@ -59,4 +59,8 @@ export class ParkingNumberService {
     return this.http.delete<any>(`${baseUrl}/api/ParkingNumber/deleteParkingNumber/`+id)
   }
 
+  getUnitSiteParkingList(){
+    return this.http.get<any>(`${baseUrl}/api/parkingDetails/getAllParkingDetails`);
+  }
+
 }

@@ -32,7 +32,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
 
   openDialog() {
     this.dialog.open(PermanentParkingBookingDialogComponent, {
-      width: '80%',
+      width: '50%',
       disableClose: true
     }).afterClosed().subscribe((res: any) => {
       if (res === 'SAVE') {
@@ -60,8 +60,16 @@ export class PermanentParkingBookingListComponent implements OnInit {
     })
   }
 
-  editData(Id: any){
-
+  editData(data: any){
+    this.dialog.open(PermanentParkingBookingDialogComponent, {
+      width: '50%',
+      data: data,
+      disableClose: true
+    }).afterClosed().subscribe((res: any) => {
+      if (res === 'SAVE') {
+        this.getPermanentBookingList();
+      }
+    });
   }
 
   deleteData(Id: any){

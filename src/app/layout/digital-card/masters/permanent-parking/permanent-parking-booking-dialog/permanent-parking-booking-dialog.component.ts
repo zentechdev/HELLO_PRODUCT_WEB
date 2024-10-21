@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
+import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
+import { ParkingNumberService } from 'src/app/service/masters/parking-number.service';
 import { PermanentBookingService } from 'src/app/service/masters/permanent-booking.service';
 
 @Component({
@@ -13,27 +15,37 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
   permanentParking!: FormGroup;
   vehicleList: any;
   selectedVehicle: any;
+  parkingList: any;
+  siteId: any;
+  statusList: any;
   
   constructor(
     private service: PermanentBookingService,
     private alertify: AlertifyService,
+    private parkingService: ParkingNumberService,
+    private decode: StorageEncryptionService,
     @Inject(MAT_DIALOG_DATA) public editData: any, 
     private dialogRef: MatDialogRef<PermanentParkingBookingDialogComponent>) { 
-      this.dialogRef.disableClose = true 
+      this.dialogRef.disableClose = true;
+
+      let siteId = String(localStorage.getItem('unitId'));
+      this.siteId = this.decode.decryptData(siteId);
     }
 
   ngOnInit(): void {
     this.initiateForm();
     this.getVehicleTypeList();
+    this.getParkingNumberList(this.siteId);
+    this.getStatusList();
   }
 
   initiateForm(){
     this.permanentParking = new FormGroup({
-      ownerName: new FormControl('', [Validators.required]),
+      ownerName: new FormControl(this.editData?.memberName ?? '', [Validators.required]),
       mobileNumber: new FormControl('', [Validators.required]),
       vehicleNumber: new FormControl('', [Validators.required]),
       vehicleTypeId: new FormControl('', [Validators.required]),
-      parkingId: new FormControl('', [Validators.required]),
+      parkingId: new FormControl(this.editData?.parkingId ?? '', [Validators.required]),
       isActiveId: new FormControl('', [Validators.required])
     });
   }
@@ -46,7 +58,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       vehicleNumber: this.permanentParking.get('vehicleNumber')?.value,
       vehicleTypeId: this.permanentParking.get('vehicleTypeId')?.value,
       parkingId: this.permanentParking.get('parkingId')?.value,
-      isActiveId: 1,
+      isActiveId: this.permanentParking.get('isActiveId')?.value,
     }
 
     if (this.editData == null) {
@@ -80,5 +92,35 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
 
   selectedVehicleType(value: any){
     this.selectedVehicle = value.value;
+  }
+
+  getParkingNumberList(siteId: any){
+    this.parkingService.getUnitSiteParkingList().subscribe({
+      next: (res: any) => {
+        if (res?.isSuccess === true) {
+          this.parkingList = res.data.filter((item: any) => item?.unitId == siteId);
+        } else {
+          this.alertify.error(res?.message);
+        }
+      },
+      error: (err: any) => {
+        this.alertify.error(err);
+      }
+    });
+  }
+
+  getStatusList(){
+    this.parkingService.getIsActive().subscribe({
+      next: (res: any) => {
+        this.statusList = res;
+        if (this.editData !== null) {
+          // let data = res.filter((item: any) => item.isActive === this.editData?.isActive ? item.isActiveId)
+          
+        }
+      },
+      error: (err: any) => {
+        this.alertify.error(err);
+      }
+    });
   }
 }
