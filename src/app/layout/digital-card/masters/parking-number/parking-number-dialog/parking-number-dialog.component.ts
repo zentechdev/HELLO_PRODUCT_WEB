@@ -296,6 +296,7 @@ export class ParkingNumberDialogComponent implements OnInit {
               let data = this.floorList.filter((item: any) => {
                 return item.id == this.editData.floorId ? item.name : '';
               });
+              this.formGroup.get('floorName')?.setValue(data[0].id);
             }
           }
         });

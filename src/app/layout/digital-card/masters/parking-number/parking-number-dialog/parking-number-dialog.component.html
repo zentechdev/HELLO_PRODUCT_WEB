@@ -37,7 +37,7 @@
                   <mat-form-field appearance="outline">
                       <mat-label>Floor Name</mat-label>
                       <mat-select formControlName="floorName" placeholder="Wing Name" >
-                        <mat-option *ngFor="let floor of floorList" [value]="floor.floorId">
+                        <mat-option *ngFor="let floor of floorList" [value]="floor.id">
                           {{ floor.name }}
                         </mat-option>
                       </mat-select>
@@ -67,8 +67,8 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Vehcile Type</mat-label>
                         <mat-select formControlName="vehicleName" placeholder="Vehcile Type">
-                          <mat-option *ngFor="let Vehcile of vehicleTypeList" [value]="Vehcile.name">
-                            {{ Vehcile.name }}
+                          <mat-option *ngFor="let Vehicle of vehicleTypeList" [value]="Vehicle.name">
+                            {{ Vehicle.name }}
                           </mat-option>
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('vehicleName')?.hasError('required')">
