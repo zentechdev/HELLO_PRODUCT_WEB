@@ -30,6 +30,8 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
 
       let unitId = String(localStorage.getItem('unitId'));
       this.unitId = this.decode.decryptData(unitId);
+
+      console.log(this.editData);
     }
 
   ngOnInit(): void {
@@ -42,9 +44,9 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
   initiateForm(){
     this.permanentParking = new FormGroup({
       ownerName: new FormControl(this.editData?.memberName ?? '', [Validators.required]),
-      mobileNumber: new FormControl('', [Validators.required]),
-      vehicleNumber: new FormControl('', [Validators.required]),
-      vehicleTypeId: new FormControl('', [Validators.required]),
+      mobileNumber: new FormControl(this.editData?.mobileNumber ?? '', [Validators.required]),
+      vehicleNumber: new FormControl(this.editData?.vehicleNumber ?? '', [Validators.required]),
+      vehicleTypeId: new FormControl(this.editData?.vehicleTypeId ?? '', [Validators.required]),
       parkingId: new FormControl(this.editData?.parkingId ?? '', [Validators.required]),
       isActiveId: new FormControl('', [Validators.required])
     });
@@ -115,8 +117,8 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       next: (res: any) => {
         this.statusList = res;
         if (this.editData !== null) {
-          // let data = res.filter((item: any) => item.isActive === this.editData?.isActive ? item.isActiveId)
-          
+          let data = res.filter((item: any) => item.isActive === this.editData?.isActive ? item.isActiveId : '');
+          this.permanentParking.get('isActiveId')?.setValue(data[0]?.isActiveId);
         }
       },
       error: (err: any) => {

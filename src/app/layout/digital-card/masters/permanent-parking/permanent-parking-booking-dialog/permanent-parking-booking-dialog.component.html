@@ -7,17 +7,18 @@
             <div class="col-md-10 d-flex">
                 <div class="me-5">
                     <mat-form-field appearance="outline" class="me-5">
-                        <mat-label>Owner Name</mat-label>
-                        <input matInput placeholder="Enter owner name" autocomplete="off" formControlName="ownerName">
+                        <mat-label>Staff Name</mat-label>
+                        <input matInput placeholder="Enter Staff name" autocomplete="off" 
+                        formControlName="ownerName">
                         <mat-error>
-                            Owner Name is<strong>required</strong>
+                            Staff Name is<strong>required</strong>
                         </mat-error>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Select Vehicle</mat-label>
                         <mat-select formControlName="vehicleTypeId" placeholder="select vehicle type" (selectionchanged)="selectedVehicleType($event)">
-                            <mat-option *ngFor="let data of vehicleList" [value]="data?.name">
+                            <mat-option *ngFor="let data of vehicleList" [value]="data?.id">
                                 {{data?.name}}
                             </mat-option>
                         </mat-select>
@@ -42,7 +43,8 @@
                 <div class="">
                     <mat-form-field appearance="outline" class="me-5">
                         <mat-label>Mobile Number</mat-label>
-                        <input matInput placeholder="Enter Mobile Number" autocomplete="off" formControlName="mobileNumber">
+                        <input matInput placeholder="Enter Mobile Number" autocomplete="off" 
+                        formControlName="mobileNumber" maxlength="10">
                         <mat-error>
                             Mobile Number is<strong>required</strong>
                         </mat-error>
@@ -50,7 +52,8 @@
 
                     <mat-form-field appearance="outline" class="me-5">
                         <mat-label>Vehicle Number</mat-label>
-                        <input matInput placeholder="Enter vehicle Number" autocomplete="off" formControlName="vehicleNumber">
+                        <input matInput placeholder="Enter vehicle Number" autocomplete="off" 
+                        formControlName="vehicleNumber" maxlength="9">
                         <mat-error>
                             Vehicle Number is<strong>required</strong>
                         </mat-error>
