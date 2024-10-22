@@ -16,8 +16,8 @@
                         <mat-label>Select Status</mat-label>
                         <mat-select placeholder="isActive" (selectionChange)="selectStatus($event)">
                             <mat-option [value]="0">None</mat-option>
-                            <!-- <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActive">{{
-                                    isActive.isActive }}</mat-option> -->
+                            <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActive">
+                                {{ isActive.isActive }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>

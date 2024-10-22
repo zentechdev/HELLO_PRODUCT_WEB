@@ -22,7 +22,7 @@ export class AssignParkingUnitComponent implements OnInit {
   data: any;
   roleName: any;
   value: any;
-
+  isActiveList: any;
   constructor(
     private service: AsignParkingUnitService,
     private alertify: AlertifyService,
@@ -33,6 +33,7 @@ export class AssignParkingUnitComponent implements OnInit {
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.EncryptedData.decryptData(roleName)
     this.getParkingUnitData();
+    this.getStatusList();
   }
 
   getParkingUnitData() {
@@ -120,6 +121,19 @@ export class AssignParkingUnitComponent implements OnInit {
     }).afterClosed().subscribe(val => {
       if (val === 'UPDATE') {
         this.getParkingUnitData();
+      }
+    });
+  }
+
+  getStatusList() {
+    this.service.getIsActive().subscribe({
+      next: (res: any) => {
+        if (res) {
+          this.isActiveList = res;
+        }
+      } ,
+      error: (er) => {
+        this.alertify.error(er);
       }
     });
   }
