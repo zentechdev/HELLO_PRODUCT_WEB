@@ -81,7 +81,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
           this.assignParkingForm.get('isActive')?.setValue(data[0]?.isActiveId);
         }
       }
-    })
+    });
   }
 
 
@@ -92,22 +92,23 @@ export class AssignParkingUnitDialogComponent implements OnInit {
           this.wingList = res?.data.filter((item:any)=> {
             return item.clientId == this.clientId && item.siteId == this.siteId ? item.name : ''
           });
-          console.log('check wing list',this.wingList);
         }
       }
     });
   }
 
   getUnitNumber(){
-    this.unitService.getUnitDetails().subscribe({
+    this.unitService.getAllUnit().subscribe({
       next: (res: any) => {
         if (res) {
-          this.unitList = res.data.filter((item: any) => {
+          let data = res.data.filter((item: any) => {
             return item?.clientId == this.clientId && item.siteId == this.siteId ? item?.name : ''
           });
+
+          this.unitList = data.sort((a: any, b: any) => a.id - b.id);
         }
       }
-    })
+    });
   }
 
   postData(){
@@ -117,7 +118,10 @@ export class AssignParkingUnitDialogComponent implements OnInit {
       "createdBy": this.employeeCode,
       "isActiveId": this.assignParkingForm.get('isActive')?.value
     }
+
+    console.log(this.assignParkingForm.get('unitName')?.value, body);
     if (this.editData === null) {
+      console.log('enter in if condition');
       this.service.postParkingUnitData(body).subscribe({
         next:(res: any) => {
           this.alertify.success('Parking are assign to unit inserted Successfully');
@@ -126,8 +130,9 @@ export class AssignParkingUnitDialogComponent implements OnInit {
         error: (er: any) => {
           this.alertify.error('Something went wrong please try again');
         }
-      })
+      });
     } else {
+      console.log('enter in else condition');
       this.service.updateParkingUnitData(this.editData?.id, body).subscribe({
         next:(update: any) => {
           this.alertify.success('Parking are assign to unit updated Successfully');
@@ -136,7 +141,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
         error: (er: any) => {
           this.alertify.error('Something went wrong please try again');
         }
-      })
+      });
     }
   }
 

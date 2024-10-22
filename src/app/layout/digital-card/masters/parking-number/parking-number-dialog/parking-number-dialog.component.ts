@@ -45,6 +45,7 @@ export class ParkingNumberDialogComponent implements OnInit {
   parkingTypeId: any;
   defaultSiteName: any;
   disabledSiteField: boolean = true;
+  
   constructor(
     private storageEncryptionService: StorageEncryptionService, 
     private formBuilder: FormBuilder, 
@@ -69,8 +70,9 @@ export class ParkingNumberDialogComponent implements OnInit {
       parkingNumber: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy: ['']
-    })
+    });
 
+    console.log(this.editData);
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
 
@@ -78,9 +80,9 @@ export class ParkingNumberDialogComponent implements OnInit {
       this.actionBtn = 'UPDATE';
       this.formGroup.controls['siteName'].setValue(this.editData.siteName);
       this.formGroup.controls['wingName'].setValue(this.editData.wingName);
-      this.formGroup.controls['floorName'].setValue(this.editData.floorName);
+      this.formGroup.controls['floorName'].setValue(this.editData.floorId);
       this.formGroup.controls['vehicleName'].setValue(this.editData.vehicleTypeName);
-      this.formGroup.controls['parkingType'].setValue(this.editData.parkingType);  // parking data type list 
+      this.formGroup.controls['parkingType'].setValue(this.editData.parkingType);
       this.formGroup.controls['parkingNumber'].setValue(this.editData.parkingNumber);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }
@@ -94,6 +96,7 @@ export class ParkingNumberDialogComponent implements OnInit {
     this.getParkingList();
 
     this.getSelectDropdownList(this.defaultSiteName);
+    this.getSelectFloor(this.editData?.wingName);
   }
 
   getIsActive() {
@@ -132,18 +135,18 @@ export class ParkingNumberDialogComponent implements OnInit {
       });
   }
 
-  getfloorDetails() {
-    this.service.getfloorDetails()
-      .subscribe({
-        next: (res) => {
-          this.floorList = res.data;
-          // console.log('floor list', res.data);
-        },
-        error: (res) => {
-          this.alertify.error("Error While fetching The Records!!");
-        }
-      });
-  }
+  // getfloorDetails() {
+  //   this.service.getfloorDetails()
+  //     .subscribe({
+  //       next: (res) => {
+  //         this.floorList = res.data;
+  //         console.log('floor list', res.data);
+  //       },
+  //       error: (res) => {
+  //         this.alertify.error("Error While fetching The Records!!");
+  //       }
+  //     });
+  // }
 
   getVehicleType() {
     this.service.getVehicleType()
@@ -160,9 +163,7 @@ export class ParkingNumberDialogComponent implements OnInit {
   }
 
 // ________________________________________________________________________
-
   postData() {
-
     for (var i = 0; i < this.isActiveList.length; i++) {
       if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {
         this.isActiveId = this.isActiveList[i].isActiveId;
@@ -203,7 +204,7 @@ export class ParkingNumberDialogComponent implements OnInit {
     let formGroup = {
       "siteId": this.siteId,
       "wingId": this.wingId,
-      "floorId": this.floorId,
+      "floorId": this.formGroup.value.floorName,
       "vehicleTypeId": this.vehicleTypeId,
       "parkingTypeId": this.formGroup.value.parkingType,
       "parkingNumber": this.formGroup.value.parkingNumber,
@@ -283,12 +284,19 @@ export class ParkingNumberDialogComponent implements OnInit {
     }
 
     getSelectFloor(event: any){
-      if(event.value !== ''){
+      let data = event.value ?? event;
+      if(data !== ''){
         this.service.getfloorDetails().subscribe((res: any) =>{
           if (res && res.data) {
             this.floorList = res.data.filter((item: any) =>{
-              return item.wingName == event.value && item.floorType == "Parking" && item.siteName == this.defaultSiteName ? item.name : null;
+              return item.wingName == data && item.floorType == "Parking" && item.siteName == this.defaultSiteName ? item.name : null;
             });
+
+            if (this.editData !== null) {
+              let data = this.floorList.filter((item: any) => {
+                return item.id == this.editData.floorId ? item.name : '';
+              });
+            }
           }
         });
       }

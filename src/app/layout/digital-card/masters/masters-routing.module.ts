@@ -109,7 +109,7 @@ const routes: Routes = [
   { path:'parking-number-list', component:ParkingNumberListComponent},
   { path:'parking-type-list', component: ParkingTypeListComponent},
   { path:'permanent-parking-list', component: PermanentParkingBookingListComponent},
-  { path: 'assign-Parking-Unit', component: AssignParkingUnitComponent}
+  { path:'assign-Parking-Unit', component: AssignParkingUnitComponent}
 ];
 
 @NgModule({

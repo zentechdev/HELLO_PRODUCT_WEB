@@ -37,7 +37,7 @@
                   <mat-form-field appearance="outline">
                       <mat-label>Floor Name</mat-label>
                       <mat-select formControlName="floorName" placeholder="Wing Name" >
-                        <mat-option *ngFor="let floor of floorList" [value]="floor.name">
+                        <mat-option *ngFor="let floor of floorList" [value]="floor.floorId">
                           {{ floor.name }}
                         </mat-option>
                       </mat-select>

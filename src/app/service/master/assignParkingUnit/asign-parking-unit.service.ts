@@ -38,4 +38,8 @@ export class AsignParkingUnitService {
   getParkingNumber(){
     return this.http.get(`${baseUrl}/api/ParkingNumber/getAllParkingNumber`);
   }
+
+  getAllUnit(){
+    return this.http.get(`${baseUrl}/Unit/getAllUnit`);
+  }
 }
