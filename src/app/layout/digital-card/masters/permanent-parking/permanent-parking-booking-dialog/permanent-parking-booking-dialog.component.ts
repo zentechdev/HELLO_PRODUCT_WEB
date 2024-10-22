@@ -18,7 +18,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
   parkingList: any;
   unitId: any;
   statusList: any;
-  
+  employeeCode: any; 
   constructor(
     private service: PermanentBookingService,
     private alertify: AlertifyService,
@@ -31,6 +31,8 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       let unitId = String(localStorage.getItem('unitId'));
       this.unitId = this.decode.decryptData(unitId);
 
+      let employeeCode = String(localStorage.getItem('employeeCode'));
+      this.employeeCode = this.decode.decryptData(employeeCode);
       console.log(this.editData);
     }
 
@@ -61,6 +63,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       vehicleTypeId: this.permanentParking.get('vehicleTypeId')?.value,
       parkingId: this.permanentParking.get('parkingId')?.value,
       isActiveId: this.permanentParking.get('isActiveId')?.value,
+      createdBy: this.employeeCode
     }
 
     if (this.editData == null) {

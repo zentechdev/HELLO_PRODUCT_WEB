@@ -124,7 +124,7 @@ export class WingListComponent implements OnInit {
             this.dataSource.sort = this.sort;
           }
           else if(this.roleName=="Site Admin"){
-            this.data=res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
+            this.data= res.data.filter((item:any)=>item.clientId == this.clientId && item.siteId == this.siteId);
             this.dataSource = new MatTableDataSource(this.data.filter((item:any)=>item.isActive=='Active'));
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;

@@ -1,0 +1,79 @@
+<div mat-dialog-content>
+    <h3 mat-dialog-title><b>Assign Parking To Unit</b></h3>
+    <div class="container mb-5">
+        <form [formGroup]="assignParkingForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Site Name</mat-label>
+                        <input matInput formControlName="siteName" placeholder="Site Name" 
+                        [(ngModel)]="siteName" readonly> 
+                    </mat-form-field>
+
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Wing Name</mat-label>
+                        <mat-select formControlName="wingName" placeholder="Wing Name">
+                            <mat-option *ngFor="let wing of wingList" [value]="wing.id">
+                                {{ wing.name }} - {{wing.siteName}}
+                              </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Unit Number</mat-label>
+                        <mat-select formControlName="unitName" placeholder="Unit Number">
+                          <mat-option *ngFor="let unit of unitList" [value]="unit.id">
+                            {{unit.name}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="assignParkingForm.get('unitName')?.hasError('required')">
+                          Unit Number is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parking Number</mat-label>
+                        <mat-select formControlName="parkingNumber" placeholder="Parking Number">
+                            <mat-option *ngFor="let data of parkingList" [value]="data.id">
+                              {{data.parkingNumber}}
+                            </mat-option>
+                          </mat-select>
+                        <mat-error *ngIf="assignParkingForm.get('parkingNumber')?.hasError('required')">
+                            Parking Name  <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select placeholder="isActive" formControlName="isActive">
+                            <mat-option *ngFor="let isActive of isActiveList" [value]="isActive.isActiveId">
+                                {{isActive.isActive}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="assignParkingForm.get('isActive')?.hasError('required')">
+                            isActive Type is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row" style="display: flex; justify-content: center">
+                <div class="col-md-6 col-lg-4 col-sm-12">
+                    <button mat-flat-button class="button button4" color="warn" mat-dialog-close
+                        style="margin-left:25px">CANCEL</button>
+                    <button mat-flat-button class="button button4" color="primary" style="margin-left: 10px;"
+                    (click)="postData()">
+                        Submit </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

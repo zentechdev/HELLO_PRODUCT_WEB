@@ -15,7 +15,7 @@ import { StorageEncryptionService } from 'src/app/service/encryption/storage-enc
 })
 export class PermanentParkingBookingListComponent implements OnInit {
   
-  displayedColumns: any = ['id', 'siteName', 'unitName', 'unitNumber', 'parkingName', 'memberName', 'isActive','action'];
+  displayedColumns: any = ['id', 'siteName', 'unitName', 'unitNumber', 'parkingNumber', 'memberName', 'isActive','action'];
   @ViewChild(MatPaginator) Paginator!: MatPaginator;
   @ViewChild(MatSort) Sort!: MatSort; 
   dataSource!: MatTableDataSource<any>;

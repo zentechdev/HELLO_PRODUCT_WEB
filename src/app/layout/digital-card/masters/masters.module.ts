@@ -85,6 +85,8 @@ import { ParkingTypeListComponent } from './parking-Type/parking-type-list/parki
 import { ParkingTypeDialogComponent } from './parking-Type/parking-type-dialog/parking-type-dialog.component';
 import { PermanentParkingBookingListComponent } from './permanent-parking/permanent-parking-booking-list/permanent-parking-booking-list.component';
 import { PermanentParkingBookingDialogComponent } from './permanent-parking/permanent-parking-booking-dialog/permanent-parking-booking-dialog.component';
+import { AssignParkingUnitComponent } from './assign-ParkingToUnit/assign-parking-unit/assign-parking-unit.component';
+import { AssignParkingUnitDialogComponent } from './assign-ParkingToUnit/assign-parking-unit-dialog/assign-parking-unit-dialog.component';
 
 
 @NgModule({
@@ -147,7 +149,9 @@ import { PermanentParkingBookingDialogComponent } from './permanent-parking/perm
     ParkingTypeListComponent,
     ParkingTypeDialogComponent,
     PermanentParkingBookingListComponent,
-    PermanentParkingBookingDialogComponent
+    PermanentParkingBookingDialogComponent,
+    AssignParkingUnitComponent,
+    AssignParkingUnitDialogComponent
   ],
   imports: [
     CommonModule,
