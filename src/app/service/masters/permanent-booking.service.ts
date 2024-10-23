@@ -29,4 +29,12 @@ export class PermanentBookingService {
   getVehicleDetails(){
     return this.http.get(`${baseUrl}/api/VehicleType/getAllVehicleType`);
   }
+
+  getUnitMemberList(){
+    return this.http.get(`${baseUrl}/api/ManageUsers/getAllMembers`);
+  }
+
+  getAvailableParkingList(){
+    return this.http.get(`${baseUrl}/api/PermanentParkingDetails/GetAvailableParking`);
+  }
 }

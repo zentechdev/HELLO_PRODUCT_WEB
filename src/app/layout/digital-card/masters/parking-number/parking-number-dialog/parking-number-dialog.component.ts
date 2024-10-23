@@ -82,7 +82,7 @@ export class ParkingNumberDialogComponent implements OnInit {
       this.formGroup.controls['wingName'].setValue(this.editData.wingName);
       this.formGroup.controls['floorName'].setValue(this.editData.floorId);
       this.formGroup.controls['vehicleName'].setValue(this.editData.vehicleTypeName);
-      this.formGroup.controls['parkingType'].setValue(this.editData.parkingType);
+      this.formGroup.controls['parkingType'].setValue(this.editData.parkingTypeId);
       this.formGroup.controls['parkingNumber'].setValue(this.editData.parkingNumber);
       this.formGroup.controls['isActive'].setValue(this.editData.isActive);
     }

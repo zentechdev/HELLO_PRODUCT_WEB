@@ -19,6 +19,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
   unitId: any;
   statusList: any;
   employeeCode: any; 
+  memberList: any;
   constructor(
     private service: PermanentBookingService,
     private alertify: AlertifyService,
@@ -29,8 +30,8 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<PermanentParkingBookingDialogComponent>) { 
       this.dialogRef.disableClose = true;
 
-      // let unitId = String(localStorage.getItem('unitId'));
-      // this.unitId = this.decode.decryptData(unitId);
+      let unitId = String(localStorage.getItem('unitId'));
+      this.unitId = this.decode.decryptData(unitId);
 
       let employeeCode = String(localStorage.getItem('employeeCode'));
       this.employeeCode = this.decode.decryptData(employeeCode);
@@ -42,7 +43,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     this.getVehicleTypeList();
     this.getParkingNumberList();
     this.getStatusList();
-
+    this.getAllMemberList();
     if (this.editData !== null) {
       this.permanentParking.get('ownerName')?.setValue(this.editData?.memberName);
       this.permanentParking.get('mobileNumber')?.setValue(this.editData?.mobileNumber);
@@ -104,16 +105,14 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     });
   }
 
-  selectedVehicleType(value: any){
-    this.selectedVehicle = value.value;
-  }
+
 
   getParkingNumberList(){
-    this.parkingService.getUnitSiteParkingList().subscribe({
+    this.service.getAvailableParkingList().subscribe({
       next: (res: any) => {
         if (res?.isSuccess === true) {
-          this.parkingList = res.data;
-          console.log(this.parkingList);
+          this.parkingList = res.parkingData.filter((item: any) => item.unitId == this.unitId);
+          console.log('parking list', this.parkingList);
         } else {
           this.alertify.error(res?.message);
         }
@@ -137,5 +136,27 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
         this.alertify.error(err);
       }
     });
+  }
+
+  getAllMemberList(){
+    this.service.getUnitMemberList().subscribe({
+      next: (res: any) => {
+        if (res?.isSuccess === true) {
+          let data = res.data.filter((item: any) => {
+            return item.unitId == this.unitId;
+          });
+          this.memberList = data;
+        }
+      }
+    });
+  }
+
+  selectedMemberName(event: any){
+    let value = event.value;
+    for(let i = 0; i < this.memberList.length; i++) {
+      if (value == this.memberList[i].memberName) {
+        this.permanentParking.get('mobileNumber')?.setValue(this.memberList[i].mobileNumber);
+      }
+    }
   }
 }

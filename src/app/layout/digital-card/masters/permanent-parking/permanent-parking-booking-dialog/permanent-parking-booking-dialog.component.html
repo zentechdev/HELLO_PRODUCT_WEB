@@ -8,16 +8,19 @@
                 <div class="me-5">
                     <mat-form-field appearance="outline" class="me-5">
                         <mat-label>Staff Name</mat-label>
-                        <input matInput placeholder="Enter Staff name" autocomplete="off" 
-                        formControlName="ownerName">
+                        <mat-select formControlName="ownerName" placeholder="select Employee" (selectionChange)="selectedMemberName($event)">
+                            <mat-option *ngFor="let data of memberList" [value]="data?.memberName">
+                                {{data?.memberName}}
+                            </mat-option>
+                        </mat-select>
                         <mat-error>
-                            Staff Name is<strong>required</strong>
+                            Employee Field is<strong>required</strong>
                         </mat-error>
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
                         <mat-label>Select Vehicle</mat-label>
-                        <mat-select formControlName="vehicleTypeId" placeholder="select vehicle type" (selectionchanged)="selectedVehicleType($event)">
+                        <mat-select formControlName="vehicleTypeId" placeholder="select vehicle type">
                             <mat-option *ngFor="let data of vehicleList" [value]="data?.id">
                                 {{data?.name}}
                             </mat-option>
@@ -30,7 +33,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Select Parking</mat-label>
                         <mat-select formControlName="parkingId" placeholder="select parking" >
-                            <mat-option *ngFor="let data of parkingList" [value]="data?.id">
+                            <mat-option *ngFor="let data of parkingList" [value]="data?.parkingId">
                                 {{data?.parkingNumber}}
                             </mat-option>
                         </mat-select>
@@ -44,7 +47,7 @@
                     <mat-form-field appearance="outline" class="me-5">
                         <mat-label>Mobile Number</mat-label>
                         <input matInput placeholder="Enter Mobile Number" autocomplete="off" 
-                        formControlName="mobileNumber" maxlength="10">
+                        formControlName="mobileNumber" maxlength="10" readonly>
                         <mat-error>
                             Mobile Number is<strong>required</strong>
                         </mat-error>
