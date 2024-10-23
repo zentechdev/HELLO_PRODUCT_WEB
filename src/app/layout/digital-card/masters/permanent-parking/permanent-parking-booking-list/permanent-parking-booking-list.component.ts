@@ -21,6 +21,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   permanentParkingList: any;
   roleName: any;
+  
   constructor(
     private dialog: MatDialog,
     private service: PermanentBookingService,
@@ -29,8 +30,8 @@ export class PermanentParkingBookingListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let roleName = String(localStorage.getItem('roleName'));
-    this.roleName = this.encryptedData.decryptData(roleName);
+    // let roleName = String(localStorage.getItem('roleName'));
+    // this.roleName = this.encryptedData.decryptData(roleName);
     this.getPermanentBookingList();
   }
 

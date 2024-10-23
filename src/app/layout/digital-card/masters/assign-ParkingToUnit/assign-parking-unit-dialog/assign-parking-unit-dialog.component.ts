@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
@@ -24,32 +24,39 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   employeeCode: any;
   unitList: any;
   parkingList: any;
+  
   constructor(
     private service: AsignParkingUnitService,
     private wingService: WingService,
     private unitService: UnitService,
     private alertify: AlertifyService,
     private EncryptedData: StorageEncryptionService,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public editData: any, 
-    private dialogRef: MatDialogRef<AssignParkingUnitDialogComponent>
-  ) {
-    this.dialogRef.disableClose = true; }
+    private dialogRef: MatDialogRef<AssignParkingUnitDialogComponent> ) {
+    this.dialogRef.disableClose = true; 
+  }
 
   ngOnInit(): void {
     let siteName = String(localStorage.getItem('siteName'));
     this.siteName = this.EncryptedData.decryptData(siteName);
+    console.log(this.siteName);
 
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.EncryptedData.decryptData(roleName);
+    console.log(this.roleName);
 
     const siteId = String(localStorage.getItem("siteId"));
     this.siteId = Number(this.EncryptedData.decryptData(siteId));
-
+    console.log(this.siteId);
+    
     const clientId = String(localStorage.getItem("clientId"));
     this.clientId = Number(this.EncryptedData.decryptData(clientId));
-
+    console.log(this.clientId);
+    
     let employeeCode = String(localStorage.getItem('employeeCode'));
     this.employeeCode = this.EncryptedData.decryptData(employeeCode);
+    console.log(this.employeeCode);
 
     this.initateAssignParking();
     this.getActiveList();
@@ -57,17 +64,21 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     this.getUnitNumber();
     this.getParkingList();
 
-    console.log(this.editData);
+    console.log('check edit data', this.editData);
+    if (this.editData !== null) {
+      this.assignParkingForm.get('siteName')?.setValue(this.siteName);
+      this.assignParkingForm.get('unitName')?.setValue(this.editData?.unitId);
+    }
   }
 
   initateAssignParking(){
-    this.assignParkingForm = new FormGroup({
-      siteName: new FormControl(this.siteName),
-      wingName: new FormControl(''),
-      unitName: new FormControl(this.editData?.unitId ?? '', [Validators.required]),
-      parkingNumber: new FormControl('', [Validators.required]),
-      isActive: new FormControl('')
-    })
+    this.assignParkingForm = this.fb.group({
+      siteName: [this.siteName],
+      wingName: [''],
+      unitName: ['', [Validators.required]],
+      parkingNumber: ['', [Validators.required]],
+      isActive: ['', [Validators.required]]
+    });
   }
 
 
@@ -121,7 +132,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
 
     console.log(this.assignParkingForm.get('unitName')?.value, body);
     if (this.editData === null) {
-      console.log('enter in if condition');
       this.service.postParkingUnitData(body).subscribe({
         next:(res: any) => {
           this.alertify.success('Parking are assign to unit inserted Successfully');
@@ -132,7 +142,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
         }
       });
     } else {
-      console.log('enter in else condition');
       this.service.updateParkingUnitData(this.editData?.id, body).subscribe({
         next:(update: any) => {
           this.alertify.success('Parking are assign to unit updated Successfully');

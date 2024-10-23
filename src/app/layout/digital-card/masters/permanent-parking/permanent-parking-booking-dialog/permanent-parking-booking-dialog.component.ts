@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
@@ -24,12 +24,13 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     private alertify: AlertifyService,
     private parkingService: ParkingNumberService,
     private decode: StorageEncryptionService,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public editData: any, 
     private dialogRef: MatDialogRef<PermanentParkingBookingDialogComponent>) { 
       this.dialogRef.disableClose = true;
 
-      let unitId = String(localStorage.getItem('unitId'));
-      this.unitId = this.decode.decryptData(unitId);
+      // let unitId = String(localStorage.getItem('unitId'));
+      // this.unitId = this.decode.decryptData(unitId);
 
       let employeeCode = String(localStorage.getItem('employeeCode'));
       this.employeeCode = this.decode.decryptData(employeeCode);
@@ -41,16 +42,24 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     this.getVehicleTypeList();
     this.getParkingNumberList();
     this.getStatusList();
+
+    if (this.editData !== null) {
+      this.permanentParking.get('ownerName')?.setValue(this.editData?.memberName);
+      this.permanentParking.get('mobileNumber')?.setValue(this.editData?.mobileNumber);
+      this.permanentParking.get('vehicleNumber')?.setValue(this.editData?.vehicleNumber);
+      this.permanentParking.get('vehicleTypeId')?.setValue(this.editData?.vehicleTypeId);
+      this.permanentParking.get('parkingId')?.setValue(this.editData?.parkingId);
+    }
   }
 
   initiateForm(){
-    this.permanentParking = new FormGroup({
-      ownerName: new FormControl(this.editData?.memberName ?? '', [Validators.required]),
-      mobileNumber: new FormControl(this.editData?.mobileNumber ?? '', [Validators.required]),
-      vehicleNumber: new FormControl(this.editData?.vehicleNumber ?? '', [Validators.required]),
-      vehicleTypeId: new FormControl(this.editData?.vehicleTypeId ?? '', [Validators.required]),
-      parkingId: new FormControl(this.editData?.parkingId ?? '', [Validators.required]),
-      isActiveId: new FormControl('', [Validators.required])
+    this.permanentParking = this.fb.group({
+      ownerName: ['', [Validators.required]],
+      mobileNumber: ['', [Validators.required]],
+      vehicleNumber: [ '', [Validators.required]],
+      vehicleTypeId: ['', [Validators.required]],
+      parkingId: ['', [Validators.required]],
+      isActiveId: ['', [Validators.required]]
     });
   }
 
