@@ -38,9 +38,10 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initateAssignParking();
     let siteName = String(localStorage.getItem('siteName'));
     this.siteName = this.EncryptedData.decryptData(siteName);
-    console.log(this.siteName);
+    console.log('site name', this.siteName);
 
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.EncryptedData.decryptData(roleName);
@@ -48,17 +49,16 @@ export class AssignParkingUnitDialogComponent implements OnInit {
 
     const siteId = String(localStorage.getItem("siteId"));
     this.siteId = Number(this.EncryptedData.decryptData(siteId));
-    console.log(this.siteId);
+    console.log('siteId',this.siteId);
     
     const clientId = String(localStorage.getItem("clientId"));
     this.clientId = Number(this.EncryptedData.decryptData(clientId));
-    console.log(this.clientId);
+    console.log('clientId', this.clientId);
     
     let employeeCode = String(localStorage.getItem('employeeCode'));
     this.employeeCode = this.EncryptedData.decryptData(employeeCode);
-    console.log(this.employeeCode);
+    console.log('employeeCode', this.employeeCode);
 
-    this.initateAssignParking();
     this.getActiveList();
     this.getWingList();
     this.getUnitNumber();

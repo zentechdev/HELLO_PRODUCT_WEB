@@ -31,9 +31,9 @@
                             {{unit.unitNumberName}}
                           </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="assignParkingForm.get('unitName')?.hasError('required')">
+                        <!-- <mat-error *ngIf="assignParkingForm.get('unitName')?.hasError('required')">
                           Unit Number is <strong>required</strong>
-                        </mat-error>
+                        </mat-error> -->
                       </mat-form-field>
 
                 </div>
@@ -46,9 +46,9 @@
                               {{data.parkingNumber}}
                             </mat-option>
                           </mat-select>
-                        <mat-error *ngIf="assignParkingForm.get('parkingNumber')?.hasError('required')">
+                        <!-- <mat-error *ngIf="assignParkingForm.get('parkingNumber')?.hasError('required')">
                             Parking Name  <strong>required</strong>
-                        </mat-error>
+                        </mat-error> -->
                     </mat-form-field>
 
                     <mat-form-field appearance="outline">
@@ -58,9 +58,9 @@
                                 {{isActive.isActive}}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="assignParkingForm.get('isActive')?.hasError('required')">
+                        <!-- <mat-error *ngIf="assignParkingForm.get('isActive')?.hasError('required')">
                             isActive Type is <strong>required</strong>
-                        </mat-error>
+                        </mat-error> -->
                     </mat-form-field>
                 </div>
             </div>
