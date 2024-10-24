@@ -35,8 +35,6 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
 
       let employeeCode = String(localStorage.getItem('memberId'));
       this.employeeCode = this.decode.decryptData(employeeCode);
-      console.log('employeeCode =====', this.employeeCode);
-      console.log(this.editData);
     }
 
   ngOnInit(): void {

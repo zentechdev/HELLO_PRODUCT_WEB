@@ -41,23 +41,18 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     
     let siteName = String(localStorage.getItem('siteName'));
     this.siteName = this.EncryptedData.decryptData(siteName);
-    console.log('1 site name', this.siteName);
 
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.EncryptedData.decryptData(roleName);
-    console.log('2 role name ',this.roleName);
 
     const siteId = String(localStorage.getItem("siteId"));
     this.siteId = Number(this.EncryptedData.decryptData(siteId));
-    console.log('3 siteId',this.siteId);
     
     const clientId = String(localStorage.getItem("clientId"));
     this.clientId = Number(this.EncryptedData.decryptData(clientId));
-    console.log('4 clientId', this.clientId);
     
     let employeeCode = String(localStorage.getItem('memberId'));
     this.employeeCode = this.EncryptedData.decryptData(employeeCode);
-    console.log('5 employeeCode--------', this.employeeCode);
 
     this.initateAssignParking();
     this.getActiveList();
@@ -65,7 +60,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     this.getUnitNumber();
     this.getParkingList();
 
-    console.log('check edit data', this.editData);
     if (this.editData !== null) {
       this.assignParkingForm.patchValue({
         siteName: this.siteName,
@@ -75,7 +69,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   }
 
   initateAssignParking() {
-    console.log('enter in form function');
     this.assignParkingForm = this.fb.group({
       siteName: [this.siteName || '', []],
       wingName: ['', []],
@@ -87,7 +80,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
 
 
   getActiveList(){
-    console.log('enter in Activate list function');
     this.service.getIsActive().subscribe({
       next: (res: any) => {
         this.isActiveList = res;
@@ -101,7 +93,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
 
 
   getWingList(){
-    console.log('enter in wing list function');
     this.wingService.getWing().subscribe({
       next: (res: any) => {
         if(this.roleName == "Site Admin"){
@@ -114,7 +105,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   }
 
   getUnitNumber(){
-    console.log('enter in unit number function');
     this.unitService.getAllUnit().subscribe({
       next: (res: any) => {
         if (res) {
@@ -162,12 +152,9 @@ export class AssignParkingUnitDialogComponent implements OnInit {
         });
       }
     }
-
-    console.log(this.assignParkingForm.get('unitName')?.value, body);
   }
 
   getParkingList(){
-    console.log('enter in get parking list function');
     this.service.getParkingNumber().subscribe({
       next: (res: any) => {
         this.parkingList = res.data;
