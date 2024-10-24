@@ -33,8 +33,9 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       let unitId = String(localStorage.getItem('unitId'));
       this.unitId = this.decode.decryptData(unitId);
 
-      let employeeCode = String(localStorage.getItem('employeeCode'));
+      let employeeCode = String(localStorage.getItem('memberId'));
       this.employeeCode = this.decode.decryptData(employeeCode);
+      console.log('employeeCode =====', this.employeeCode);
       console.log(this.editData);
     }
 

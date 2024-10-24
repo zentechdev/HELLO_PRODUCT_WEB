@@ -38,27 +38,28 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initateAssignParking();
+    
     let siteName = String(localStorage.getItem('siteName'));
     this.siteName = this.EncryptedData.decryptData(siteName);
-    console.log('site name', this.siteName);
+    console.log('1 site name', this.siteName);
 
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.EncryptedData.decryptData(roleName);
-    console.log(this.roleName);
+    console.log('2 role name ',this.roleName);
 
     const siteId = String(localStorage.getItem("siteId"));
     this.siteId = Number(this.EncryptedData.decryptData(siteId));
-    console.log('siteId',this.siteId);
+    console.log('3 siteId',this.siteId);
     
     const clientId = String(localStorage.getItem("clientId"));
     this.clientId = Number(this.EncryptedData.decryptData(clientId));
-    console.log('clientId', this.clientId);
+    console.log('4 clientId', this.clientId);
     
-    let employeeCode = String(localStorage.getItem('employeeCode'));
+    let employeeCode = String(localStorage.getItem('memberId'));
     this.employeeCode = this.EncryptedData.decryptData(employeeCode);
-    console.log('employeeCode', this.employeeCode);
+    console.log('5 employeeCode--------', this.employeeCode);
 
+    this.initateAssignParking();
     this.getActiveList();
     this.getWingList();
     this.getUnitNumber();
@@ -66,15 +67,18 @@ export class AssignParkingUnitDialogComponent implements OnInit {
 
     console.log('check edit data', this.editData);
     if (this.editData !== null) {
-      this.assignParkingForm.get('siteName')?.setValue(this.siteName);
-      this.assignParkingForm.get('unitName')?.setValue(this.editData?.unitId);
+      this.assignParkingForm.patchValue({
+        siteName: this.siteName,
+        unitName: this.editData.unitId
+      });
     }
   }
 
-  initateAssignParking(){
+  initateAssignParking() {
+    console.log('enter in form function');
     this.assignParkingForm = this.fb.group({
-      siteName: [this.siteName],
-      wingName: [''],
+      siteName: [this.siteName || '', []],
+      wingName: ['', []],
       unitName: ['', [Validators.required]],
       parkingNumber: ['', [Validators.required]],
       isActive: ['', [Validators.required]]
@@ -83,10 +87,10 @@ export class AssignParkingUnitDialogComponent implements OnInit {
 
 
   getActiveList(){
+    console.log('enter in Activate list function');
     this.service.getIsActive().subscribe({
       next: (res: any) => {
         this.isActiveList = res;
-        console.log(this.isActiveList);
         if (this.editData !== null) {
           let data = res.filter((item: any) => item.isActive === this.editData?.isActive ? item.isActiveId : '');
           this.assignParkingForm.get('isActive')?.setValue(data[0]?.isActiveId);
@@ -97,6 +101,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
 
 
   getWingList(){
+    console.log('enter in wing list function');
     this.wingService.getWing().subscribe({
       next: (res: any) => {
         if(this.roleName == "Site Admin"){
@@ -109,6 +114,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   }
 
   getUnitNumber(){
+    console.log('enter in unit number function');
     this.unitService.getAllUnit().subscribe({
       next: (res: any) => {
         if (res) {
@@ -130,31 +136,38 @@ export class AssignParkingUnitDialogComponent implements OnInit {
       "isActiveId": this.assignParkingForm.get('isActive')?.value
     }
 
-    console.log(this.assignParkingForm.get('unitName')?.value, body);
-    if (this.editData === null) {
-      this.service.postParkingUnitData(body).subscribe({
-        next:(res: any) => {
-          this.alertify.success('Parking are assign to unit inserted Successfully');
-          this.dialogRef.close();
-        },
-        error: (er: any) => {
-          this.alertify.error('Something went wrong please try again');
-        }
-      });
+    if (this.assignParkingForm.invalid) {
+      this.assignParkingForm.markAllAsTouched(); // Trigger validation errors
+      return;
     } else {
-      this.service.updateParkingUnitData(this.editData?.id, body).subscribe({
-        next:(update: any) => {
-          this.alertify.success('Parking are assign to unit updated Successfully');
-          this.dialogRef.close();
-        },
-        error: (er: any) => {
-          this.alertify.error('Something went wrong please try again');
-        }
-      });
+      if (this.editData === null) {
+        this.service.postParkingUnitData(body).subscribe({
+          next:(res: any) => {
+            this.alertify.success('Parking are assign to unit inserted Successfully');
+            this.dialogRef.close();
+          },
+          error: (er: any) => {
+            this.alertify.error('Something went wrong please try again');
+          }
+        });
+      } else {
+        this.service.updateParkingUnitData(this.editData?.id, body).subscribe({
+          next:(update: any) => {
+            this.alertify.success('Parking are assign to unit updated Successfully');
+            this.dialogRef.close();
+          },
+          error: (er: any) => {
+            this.alertify.error('Something went wrong please try again');
+          }
+        });
+      }
     }
+
+    console.log(this.assignParkingForm.get('unitName')?.value, body);
   }
 
   getParkingList(){
+    console.log('enter in get parking list function');
     this.service.getParkingNumber().subscribe({
       next: (res: any) => {
         this.parkingList = res.data;

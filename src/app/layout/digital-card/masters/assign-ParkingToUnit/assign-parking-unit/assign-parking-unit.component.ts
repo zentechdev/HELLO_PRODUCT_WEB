@@ -31,7 +31,7 @@ export class AssignParkingUnitComponent implements OnInit {
 
   ngOnInit(): void {
     let roleName = String(localStorage.getItem('roleName'));
-    this.roleName = this.EncryptedData.decryptData(roleName)
+    this.roleName = this.EncryptedData.decryptData(roleName);
     this.getParkingUnitData();
     this.getStatusList();
   }
