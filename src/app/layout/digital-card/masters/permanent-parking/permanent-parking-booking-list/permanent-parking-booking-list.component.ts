@@ -16,12 +16,18 @@ import { StorageEncryptionService } from 'src/app/service/encryption/storage-enc
 export class PermanentParkingBookingListComponent implements OnInit {
   
   displayedColumns: any = ['id', 'siteName', 'unitName', 'unitNumber', 'parkingNumber', 'memberName', 'isActive','action'];
+  AvilableParkingColumns: any = ['id', 'siteName', 'unitName', 'unitNumber', 'parkingNumber', 'vehicleType'];
   @ViewChild(MatPaginator) Paginator!: MatPaginator;
   @ViewChild(MatSort) Sort!: MatSort; 
   dataSource!: MatTableDataSource<any>;
   permanentParkingList: any;
   roleName: any;
-  
+  unitId: any;
+  availableParkingList: any;
+  availableParkingTableList!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) Paginator1!: MatPaginator;
+  @ViewChild(MatSort) Sort1!: MatSort; 
+  value: any;
   constructor(
     private dialog: MatDialog,
     private service: PermanentBookingService,
@@ -32,7 +38,11 @@ export class PermanentParkingBookingListComponent implements OnInit {
   ngOnInit(): void {
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.encryptedData.decryptData(roleName);
+
+    let unitId = String(localStorage.getItem('unitId'));
+    this.unitId = this.encryptedData.decryptData(unitId);
     this.getPermanentBookingList();
+    this.getAllAvilableParking();
   }
 
   openDialog() {
@@ -40,9 +50,11 @@ export class PermanentParkingBookingListComponent implements OnInit {
       width: '50%',
       disableClose: true
     }).afterClosed().subscribe((res: any) => {
-      if (res === 'SAVE') {
+      // console.log(res);
+      // if (res === 'SAVE') {
         this.getPermanentBookingList();
-      }
+        this.getAllAvilableParking();
+      // }
     });
   }
 
@@ -62,7 +74,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
       error: (err) => {
         this.alertify.error(err);
       }
-    })
+    });
   }
 
   editData(data: any){
@@ -78,7 +90,76 @@ export class PermanentParkingBookingListComponent implements OnInit {
   }
 
   deleteData(Id: any){
-
+    this.alertify.confirm('Delete Permanent Parking', 'Are you sure do you really want to delete',
+      ()=>{
+        this.service.deletePermanentParking(Id).subscribe({
+          next: (res: any) => {
+            if (res?.isSuccess == true) {
+              this.alertify.success('Permanent Parking Deleted Successfully');
+              this.getPermanentBookingList();
+              this.getAllAvilableParking();
+            } else {
+              this.alertify.error('Permanent Parking Deleted Faild');
+            }
+          },
+          error: (err) => {
+            this.alertify.error(err);
+          }
+        });
+      },
+      ()=>{
+        this.alertify.error('Delete Cancel');
+      });
   }
 
+  // avalilable parking data function
+  getAllAvilableParking(){
+    this.service.getAvailableParkingList().subscribe({
+      next: (res: any) => {
+        if (res?.isSuccess === true) {
+          this.availableParkingList = res.parkingData.filter((item: any) => item.unitId == this.unitId);
+          this.availableParkingTableList = new MatTableDataSource(this.availableParkingList);
+          this.availableParkingTableList.data = this.availableParkingList;
+          this.availableParkingTableList.paginator = this.Paginator1
+          this.availableParkingTableList.sort = this.Sort1;
+        } else {
+          this.alertify.error(res?.message);
+        }
+      }
+    });
+  }
+
+  applyFilter(type: any, event: any) {
+    if (type == 'AssignedParking') {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    } else {
+      const filterData = (event.target as HTMLInputElement).value;
+      this.availableParkingTableList.filter = filterData.trim().toLowerCase();
+      if (this.availableParkingTableList.paginator) {
+        this.availableParkingTableList.paginator.firstPage();
+      }
+    }
+  }
+
+  // this function are search data status wise
+  filterStatusWise(event: any) {
+    let value = event.value;
+    if (value == '') {
+      this.value = this.permanentParkingList;
+      this.dataSource = new MatTableDataSource(this.value);
+      this.dataSource.data = this.value;
+      this.dataSource.paginator = this.Paginator;
+      this.dataSource.sort = this.Sort;
+    } else {
+      this.value = this.permanentParkingList.filter((item: any) => item.isActive == value);
+      this.dataSource = new MatTableDataSource(this.value);
+      this.dataSource.data = this.value;
+      this.dataSource.paginator = this.Paginator;
+      this.dataSource.sort = this.Sort;
+    }
+  }
 }

@@ -179,7 +179,6 @@ export class UnitNumberListComponent implements OnInit {
 
   selectStatus(event: any) {
     const value = this.formGroup.value.isActiveId;
-
     if(value==0){
       this.value = this.data;
       this.dataSource = new MatTableDataSource(this.value);

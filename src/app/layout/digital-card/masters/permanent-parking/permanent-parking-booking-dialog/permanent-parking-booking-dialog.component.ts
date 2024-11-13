@@ -20,6 +20,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
   statusList: any;
   employeeCode: any; 
   memberList: any;
+  
   constructor(
     private service: PermanentBookingService,
     private alertify: AlertifyService,
@@ -111,7 +112,6 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       next: (res: any) => {
         if (res?.isSuccess === true) {
           this.parkingList = res.parkingData.filter((item: any) => item.unitId == this.unitId);
-          console.log('parking list', this.parkingList);
         } else {
           this.alertify.error(res?.message);
         }

@@ -87,6 +87,7 @@ import { PermanentParkingBookingListComponent } from './permanent-parking/perman
 import { PermanentParkingBookingDialogComponent } from './permanent-parking/permanent-parking-booking-dialog/permanent-parking-booking-dialog.component';
 import { AssignParkingUnitComponent } from './assign-ParkingToUnit/assign-parking-unit/assign-parking-unit.component';
 import { AssignParkingUnitDialogComponent } from './assign-ParkingToUnit/assign-parking-unit-dialog/assign-parking-unit-dialog.component';
+import { MatStepperModule } from '@angular/material/stepper';
 
 
 @NgModule({
@@ -180,7 +181,8 @@ import { AssignParkingUnitDialogComponent } from './assign-ParkingToUnit/assign-
     HttpClientModule,
     MatTreeModule,
     MatExpansionModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    MatStepperModule
   ]
 })
 export class MastersModule { }

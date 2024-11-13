@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(data:any){
-    return this.http.post<any>(`${baseUrl}/api/Auth/login/`,data);
+    return this.http.post<any>(`${baseUrl}/api/Auth/login`,data);
   }
 
   putPassword(data:any,mobileNumber:string){
