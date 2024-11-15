@@ -24,6 +24,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   employeeCode: any;
   unitList: any;
   parkingList: any;
+  selectedParkingList: any;
   
   constructor(
     private service: AsignParkingUnitService,
@@ -158,11 +159,22 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     this.service.getParkingNumber().subscribe({
       next: (res: any) => {
         this.parkingList = res.data;
+        this.selectedParkingList = res.data.sort((a: any, b: any) => a.floorName - b.floorName);
         if(this.editData !== null) {
           let data = this.parkingList.filter((res: any) => res.parkingNumber == this.editData.parkingNumber ? res.id : '');
           this.assignParkingForm.get('parkingNumber')?.setValue(data[0].id);
         }
       }
     });
+  }
+
+
+  onKey(value: any) { 
+    this.selectedParkingList = this.search(value);
+  }
+    
+  search(value: string) { 
+    let filter = value.toLowerCase();
+    return this.parkingList.filter((option: any) => option.parkingNumber.toLowerCase().startsWith(filter));
   }
 }

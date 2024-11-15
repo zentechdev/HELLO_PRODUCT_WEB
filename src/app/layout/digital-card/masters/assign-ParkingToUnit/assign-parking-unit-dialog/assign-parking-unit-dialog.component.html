@@ -42,8 +42,10 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Parking Number</mat-label>
                         <mat-select formControlName="parkingNumber" placeholder="Parking Number">
-                            <mat-option *ngFor="let data of parkingList || []" [value]="data.id">
-                                {{data.parkingNumber}}
+                            <input (keyup)="onKey($event)" matInput>
+                            <mat-option>None</mat-option>
+                            <mat-option *ngFor="let data of selectedParkingList || []" [value]="data.id">
+                                {{data.parkingNumber}} - {{data.floorName}}
                             </mat-option>
                         </mat-select>
                         <mat-error *ngIf="assignParkingForm.get('parkingNumber')?.hasError('required')">
