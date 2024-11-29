@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 
 @Component({
   selector: 'app-invited-visitor',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./invited-visitor.component.css']
 })
 export class InvitedVisitorComponent implements OnInit {
-
-  constructor() { }
+  memberId: any;
+  constructor(
+    private encryptedData: StorageEncryptionService
+  ) { }
 
   ngOnInit(): void {
+    let memberId = String(localStorage.getItem('roleName'));
+    this.memberId = this.encryptedData.decryptData(memberId);
+    console.log(this.memberId);
   }
 
 }

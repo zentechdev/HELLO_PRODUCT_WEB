@@ -35,8 +35,9 @@ export class AsignParkingUnitService {
   }
 
 
-  getParkingNumber(){
-    return this.http.get(`${baseUrl}/api/ParkingNumber/getAllParkingNumber`);
+  getParkingNumber(Id: any){
+    // return this.http.get(`${baseUrl}/api/ParkingNumber/getAllParkingNumber`);
+    return this.http.get(`${baseUrl}/api/parkingDetails/getFreeParkingBySiteId/${Id}`);
   }
 
   getAllUnit(){

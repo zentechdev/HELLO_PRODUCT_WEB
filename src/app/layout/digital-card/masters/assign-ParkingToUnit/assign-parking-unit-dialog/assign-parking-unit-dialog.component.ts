@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 import { AsignParkingUnitService } from 'src/app/service/master/assignParkingUnit/asign-parking-unit.service';
+import { ParkingTypeService } from 'src/app/service/masters/parking-type.service';
 import { UnitService } from 'src/app/service/masters/unit.service';
 import { WingService } from 'src/app/service/masters/wing.service';
 
@@ -23,9 +24,10 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   wingList: any;
   employeeCode: any;
   unitList: any;
+  dropdownList: { label: string; value: string }[] = [];
+  selectedParkingList: { label: string; value: string }[] = [];
+  parkingType: any;
   parkingList: any;
-  selectedParkingList: any;
-  
   constructor(
     private service: AsignParkingUnitService,
     private wingService: WingService,
@@ -34,7 +36,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     private EncryptedData: StorageEncryptionService,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public editData: any, 
-    private dialogRef: MatDialogRef<AssignParkingUnitDialogComponent> ) {
+    private dialogRef: MatDialogRef<AssignParkingUnitDialogComponent>) {
     this.dialogRef.disableClose = true; 
   }
 
@@ -74,6 +76,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
       siteName: [this.siteName || '', []],
       wingName: ['', []],
       unitName: ['', [Validators.required]],
+      parkingType: ['', [Validators.required]],
       parkingNumber: ['', [Validators.required]],
       isActive: ['', [Validators.required]]
     });
@@ -128,7 +131,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     }
 
     if (this.assignParkingForm.invalid) {
-      this.assignParkingForm.markAllAsTouched(); // Trigger validation errors
+      this.assignParkingForm.markAllAsTouched();
       return;
     } else {
       if (this.editData === null) {
@@ -156,25 +159,42 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   }
 
   getParkingList(){
-    this.service.getParkingNumber().subscribe({
+    this.service.getParkingNumber(this.siteId).subscribe({
       next: (res: any) => {
-        this.parkingList = res.data;
-        this.selectedParkingList = res.data.sort((a: any, b: any) => a.floorName - b.floorName);
-        if(this.editData !== null) {
-          let data = this.parkingList.filter((res: any) => res.parkingNumber == this.editData.parkingNumber ? res.id : '');
-          this.assignParkingForm.get('parkingNumber')?.setValue(data[0].id);
+        if (res.parkingfloor && res.parkingfloor.length > 0) {
+          res.parkingfloor.forEach((floor: any) => {
+            if (floor.parking && floor.parking.length > 0) {
+              floor.parking.forEach((parking: any) => {
+                this.dropdownList.push({
+                  label: `${floor.floorName} - ${parking.parkingName} - ${parking.parkingType}`,
+                  value: parking.parkingId
+                });
+              });
+            }
+          });
         }
+        this.selectedParkingList = [...this.dropdownList];
       }
     });
   }
 
 
-  onKey(value: any) { 
-    this.selectedParkingList = this.search(value);
+  onKey(event: KeyboardEvent) {
+    const input = (event.target as HTMLInputElement).value;
+    this.selectedParkingList = this.search(input);
   }
     
-  search(value: string) { 
-    let filter = value.toLowerCase();
-    return this.parkingList.filter((option: any) => option.parkingNumber.toLowerCase().startsWith(filter));
+  search(value: string) {
+    if (!this.dropdownList || this.dropdownList.length === 0) {
+      return [];
+    }
+    if (!value || value.trim() === "") {
+      return this.dropdownList;
+    }
+    const filter = value.toLowerCase();
+    return this.dropdownList.filter((option: any) =>
+      option.label.toLowerCase().includes(filter) 
+    );
   }
+
 }

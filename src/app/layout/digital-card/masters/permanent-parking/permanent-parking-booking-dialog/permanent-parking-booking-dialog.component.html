@@ -34,7 +34,7 @@
                         <mat-label>Select Parking</mat-label>
                         <mat-select formControlName="parkingId" placeholder="select parking" >
                             <mat-option *ngFor="let data of parkingList" [value]="data?.parkingId">
-                                {{data?.parkingNumber}}
+                                {{data?.parkingNumber}} - {{data?.parkingType}}
                             </mat-option>
                         </mat-select>
                         <mat-error>

@@ -346,7 +346,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getCountParkingDetails(data: any) {
-    console.log('parking count details', data);
     let wingAParking = 0;
     let wingBParking = 0;
     let wingAUnit = 0;
@@ -355,7 +354,7 @@ export class DashboardComponent implements OnInit {
       if (detail.floorType === "Parking") {
         if (detail.wingName === "A") {
           wingAParking += detail.parking.length;
-          this.wingATotal += detail.parking.length; 
+          this.wingATotal += detail.parking.length;
         } else if (detail.wingName === "B") {
           wingBParking += detail.parking.length;
           this.wingBTotal += detail.parking.length;
