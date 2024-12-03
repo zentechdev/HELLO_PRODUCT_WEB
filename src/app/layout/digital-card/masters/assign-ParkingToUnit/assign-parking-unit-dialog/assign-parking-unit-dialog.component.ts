@@ -76,7 +76,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
       siteName: [this.siteName || '', []],
       wingName: ['', []],
       unitName: ['', [Validators.required]],
-      parkingType: ['', [Validators.required]],
       parkingNumber: ['', [Validators.required]],
       isActive: ['', [Validators.required]]
     });
@@ -131,6 +130,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     }
 
     if (this.assignParkingForm.invalid) {
+      console.log('parking is valid', this.assignParkingForm);
       this.assignParkingForm.markAllAsTouched();
       return;
     } else {
