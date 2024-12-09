@@ -1,0 +1,96 @@
+<div class="container py-4">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-6 text-center text-md-start">
+            <img src="../../assets/images/Hello -internal-logo-white-background-Photoroom.png" alt="Logo" class="img-fluid main-logo">
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <form [formGroup]="check_InForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Mobile No</mat-label>
+                                    <input matInput type="number" placeholder="Please enter your mobile no" formControlName="mobileNo"/>
+                                    <mat-error *ngIf="check_InForm.get('mobileNo')?.hasError('required')">
+                                        <span>
+                                            required field
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Full Name</mat-label>
+                                    <input matInput type="text" placeholder="Enter your full name" formControlName="fullName"/>
+                                    <mat-error *ngIf="check_InForm.get('fullName')?.hasError('required')">
+                                        <span>
+                                            required field
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <mat-form-field appearance="outline">
+                                    <input hidden matInput readonly name="name" />
+                                    <button type="button" mat-raised-button (click)="fileInput.click()">Capture Image</button>
+                                    <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".jpeg/*" capture="camera">
+                                </mat-form-field>
+                                <span class="file-name" *ngIf="image !== ''">
+                                    <img [src]="image">
+                                </span>
+                                <mat-error *ngIf="image === ''">
+                                    <span>
+                                        required field
+                                    </span>
+                                </mat-error>
+                            </div>
+                            <div class="col-md-6 col-sm-12 mb-3">
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Coming From</mat-label>
+                                    <input matInput type="text" placeholder="Enter your location" formControlName="location"/>
+                                    <mat-error *ngIf="check_InForm.get('location')?.hasError('required')">
+                                        <span>
+                                            required field
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-12 col-sm-12">
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Select Unit</mat-label>
+                                    <mat-select formControlName="unitId">
+                                        <input matInput type="text" placeholder="Search unit name here..." class="search-input" />
+                                        <mat-option *ngFor="let data of filteredUnitList" [value]="data?.id">
+                                            {{ data?.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="check_InForm.get('unitId')?.hasError('required')">
+                                        <span>
+                                            required field
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="col-md-3">
+                                <button mat-raised-button style="background-color: #d82a1b; color:white" class="px-4 w-100"
+                                (click)="checkIn()">
+                                    Check-In
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

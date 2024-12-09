@@ -62,8 +62,19 @@ export class ManageUsersDialogComponent implements OnInit {
     { id: 3, gender: 'Other' }
   ];
   
+  filteredUnitList: any = [];
 
-  constructor(public dialog: MatDialog,private storageEncryptionService: StorageEncryptionService, private formBuilder: FormBuilder, private router: Router, private alertify: AlertifyService, private service: ManageUsersService, @Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<ManageUsersDialogComponent>) { this.dialogRef.disableClose = true }
+  constructor(
+    public dialog: MatDialog,
+    private storageEncryptionService: StorageEncryptionService, 
+    private formBuilder: FormBuilder, 
+    private router: Router, 
+    private alertify: AlertifyService, 
+    private service: ManageUsersService, 
+    @Inject(MAT_DIALOG_DATA) public editData: any, 
+    private dialogRef: MatDialogRef<ManageUsersDialogComponent>) { 
+      this.dialogRef.disableClose = true;
+    }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
@@ -216,12 +227,15 @@ export class ManageUsersDialogComponent implements OnInit {
           }
           else if (this.roleName == "Super Admin") {
             this.unitList = res.data.filter((item: any) => item.clientId == this.clientId);
+            this.filteredUnitList = this.unitList;
           }
           else if (this.roleName == "Site Admin") {
             this.unitList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
+            this.filteredUnitList = this.unitList;
           }
           else if (this.roleName == "Unit Admin") {
             this.unitList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
+            this.filteredUnitList = this.unitList;
           }
         },
         error: (res) => {
@@ -471,7 +485,27 @@ export class ManageUsersDialogComponent implements OnInit {
     }).afterClosed().subscribe(val => {
       if (val === 'save') {
       }
-    })
+    });
   }
+
+  // filtered for unit name 
+  onkey(event: KeyboardEvent) {
+    let input = (event.target as HTMLInputElement).value;
+    this.filteredUnitList = this.search(input);
+  }
+
+  search(value: string) {
+    if (!this.unitList || this.unitList.length == 0) {
+      return [];
+    }
+
+    if (!value || value.trim()== '') {
+      return this.unitList;
+    }
+     
+    const filter = value.toLocaleLowerCase();
+    return this.unitList.filter((unit: any) => unit.name.toLocaleLowerCase().includes(filter));
+  }
+
 
 }

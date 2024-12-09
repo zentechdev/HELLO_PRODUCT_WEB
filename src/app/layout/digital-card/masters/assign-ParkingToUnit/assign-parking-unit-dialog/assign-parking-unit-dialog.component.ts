@@ -24,6 +24,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   wingList: any;
   employeeCode: any;
   unitList: any;
+  filteredDropdown: any;
   dropdownList: { label: string; value: string }[] = [];
   selectedParkingList: { label: string; value: string }[] = [];
   parkingType: any;
@@ -116,6 +117,7 @@ export class AssignParkingUnitDialogComponent implements OnInit {
           });
 
           this.unitList = data.sort((a: any, b: any) => a.id - b.id);
+          this.filteredDropdown = this.unitList;
         }
       }
     });
@@ -130,7 +132,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     }
 
     if (this.assignParkingForm.invalid) {
-      console.log('parking is valid', this.assignParkingForm);
       this.assignParkingForm.markAllAsTouched();
       return;
     } else {
@@ -195,6 +196,30 @@ export class AssignParkingUnitDialogComponent implements OnInit {
     return this.dropdownList.filter((option: any) =>
       option.label.toLowerCase().includes(filter) 
     );
+  }
+
+  searched(event: KeyboardEvent){
+    const input = (event.target as HTMLInputElement).value;
+    if (input !== '') {
+      this.unitList = this.filteredUnitList(input);
+    } else {
+      this.getUnitNumber();
+    }
+    
+  }
+
+  filteredUnitList(value: any) {
+    if (!this.dropdownList || this.dropdownList.length === 0) {
+      return [];
+    }
+
+    if (!value || value.trim() === "") {
+      return this.dropdownList;
+    }
+    const filter = value;
+    return this.filteredDropdown.filter((value: any) => {
+      return value.unitNumberName.toLowerCase().includes(filter);
+    });
   }
 
 }

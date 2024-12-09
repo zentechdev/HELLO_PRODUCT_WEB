@@ -26,7 +26,10 @@
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Unit Number</mat-label>
-                        <mat-select formControlName="unitName" placeholder="Unit Number">
+                        <mat-select formControlName="unitName">
+                            <input type="text" matInput placeholder="search unit number here..." (keyup)="searched($event)"
+                            style="margin-top: 8px; text-align: center;">
+                            <mat-option *ngIf="unitList.length == 0" style="text-align: center;">Unit Number Not Found</mat-option>
                             <mat-option *ngFor="let unit of unitList || []" [value]="unit.id">
                                 {{unit.unitNumberName}}
                             </mat-option>
@@ -37,28 +40,15 @@
                     </mat-form-field>
                 </div>
 
-                <!-- <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Parking Number</mat-label>
-                        <mat-select formControlName="parkingNumber" placeholder="Parking Number">
-                            <input (keyup)="onKey($event)" matInput>
-                            <mat-option>None</mat-option>
-                            <mat-option *ngFor="let data of selectedParkingList || []" [value]="data.value">
-                                {{data?.label}}
-                            </mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="assignParkingForm.get('parkingNumber')?.hasError('required')">
-                            Parking Number <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div> -->
-
                 <div class="col-md-6">
                     <mat-form-field appearance="outline">
                         <mat-label>Parking Number</mat-label>
-                        <mat-select formControlName="parkingNumber" placeholder="Parking Number">
-                            <input (keyup)="onKey($event)" matInput>
-                            <mat-option>None</mat-option>
+                        <mat-select formControlName="parkingNumber">
+                            <input (keyup)="onKey($event)" matInput placeholder="search parking number here..." type="text"
+                            style="text-align: center; margin-top: 8px;">
+                            <mat-option *ngIf="selectedParkingList.length == 0" style="text-align: center;">
+                                Parking Number Not Found
+                            </mat-option>
                             <mat-option *ngFor="let data of selectedParkingList || []" [value]="data.value">
                                 {{data?.label}}
                             </mat-option>

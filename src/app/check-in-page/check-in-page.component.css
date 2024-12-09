@@ -1,0 +1,45 @@
+/* General Styles for Container */
+.container {
+  background-color: #d82a1b;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+}
+
+/* Main Logo Styles */
+.main-logo {
+  max-width: 70px; 
+  height: auto;
+  object-fit: contain;
+  /* mix-blend-mode: darken; */
+}
+
+/* Site Logo Styles */
+.site-logo {
+  max-width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Form Field Styles */
+.mat-form-field {
+  margin-bottom: 15px;
+}
+
+/* Button Styles */
+button.mat-raised-button {
+  background-color: #d82a1b;
+  color: white;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .main-logo,
+  .site-logo {
+      max-width: 120px;
+  }
+
+  .row {
+      text-align: center;
+  }
+}

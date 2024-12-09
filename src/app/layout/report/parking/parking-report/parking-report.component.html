@@ -64,19 +64,19 @@
 
                                     <!-- site name Column -->
                                     <ng-container matColumnDef="siteName">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>SITE NAME</b></th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>SITE</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row.siteName}} </td>
                                     </ng-container>
 
                                     <!-- WingName Column -->
                                     <ng-container matColumnDef="wingName">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>WING NAME</b></th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>WING</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row.wingName}} </td>
                                     </ng-container>
 
                                     <!-- floor name Column -->
                                     <ng-container matColumnDef="floorName">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>FLOOR NAME</b></th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>FLOOR</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row.floorName}} </td>
                                     </ng-container>
 
@@ -102,20 +102,20 @@
 
                                     <!-- parking number -->
                                     <ng-container matColumnDef="parkingNumber">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>PARING NUMBER</b></th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>PARKING NUMBER</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row?.parkingNumber}} </td>
                                     </ng-container>
 
                                     <!-- toDate Column -->
                                     <ng-container matColumnDef="toDate">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>DATE</b></th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>DATE-TIME</b></th>
                                         <td mat-cell *matCellDef="let row">{{row.toDate | date:"dd/MM/yyyy hh:mm a"}}
                                         </td>
                                     </ng-container>
 
                                     <!-- booking hours Column -->
                                     <ng-container matColumnDef="bookingHours">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>BOOKIGN HOUR</b></th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header><b>BOOKING HOUR</b></th>
                                         <td mat-cell *matCellDef="let row"> {{row?.bookingHours}} </td>
                                     </ng-container>
 

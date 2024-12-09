@@ -18,7 +18,12 @@ export class LayoutComponent implements OnInit {
   public browserRefresh: boolean | undefined;
   checkSidenav: any;
 
-  constructor(private storageEncryptionService: StorageEncryptionService, public menuService: MenuNameService, private alertify: AlertifyService, public router: Router, private service1: DashboardService) {
+  constructor(
+    private storageEncryptionService: StorageEncryptionService, 
+    public menuService: MenuNameService,
+    private alertify: AlertifyService, 
+    public router: Router, 
+    private service1: DashboardService) {
     this.windowWidth = window.innerWidth;
   }
   @HostListener('window:resize', ['$event'])

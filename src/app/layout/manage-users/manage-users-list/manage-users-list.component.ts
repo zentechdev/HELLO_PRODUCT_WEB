@@ -39,7 +39,12 @@ export class ManageUsersListComponent implements OnInit {
   siteId!: number;
   unitId!: number;
 
-  constructor(private formBuilder: FormBuilder, private storageEncryptionService: StorageEncryptionService, private service:ManageUsersService, private alertify: AlertifyService, public dialog: MatDialog) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private storageEncryptionService: StorageEncryptionService, 
+    private service:ManageUsersService, 
+    private alertify: AlertifyService, 
+    public dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
     this.formGroup = this.formBuilder.group({

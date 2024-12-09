@@ -199,8 +199,6 @@ export class ParkingNumberDialogComponent implements OnInit {
         this.parkingTypeId = this.parkingTypeList[i].id;
       }
     }
-
-
     let formGroup = {
       "siteId": this.siteId,
       "wingId": this.wingId,
@@ -211,12 +209,10 @@ export class ParkingNumberDialogComponent implements OnInit {
       "isActiveId": this.isActiveId,
       "createdBy": this.formGroup.value.createdBy
     };
-
-    // console.log("Form data for submiting at the end test :", formGroup);
-
     //  Prevent this code for action.
       if (this.formGroup.valid) {
-        this.service.postParkingNumber(formGroup)
+        if (this.editData == '') {
+          this.service.postParkingNumber(formGroup)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
@@ -231,12 +227,11 @@ export class ParkingNumberDialogComponent implements OnInit {
             error: (res) => {
               this.alertify.error("500 Internal Server Error");
             }
-          })
+          });
+        } else {
+          this.putData(formGroup);
+        }
       }
-    // }
-    else {
-      this.putData(formGroup);
-    }
     
 
   }

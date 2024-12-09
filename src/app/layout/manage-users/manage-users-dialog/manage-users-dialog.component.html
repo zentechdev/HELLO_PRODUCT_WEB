@@ -54,7 +54,10 @@
                             <mat-form-field appearance="outline">
                                 <mat-label>Unit Name</mat-label>
                                 <mat-select formControlName="unitId" placeholder="Unit Name">
-                                    <mat-option *ngFor="let unit of unitList" [value]="unit.id">
+                                    <input type="text" matInput placeholder="search unit here..." (keyup)="onkey($event)" 
+                                    style="margin-top:8px; text-align: center;">
+                                    <mat-option *ngIf="filteredUnitList.length == 0" style="text-align: center;"> Unit Not Found</mat-option>
+                                    <mat-option *ngFor="let unit of filteredUnitList || []" [value]="unit.id">
                                         {{ unit.name }} - {{unit.siteName}}
                                     </mat-option>
                                 </mat-select>
