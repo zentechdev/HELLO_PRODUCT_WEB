@@ -45,4 +45,8 @@ export class SiteDetailsService {
   deleteSiteDetails(id:Number){
     return this.http.delete<any>(`${baseUrl}/api/SiteDetails/deleteSiteDetails/`+id)
   }
+
+  getSiteDetailById(Id: any){
+    return this.http.get(`${baseUrl}/api/SiteDetails/getAllSiteDetailsById/${Id}`);
+  }
 }

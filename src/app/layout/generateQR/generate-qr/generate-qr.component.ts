@@ -15,11 +15,9 @@ export class GenerateQRComponent implements OnInit {
   constructor(
     private storageEncryptionService: StorageEncryptionService,
   ) { 
-    const siteId = String(localStorage.getItem('siteId'));
-    this.siteId = this.storageEncryptionService.decryptData(siteId);
+    this.siteId = String(localStorage.getItem('siteId'));
+    // this.siteId = this.storageEncryptionService.decryptData(siteId)
 
-    let qrNumber = String(localStorage.getItem('qrNumber'));
-    this.qrNumber = this.storageEncryptionService.decryptData(qrNumber);
   }
 
   ngOnInit(): void {
@@ -27,7 +25,7 @@ export class GenerateQRComponent implements OnInit {
 
   downloadQRCode(){
     const printContent = document.getElementById('print-section');
-    const WindowPrt:any = window.open('', '', 'width= 1000,height=750');
+    const WindowPrt:any = window.open('', '', 'width= 1000,height= 650');
     WindowPrt.document.write(`
       <html>
         <head>

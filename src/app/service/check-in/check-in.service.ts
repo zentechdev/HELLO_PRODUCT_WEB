@@ -21,4 +21,8 @@ export class CheckInService {
   checkOut(mobile: any, data?:any){
     return this.http.put(`${baseUrl}/api/Visitors/putCheckOutStatus/${mobile}`, data);
   }
+
+  getVisitorByMobileNo(mobileNo: any){
+    return this.http.get(`${baseUrl}/api/Visitors/getVisitorByMobileNumber/${mobileNo}`);
+  }
 }

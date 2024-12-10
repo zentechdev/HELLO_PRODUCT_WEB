@@ -19,6 +19,20 @@
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
+                        <mat-label>Parent Id</mat-label>
+                        <!-- <input formControlName="parentId" matInput placeholder="Enter Parent Id" autocomplete="off" *ngIf="this.formGroup.get('type')?.value == 'Parent'"> -->
+                         <mat-select formControlName="parentId" placeholder="select menu name" [disabled]="this.formGroup.get('type')?.value === 'Parent'">
+                            <mat-option *ngFor="let data of parentList" [value]="data.parentId">
+                                {{data?.menuName}}
+                            </mat-option>
+                         </mat-select>
+                        <mat-error *ngIf="this.formGroup.get('type')?.value === 'Child' && formGroup.get('parentId')?.hasError('required')">
+                            Parent Id <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field appearance="outline">
                         <mat-label>Menu Type</mat-label>
                         <mat-select formControlName="type" placeholder="type">
                             <mat-option value="Parent">Parent</mat-option>
@@ -26,15 +40,6 @@
                         </mat-select>
                         <mat-error *ngIf="formGroup.get('type')?.hasError('required')">
                             Menu Type is <strong>required</strong>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Parent Id</mat-label>
-                        <input formControlName="parentId" matInput placeholder="Parent Id" autocomplete="off">
-                        <mat-error *ngIf="formGroup.get('parentId')?.hasError('required')">
-                            Parent Id <strong>required</strong>
                         </mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline">

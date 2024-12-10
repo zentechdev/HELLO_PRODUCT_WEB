@@ -20,9 +20,19 @@ export class MenuDialogComponent implements OnInit {
   isActiveList: any;
   isActiveId: any;
   employeeCode: any;
+  parentList: any;
 
 
-  constructor(private storageEncryptionService:StorageEncryptionService,private formBuilder: FormBuilder,private router:Router,private alertify:AlertifyService,private service:MenuService,@Inject(MAT_DIALOG_DATA) public editData: any, private dialogRef: MatDialogRef<MenuDialogComponent>) {this.dialogRef.disableClose=true }
+  constructor(
+    private storageEncryptionService:StorageEncryptionService,
+    private formBuilder: FormBuilder,
+    private router:Router,
+    private alertify:AlertifyService,
+    private service:MenuService,
+    @Inject(MAT_DIALOG_DATA) public editData: any, 
+    private dialogRef: MatDialogRef<MenuDialogComponent>) {
+      this.dialogRef.disableClose = true; 
+    }
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
@@ -33,7 +43,7 @@ export class MenuDialogComponent implements OnInit {
       type: ['', Validators.required],
       isActive: ['', Validators.required],
       createdBy:['']
-    })
+    });
 
     if (this.editData) {
       this.actionBtn = 'UPDATE';
@@ -51,7 +61,11 @@ export class MenuDialogComponent implements OnInit {
     this.formGroup.controls['createdBy'].setValue(this.employeeCode);
 
     this.getIsActive();
-
+    this.formGroup.get('type')?.valueChanges.subscribe((value: any) => {
+      if (value == 'Child') {
+        this.getAllMenuList();
+      }
+    });
   }
 
   getIsActive() {
@@ -78,7 +92,7 @@ export class MenuDialogComponent implements OnInit {
 
     let formData = {
       "menuName":this.formGroup.value.menuName,
-      "parentId":this.formGroup.value.parentId,
+      "parentId": this.formGroup.value.type === 'Parent' ? 0 : this.formGroup.value.parentId,
       "menuUrl":this.formGroup.value.menuUrl,
       "menuIcon":this.formGroup.value.menuIcon,
       "type":this.formGroup.value.type,
@@ -132,5 +146,12 @@ export class MenuDialogComponent implements OnInit {
    }
   }
 
+  getAllMenuList() {
+    this.service.getAllMenuList().subscribe((list: any) => {
+      if(list) {
+        this.parentList = list.filter((value: any) => value.parentId == 0);
+      }
+    });
+  }
 
 }

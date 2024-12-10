@@ -5,6 +5,7 @@ import { UnitService } from '../service/masters/unit.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertifyService } from '../service/alertify/alertify.service';
 import { ActivatedRoute } from '@angular/router';
+import { SiteDetailsService } from '../service/client-details/site-details.service';
 
 @Component({
   selector: 'app-check-in-page',
@@ -21,22 +22,35 @@ export class CheckInPageComponent implements OnInit {
   file: any;
   imagePreview!: string | ArrayBuffer | null;
   qrNumber: any;
+  isConfirmed: boolean = false;
   
   constructor(
     private service: CheckInService,
     private acitveRoute: ActivatedRoute,
     private unitService: UnitService,
-    public fb: FormBuilder
+    public fb: FormBuilder,
+    private alertify: AlertifyService,
+    private siteService: SiteDetailsService,
+    private decodeData: StorageEncryptionService
   ) {
     this.acitveRoute.queryParams.subscribe(params => {
-      this.siteId = params['siteId'];
-      this.qrNumber = params['qrNumber'];
+      let siteId = params['siteId'];
+      this.siteId = this.decodeData.decryptData(siteId);
     });
+    
+    this.confirmAction();
   }
 
   ngOnInit(): void {
+    this.getSiteDetailById(this.siteId);
     this.addFormControls();
     this.getAllUnitList();
+    this.check_InForm.get('mobileNo')?.valueChanges.subscribe((x: any) => {
+      let mobileNumber = x.toString().replace(/\s+/g, ''); 
+      if (mobileNumber.length === 10) {
+        this.getCheckVisitor_DetailsAlreadyExitOrNo(mobileNumber);
+      }
+    })
   }
 
   getAllUnitList() {
@@ -65,7 +79,7 @@ export class CheckInPageComponent implements OnInit {
       mobileNumber: this.check_InForm.value.mobileNo,
       location: this.check_InForm.value.location,
       image: this.image,
-      qrNumber: this.qrNumber,
+      // qrNumber: this.qrNumber,
       material: [
         {
           "materialName": "null",
@@ -75,14 +89,30 @@ export class CheckInPageComponent implements OnInit {
       isActive: 1,
     }
     if (this.check_InForm.valid) {
-      this.service.checkIn(data).subscribe((res: any) => {
-        if (res?.isSuccess == true) {
-          alert(res?.message);
-          this.check_InForm.reset();
-        } else {
-          alert('Your number already exists. Please check out');
-        }
-      });
+      if (this.isConfirmed == true) {
+        this.service.checkIn(data).subscribe((res: any) => {
+          if (res?.isSuccess == true) {
+            this.alertify.success(res?.message);
+            this.check_InForm.reset();
+            this.image = null;
+          } else {
+            this.alertify.confirm('Check-Out', 'Your number already exists. Please check out first.', 
+              ()=> {
+                this.service.checkOut(this.check_InForm.value.mobileNo).subscribe((checkout: any) => {
+                  if (checkout?.isSuccess == true) {
+                    this.alertify.success(checkout.message);
+                  }
+                });
+              },
+              ()=> {
+                this.alertify.error('Cancel');
+              }
+            )
+          }
+        });
+      } else {
+        this.confirmAction();
+      }
     }
     
   }
@@ -125,4 +155,34 @@ export class CheckInPageComponent implements OnInit {
     });
   }
 
+  getCheckVisitor_DetailsAlreadyExitOrNo(data: any){
+    this.service.getVisitorByMobileNo(data).subscribe((res: any) => {
+      if (res?.isSuccess == true) {
+        this.check_InForm.get('fullName')?.setValue(res.data[0].visitorName);
+        this.check_InForm.get('location')?.setValue(res.data[0].location);
+        this.image = res.data[0].image;
+        this.check_InForm.get('unitId')?.setValue(res.data[0].unitId);
+      }
+    });
+  }
+  
+
+  getSiteDetailById(siteId: any) {
+    this.siteService.getSiteDetailById(siteId).subscribe((res: any) => {
+      if (res?.isSuccess == true) {
+        this.logo = res.data[0].logo;
+      }
+    });
+  }
+
+  confirmAction(): void{
+    this.alertify.confirm('Acknowledge', 'We take your privacy seriously.Your entered details will be stored securely.Please proceed only if you agree',
+      ()=>{
+        this.isConfirmed = true;
+        this.alertify.success('Confirmed');
+      },
+      () => {
+        this.alertify.error('Cancel');
+      });
+  }
 }

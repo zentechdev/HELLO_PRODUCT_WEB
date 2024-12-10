@@ -13,7 +13,7 @@
         <div class="col-md-12 text-center" style="cursor: pointer;" (click)="downloadQRCode()">
             <div class="p-4 border rounded shadow-lg" style="display: inline-block;">
                 <ngx-qrcode [elementType]="elementType" 
-                    [value]="'https://helloproduct.azurewebsites.net/check-in-form?siteId=' + siteId + '&qrNumber=' + qrNumber"
+                    [value]="'https://helloproduct.azurewebsites.net/check-in-form?siteId=' + siteId"
                     cssClass="aclass"
                     [width]="400">
                 </ngx-qrcode>

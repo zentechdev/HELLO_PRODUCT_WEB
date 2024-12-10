@@ -121,11 +121,11 @@ export class DashboardComponent implements OnInit {
           this.visitorBookingList.map((item: any) => {
             if(item.visitorType === 'allNonInvitedVisitor') {
               item.visitorType = 'Non-Invited (All)';
-              item['icon'] = 'fa fa-ban';
+              item['icon'] = 'fa fa-user-slash';
               item['color'] = '#3faae3';
             } else if(item.visitorType === 'todayNonInvitedVisitor') {
               item.visitorType = 'Non-Invited (Today)';
-              item['icon'] = 'fa fa-ban';
+              item['icon'] = 'fa fa-user-slash';
               item['color'] = '#f96787';
             } else if(item.visitorType === 'allInvitedVisitor') {
               item.visitorType = 'Invited (All)';
@@ -150,11 +150,11 @@ export class DashboardComponent implements OnInit {
           this.visitorBookingList.map((item: any) => {
             if(item.visitorType === 'allNonInvitedVisitor') {
               item.visitorType = 'Non-Invited (All)';
-              item['icon'] = 'fa fa-ban';
+              item['icon'] = 'fa fa-user-slash';
               item['color'] = '#3faae3';
             } else if(item.visitorType === 'todayNonInvitedVisitor') {
               item.visitorType = 'Non-Invited (Today)';
-              item['icon'] = 'fa fa-ban';
+              item['icon'] = 'fa fa-user-slash';
               item['color'] = '#f96787';
             } else if(item.visitorType === 'allInvitedVisitor') {
               item.visitorType = 'Invited (All)';
@@ -179,11 +179,11 @@ export class DashboardComponent implements OnInit {
           this.visitorBookingList.map((item: any) => {
             if(item.visitorType === 'allNonInvitedVisitor') {
               item.visitorType = 'Non-Invited (All)';
-              item['icon'] = 'fa fa-ban';
+              item['icon'] = 'fa fa-user-slash';
               item['color'] = '#3faae3';
             } else if(item.visitorType === 'todayNonInvitedVisitor') {
               item.visitorType = 'Non-Invited (Today)';
-              item['icon'] = 'fa fa-ban';
+              item['icon'] = 'fa fa-user-slash';
               item['color'] = '#f96787';
             } else if(item.visitorType === 'allInvitedVisitor') {
               item.visitorType = 'Invited (All)';
