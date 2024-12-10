@@ -66,7 +66,7 @@ export class CheckInPageComponent implements OnInit {
       location: this.check_InForm.value.location,
       image: this.image,
       qrNumber: this.qrNumber,
-      "material": [
+      material: [
         {
           "materialName": "null",
           "materialSerialNumber": "null"
@@ -77,7 +77,7 @@ export class CheckInPageComponent implements OnInit {
     if (this.check_InForm.valid) {
       this.service.checkIn(data).subscribe((res: any) => {
         if (res?.isSuccess == true) {
-          alert('Thank you for checking in! We have sent a request for approval to your Unit Admin. Please wait for their response');
+          alert(res?.message);
           this.check_InForm.reset();
         } else {
           alert('Your number already exists. Please check out');

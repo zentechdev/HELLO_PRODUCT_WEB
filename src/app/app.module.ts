@@ -7,7 +7,6 @@ import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import * as jsPDF from 'jspdf';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,7 +40,7 @@ import { TokenExpiredDialogComponent } from './token-expired-dialog/token-expire
 import { NgSelect2Module } from 'ng-select2';
 import { ApproveVisitorComponent } from './visitor-management/template/approve-visitor/approve-visitor.component';
 import { QrCodePassComponent } from './visitor-management/template/qr-code-pass/qr-code-pass.component';
-
+import { CheckInPageComponent } from './check-in-page/check-in-page.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +49,8 @@ import { QrCodePassComponent } from './visitor-management/template/qr-code-pass/
     InviteVisitorComponent,
     TokenExpiredDialogComponent,
     ApproveVisitorComponent,
-    QrCodePassComponent
+    QrCodePassComponent,
+    CheckInPageComponent
   ],
   imports: [
     BrowserModule,

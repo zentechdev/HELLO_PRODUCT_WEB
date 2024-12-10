@@ -48,6 +48,8 @@ import { BookingSlotComponent } from './parking-booking/booking-slot/booking-slo
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
+import { GenerateQRComponent } from './generateQR/generate-qr/generate-qr.component';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 @NgModule({
     declarations: [
         LayoutComponent,
@@ -61,7 +63,8 @@ import {MatTabsModule} from '@angular/material/tabs';
         ManageUsersDialogComponent,
         ParkingBookingListComponent,
         ParkingBookingDialogComponent,
-        BookingSlotComponent
+        BookingSlotComponent,
+        GenerateQRComponent
     ],
     imports: [
         CommonModule,
@@ -100,7 +103,8 @@ import {MatTabsModule} from '@angular/material/tabs';
         BulkUploadModule,
         MatTooltipModule,
         MatSnackBarModule,
-        MatTabsModule
+        MatTabsModule,
+        NgxQRCodeModule
     ]
 })
 export class LayoutModule { }

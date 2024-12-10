@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit,Output,EventEmitter} from '@angular/core';
+import { Component, Inject, OnInit,Output,EventEmitter, Renderer2, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { MenuNameService } from 'src/app/service/data/menu-name.service';
@@ -12,16 +12,22 @@ import { SideNavService } from 'src/app/service/shared/side-nav/side-nav.service
   styleUrls: ['./side-nav.component.css']
 })
 export class SideNavComponent implements OnInit {
-
-  siteId!: number;
+  siteId: any;
   // siteLogoImage: any = "../../../../../../../../assets/images/main logo.png";
   parentMenuList: any;
   childMenuList: any;
   standalone!: true;
   employeeCode: any;
   menuName!: string;
-
-  constructor(private router:Router,private storageEncryptionService: StorageEncryptionService, private service: SideNavService, private alertify: AlertifyService,public menuService:MenuNameService) { }
+  
+  constructor(
+    private router:Router,
+    private storageEncryptionService: StorageEncryptionService,
+    private service: SideNavService, 
+    private alertify: AlertifyService,
+    public menuService:MenuNameService) {
+    
+  }
 
   async ngOnInit(): Promise<void> {
     await this.getParentMenuList();
@@ -69,5 +75,4 @@ export class SideNavComponent implements OnInit {
     const encryptedData1 = this.storageEncryptionService.encryptData(this.menuService.menuName);
     localStorage.setItem('menuName', encryptedData1);
   }
-
 }

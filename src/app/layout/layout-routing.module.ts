@@ -15,6 +15,7 @@ import { ManageUsersListComponent } from './manage-users/manage-users-list/manag
 import { ManageUsersDialogComponent } from './manage-users/manage-users-dialog/manage-users-dialog.component';
 import { BulkUploadComponent } from './bulk-upload/bulk-upload.component';
 import { ParkingBookingListComponent } from './parking-booking/parking-booking-list/parking-booking-list.component';
+import { GenerateQRComponent } from './generateQR/generate-qr/generate-qr.component';
 
 
 
@@ -58,7 +59,8 @@ const routes: Routes = [
   { path: 'unit-rfid-dialog', component:UnitRfidDialogComponent},
   { path: 'manage-users-list', component:ManageUsersListComponent},
   { path: 'manage-users-dialog', component:ManageUsersDialogComponent},
-  { path: 'parking-booking-list', component: ParkingBookingListComponent}
+  { path: 'parking-booking-list', component: ParkingBookingListComponent},
+  { path: 'generateQR', component: GenerateQRComponent}
 ];
 
 @NgModule({

@@ -33,8 +33,7 @@ import { SelectCheckAllComponent } from './component/select-check-all/select-che
 import { ViewImageDialogComponent } from './component/view-image/view-image-dialog/view-image-dialog.component';
 import { CameraComponent } from './component/camera/camera.component';
 import { CameraDialogComponent } from './component/camera/component/camera-dialog/camera-dialog.component';
-
-
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 @NgModule({
   declarations: [
@@ -50,7 +49,7 @@ import { CameraDialogComponent } from './component/camera/component/camera-dialo
   imports: [
     CommonModule,
     SharedRoutingModule,
-
+    NgxQRCodeModule,
     FormsModule,
     MatButtonModule,
     MatAutocompleteModule,

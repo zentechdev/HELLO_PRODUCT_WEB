@@ -1,0 +1,24 @@
+<div class="container my-4" id="print-section">
+    <div class="row mb-4 align-items-center">
+        <!-- Text Section -->
+        <div class="col-md-12 d-flex justify-content-center">
+            <h3 class="text-center text-danger fw-bold">
+                Scan This QR Code for Visitor Check-In Form
+            </h3>
+        </div>
+    </div>
+
+    <!-- QR Code Section -->
+    <div class="row">
+        <div class="col-md-12 text-center" style="cursor: pointer;" (click)="downloadQRCode()">
+            <div class="p-4 border rounded shadow-lg" style="display: inline-block;">
+                <ngx-qrcode [elementType]="elementType" 
+                    [value]="'https://helloproduct.azurewebsites.net/check-in-form?siteId=' + siteId + '&qrNumber=' + qrNumber"
+                    cssClass="aclass"
+                    [width]="400">
+                </ngx-qrcode>
+            </div>
+            <p class="mt-2 text-muted">Click the QR code to download</p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+.logo-img {
+    width: 150px; /* Fixed width for the logo */
+    height: auto; /* Maintain aspect ratio */
+}
+.text-primary {
+    color: #007bff; /* Adjusted for better aesthetics */
+}
+.shadow-lg {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Softer shadow for a modern look */
+}
+.border {
+    border: 1px solid #dee2e6; /* Subtle border for better separation */
+}

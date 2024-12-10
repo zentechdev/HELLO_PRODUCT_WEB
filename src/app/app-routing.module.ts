@@ -10,6 +10,7 @@ import { InviteVisitorComponent } from './visitor-management/template/invite-vis
 import { TokenExpiredDialogComponent } from './token-expired-dialog/token-expired-dialog.component';
 import { ApproveVisitorComponent } from './visitor-management/template/approve-visitor/approve-visitor.component';
 import { QrCodePassComponent } from './visitor-management/template/qr-code-pass/qr-code-pass.component';
+import { CheckInPageComponent } from './check-in-page/check-in-page.component';
 
 
 
@@ -34,11 +35,12 @@ const routes: Routes = [
     component:LayoutComponent,canActivate: [AuthGuard],
     loadChildren:()=>import('./layout/layout.module').then(x=>x.LayoutModule)
   },
-  {path:'invite-visitor',component:InviteVisitorComponent},
-  {path:'approve-visitor',component:ApproveVisitorComponent},
-  {path: 'token-expired-dialog', component: TokenExpiredDialogComponent},
-  {path:'qr-code-pass',component:QrCodePassComponent},
-  {path: '**', component: PageNotFoundComponent }
+  { path:'invite-visitor', component:InviteVisitorComponent},
+  { path:'approve-visitor', component:ApproveVisitorComponent},
+  { path: 'token-expired-dialog', component: TokenExpiredDialogComponent},
+  { path:'qr-code-pass', component:QrCodePassComponent},
+  { path: 'check-in-form', component: CheckInPageComponent},
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
