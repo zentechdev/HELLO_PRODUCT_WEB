@@ -77,9 +77,12 @@ export class ParkingReportComponent implements OnInit {
         if (res?.isSuccess) {
           // Filter data based on role
           const filteredData = this.roleName === 'Unit Admin'
-            ? res.data.filter((item: any) => item.unitId === this.unitId)
-            : res.data.filter((item: any) => item.siteId === this.siteId ? item : []);
-            
+            ? res.data.filter((item: any) =>{
+              item.unitId === this.unitId
+            })
+            : res.data.filter((item: any) => {
+              return item.siteId == this.siteId
+            });
           // Assign filtered data to variables
           this.data = filteredData;
           this.dataSource = new MatTableDataSource(filteredData);

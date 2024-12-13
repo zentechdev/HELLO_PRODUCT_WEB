@@ -40,9 +40,9 @@ export class CheckInPageComponent implements OnInit {
   ) {
     this.acitveRoute.queryParams.subscribe(params => {
       let siteId = params['siteId'];
-      this.siteId = this.decodeData.decryptData(siteId);
     });
-    
+    let siteId = String(localStorage.getItem('siteId'));
+    this.siteId = this.decodeData.decryptData(siteId);
     this.confirmAction();
   }
 
@@ -86,11 +86,10 @@ export class CheckInPageComponent implements OnInit {
       mobileNumber: this.check_InForm.value.mobileNo,
       location: this.check_InForm.value.location,
       image: this.image,
-      // qrNumber: this.qrNumber,
       material: [
         {
-          "materialName": "null",
-          "materialSerialNumber": "null"
+          "materialName": "",
+          "materialSerialNumber": ""
         },
       ],
       isActive: 1,
