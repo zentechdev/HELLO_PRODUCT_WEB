@@ -41,6 +41,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
 
     let unitId = String(localStorage.getItem('unitId'));
     this.unitId = this.encryptedData.decryptData(unitId);
+    
     this.getPermanentBookingList();
     this.getAllAvilableParking();
   }
@@ -50,11 +51,8 @@ export class PermanentParkingBookingListComponent implements OnInit {
       width: '50%',
       disableClose: true
     }).afterClosed().subscribe((res: any) => {
-      // console.log(res);
-      // if (res === 'SAVE') {
-        this.getPermanentBookingList();
-        this.getAllAvilableParking();
-      // }
+      this.getPermanentBookingList();
+      this.getAllAvilableParking();
     });
   }
 
@@ -62,7 +60,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
     this.service.getPermanentParkingList().subscribe({
       next: (res: any) => {
         if(res.isSuccess === true) {
-          this.permanentParkingList = res.data;
+          this.permanentParkingList = res.data.filter((item: any) => item.unitId == this.unitId);
           this.dataSource = new MatTableDataSource(this.permanentParkingList);
           this.dataSource.data = this.permanentParkingList;
           this.dataSource.paginator = this.Paginator;
@@ -118,6 +116,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
       next: (res: any) => {
         if (res?.isSuccess === true) {
           this.availableParkingList = res.parkingData.filter((item: any) => item.unitId == this.unitId);
+          console.log(this.availableParkingList, this.unitId);
           this.availableParkingTableList = new MatTableDataSource(this.availableParkingList);
           this.availableParkingTableList.data = this.availableParkingList;
           this.availableParkingTableList.paginator = this.Paginator1

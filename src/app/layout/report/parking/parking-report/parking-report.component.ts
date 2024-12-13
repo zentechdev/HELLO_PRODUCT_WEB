@@ -15,7 +15,7 @@ import { ParkingService } from 'src/app/service/report/parking.service';
 })
 export class ParkingReportComponent implements OnInit {
   displayedColumns: any = ['id', 'siteName', 'wingName', 'floorName',
-    'personName', 'mobileNumber', 'vehicaleNumber', 'parkingNumber', 'toDate', 'bookingHours', 'bookingStatus'];
+    'personName', 'mobileNumber', 'vehicaleNumber', 'parkingNumber', 'fromDate', 'toDate', 'bookingHours', 'bookingStatus'];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -48,11 +48,12 @@ export class ParkingReportComponent implements OnInit {
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.storageEncryptionService.decryptData(roleName);
     
-    if(this.roleName == 'Unit Admin') {
-      this.getParkingReportByUnitId(); 
-    } else {
-      this.getParkingReport();
-    }
+    // if(this.roleName == 'Unit Admin') {
+    //   this.getParkingReportByUnitId();
+    // } else {
+    //   this.getParkingReport();
+    // }
+    this.getCurrentDateParkingList();
   }
 
 
@@ -70,6 +71,31 @@ export class ParkingReportComponent implements OnInit {
     });
   }
 
+  getCurrentDateParkingList() {
+    this.service.getCurrentDateParkingDetail().subscribe({
+      next: (res: any) => {
+        if (res?.isSuccess) {
+          // Filter data based on role
+          const filteredData = this.roleName === 'Unit Admin'
+            ? res.data.filter((item: any) => item.unitId === this.unitId)
+            : res.data.filter((item: any) => item.siteId === this.siteId ? item : []);
+            
+          // Assign filtered data to variables
+          this.data = filteredData;
+          this.dataSource = new MatTableDataSource(filteredData);
+  
+          // Set paginator and sort
+          if (this.paginator) this.dataSource.paginator = this.paginator;
+          if (this.sort) this.dataSource.sort = this.sort;
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching parking details:', err);
+      }
+    });
+  }
+  
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -81,10 +107,10 @@ export class ParkingReportComponent implements OnInit {
 
   getStatusColor(status: any) {
     switch (status) {
-      case 'Canceled':
-        return 'red';
-      case 'Occupied':
+      case 'Released':
         return 'green';
+      case 'Occupied':
+        return 'red';
       default:
         return 'gray';
     }
@@ -92,15 +118,21 @@ export class ParkingReportComponent implements OnInit {
 
   dateEvent() {
     let body = {
-      startDate: this.parkingReport.value.DatePicker1.toLocaleDateString("fr-CA").split("/").reverse().join("-"),
+      startDate: this.parkingReport.value.DatePicker1.toLocaleDateString("fr-CA").split("/").reverse().join("-") ,
       endDate: this.parkingReport.value.DatePicker2.toLocaleDateString("fr-CA").split("/").reverse().join("-")
     }
     this.service.filterParkingByDateRage(body).subscribe({
       next: (res: any) => {
-        if (res?.isSuccess == true) {
-          this.data = res.data;
-          this.dataSource = new MatTableDataSource(res?.data);
-          this.dataSource.data = this.data;
+        if (this.roleName == 'Unit Admin') {
+          let filteredData = res.data.filter((item: any) => item.unitId == this.unitId);
+          this.dataSource = new MatTableDataSource(filteredData);
+          this.dataSource.data = filteredData;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        } else {
+          const siteFilteredData = res.data.filter((item: any) => item.siteId == this.siteId);
+          this.dataSource = new MatTableDataSource(siteFilteredData);
+          this.dataSource.data = siteFilteredData;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
@@ -129,20 +161,20 @@ export class ParkingReportComponent implements OnInit {
 
   resetDataFilter() {
     this.parkingReport.reset();
-    this.getParkingReport();
+    this.getCurrentDateParkingList();
   }
 
-  getParkingReportByUnitId(){
-    this.service.getParkingDataByUnitId(this.unitId).subscribe({
-      next: (res: any) => {
-        if (res?.isSuccess == true) {
-          this.data = res.data;
-          this.dataSource = new MatTableDataSource(res?.data);
-          this.dataSource.data = this.data;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      }
-    });
-  }
+  // getParkingReportByUnitId(){
+  //   this.service.getParkingDataByUnitId(this.unitId).subscribe({
+  //     next: (res: any) => {
+  //       if (res?.isSuccess == true) {
+  //         this.data = res.data;
+  //         this.dataSource = new MatTableDataSource(res?.data);
+  //         this.dataSource.data = this.data;
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //       }
+  //     }
+  //   });
+  // }
 }

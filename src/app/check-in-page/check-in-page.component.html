@@ -16,7 +16,7 @@
                                     <mat-label>Mobile No</mat-label>
                                     <input matInput type="number" placeholder="Please enter your mobile no"
                                         formControlName="mobileNo" />
-                                    <mat-error *ngIf="check_InForm.get('mobileNo')?.hasError('required')">
+                                    <mat-error *ngIf="submitCheckinForm && check_InForm.get('mobileNo')?.hasError('required')">
                                         <span>
                                             required field
                                         </span>
@@ -28,7 +28,7 @@
                                     <mat-label>Full Name</mat-label>
                                     <input matInput type="text" placeholder="Enter your full name"
                                         formControlName="fullName" />
-                                    <mat-error *ngIf="check_InForm.get('fullName')?.hasError('required')">
+                                    <mat-error *ngIf="submitCheckinForm && check_InForm.get('fullName')?.hasError('required')">
                                         <span>
                                             required field
                                         </span>
@@ -46,7 +46,7 @@
                                         accept=".jpeg/*" capture="camera">
                                 </mat-form-field>
                                 <span class="file-name" *ngIf="image !== ''">
-                                    <img [src]="image">
+                                    <img [src]="image" style="width: 100px;">
                                 </span>
                                 <mat-error *ngIf="image === ''">
                                     <span>
@@ -59,7 +59,7 @@
                                     <mat-label>Coming From</mat-label>
                                     <input matInput type="text" placeholder="Enter your location"
                                         formControlName="location" />
-                                    <mat-error *ngIf="check_InForm.get('location')?.hasError('required')">
+                                    <mat-error *ngIf="submitCheckinForm && check_InForm.get('location')?.hasError('required')">
                                         <span>
                                             required field
                                         </span>
@@ -73,12 +73,12 @@
                                     <mat-label>Select Unit</mat-label>
                                     <mat-select formControlName="unitId">
                                         <input matInput type="text" placeholder="Search unit name here..."
-                                            class="search-input" />
+                                            class="search-input" (keyup)="filterUnits($event)" style="text-align: center;"/>
                                         <mat-option *ngFor="let data of filteredUnitList" [value]="data?.id">
-                                            {{ data?.name }}
+                                            {{ data?.name}} - {{data?.unitNumberName}}
                                         </mat-option>
                                     </mat-select>
-                                    <mat-error *ngIf="check_InForm.get('unitId')?.hasError('required')">
+                                    <mat-error *ngIf="submitCheckinForm && check_InForm.get('unitId')?.hasError('required')">
                                         <span>
                                             required field
                                         </span>
@@ -88,7 +88,7 @@
                         </div>
                         <div class="row text-center">
                             <button mat-raised-button style="background-color: #d82a1b; color:white" class="px-4 w-100"
-                                (click)="checkIn()" [disabled]="check_InForm.invalid">
+                                (click)="checkIn()">
                                 Check-In
                             </button>
                         </div>

@@ -45,9 +45,8 @@ export class ParkingNumberListComponent implements OnInit {
       isActiveId: ['']
     })
 
-    // const clientId = String(localStorage.getItem("siteId"));
-    // this.clientId = this.storageEncryptionService.decryptData(clientId);
-
+    const clientId = String(localStorage.getItem("siteId"));
+    this.clientId = this.storageEncryptionService.decryptData(clientId);
     // Conversion of string array to number array
     // const stringArrayAction: string[] = this.actionName;
     // const numberArrayAction: string[] = stringArrayAction[0].split(',');
@@ -107,7 +106,7 @@ export class ParkingNumberListComponent implements OnInit {
     this.service.getAllParkingNumber()
       .subscribe({
         next: (res) => {
-          this.data = res.data.filter((item: any) => item.clientId == this.clientId);
+          this.data = res.data.filter((item: any) => item.siteId == this.clientId);
           this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.isActive == 'Active'));
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -134,7 +133,6 @@ export class ParkingNumberListComponent implements OnInit {
 
   selectStatus(event: any) {
     const value = this.formGroup.value.isActiveId;
-
     if (value == 0) {
       this.value = this.data;
       this.dataSource = new MatTableDataSource(this.value);
@@ -151,10 +149,10 @@ export class ParkingNumberListComponent implements OnInit {
   }
 
 
-  deleteData(cityId: number) {
-    this.alertify.confirm('Delete state', 'Are you sure to delete state',
+  deleteData(parkingId: number) {
+    this.alertify.confirm('Delete Parking Number', 'Are you sure to delete parking number',
       () => {
-        this.service.deleteParkingNumber(cityId)
+        this.service.deleteParkingNumber(parkingId)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {

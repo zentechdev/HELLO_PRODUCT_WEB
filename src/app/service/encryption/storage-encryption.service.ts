@@ -26,7 +26,6 @@ export class StorageEncryptionService {
   }
 
   decryptData(encryptedData: string): any {
-    console.log(encryptedData);
     const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, this.SECRET_KEY);
     const decryptedData = JSON.parse(decryptedBytes.toString(CryptoJS.enc.Utf8));
     return decryptedData;

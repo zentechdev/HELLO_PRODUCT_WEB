@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
@@ -45,34 +45,24 @@ export class ParkingNumberDialogComponent implements OnInit {
   parkingTypeId: any;
   defaultSiteName: any;
   disabledSiteField: boolean = true;
-  
+
   constructor(
-    private storageEncryptionService: StorageEncryptionService, 
-    private formBuilder: FormBuilder, 
-    private router: Router, 
-    private alertify: AlertifyService, 
-    private service: ParkingNumberService, 
-    @Inject(MAT_DIALOG_DATA) public editData: any, 
-    private dialogRef: MatDialogRef<ParkingNumberDialogComponent>) { 
-      this.dialogRef.disableClose = true 
-    }
+    private storageEncryptionService: StorageEncryptionService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private alertify: AlertifyService,
+    private service: ParkingNumberService,
+    @Inject(MAT_DIALOG_DATA) public editData: any,
+    private dialogRef: MatDialogRef<ParkingNumberDialogComponent>) {
+    this.dialogRef.disableClose = true
+  }
 
   ngOnInit(): void {
     let siteName: any = String;
     siteName = localStorage.getItem('siteName');
     this.defaultSiteName = this.storageEncryptionService.decryptData(siteName);
-    this.formGroup = this.formBuilder.group({
-      siteName: ['', Validators.required],
-      wingName: ['', Validators.required],
-      floorName: ['', Validators.required],
-      vehicleName: ['', Validators.required],
-      parkingType: ['', Validators.required],
-      parkingNumber: ['', Validators.required],
-      isActive: ['', Validators.required],
-      createdBy: ['']
-    });
 
-    console.log(this.editData);
+    this.addFormControls();
     const encryptedData = String(localStorage.getItem('memberId'));
     this.memberId = this.storageEncryptionService.decryptData(encryptedData);
 
@@ -98,6 +88,23 @@ export class ParkingNumberDialogComponent implements OnInit {
     this.getSelectDropdownList(this.defaultSiteName);
     this.getSelectFloor(this.editData?.wingName);
   }
+
+  addFormControls() {
+    this.formGroup = this.formBuilder.group({
+      siteName: ['', Validators.required],
+      wingName: ['', Validators.required],
+      floorName: ['', Validators.required],
+      vehicleName: ['', Validators.required],
+      parkingType: ['', Validators.required],
+      parkingNumber: [
+        '',
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9]*$/)]
+      ],
+      isActive: ['', Validators.required],
+      createdBy: ['']
+    });
+  }
+
 
   getIsActive() {
     this.service.getIsActive()
@@ -159,10 +166,10 @@ export class ParkingNumberDialogComponent implements OnInit {
         }
       });
 
-      this.getSelectDropdownList(this.defaultSiteName);
+    this.getSelectDropdownList(this.defaultSiteName);
   }
 
-// ________________________________________________________________________
+  // ________________________________________________________________________
   postData() {
     for (var i = 0; i < this.isActiveList.length; i++) {
       if (this.isActiveList[i].isActive == this.formGroup.value.isActive) {
@@ -210,9 +217,9 @@ export class ParkingNumberDialogComponent implements OnInit {
       "createdBy": this.formGroup.value.createdBy
     };
     //  Prevent this code for action.
-      if (this.formGroup.valid) {
-        if (this.editData == '') {
-          this.service.postParkingNumber(formGroup)
+    if (this.formGroup.valid) {
+      if (this.editData == '') {
+        this.service.postParkingNumber(formGroup)
           .subscribe({
             next: (res) => {
               if (res.isSuccess == true) {
@@ -228,11 +235,11 @@ export class ParkingNumberDialogComponent implements OnInit {
               this.alertify.error("500 Internal Server Error");
             }
           });
-        } else {
-          this.putData(formGroup);
-        }
+      } else {
+        this.putData(formGroup);
       }
-    
+    }
+
 
   }
 
@@ -267,34 +274,34 @@ export class ParkingNumberDialogComponent implements OnInit {
           this.alertify.error("Error While fetching The Records!!");
         }
       });
-    }
+  }
 
 
-    getSelectDropdownList(data: any) {
-      this.service.getWingDetails().subscribe((res: any) =>{
-        this.wingList = res.data.filter((item: any) =>{
-          return item.siteName == data ? item.name : null;
-        });
+  getSelectDropdownList(data: any) {
+    this.service.getWingDetails().subscribe((res: any) => {
+      this.wingList = res.data.filter((item: any) => {
+        return item.siteName == data ? item.name : null;
+      });
+    });
+  }
+
+  getSelectFloor(event: any) {
+    let data = event.value ?? event;
+    if (data !== '') {
+      this.service.getfloorDetails().subscribe((res: any) => {
+        if (res && res.data) {
+          this.floorList = res.data.filter((item: any) => {
+            return item.wingName == data && item.floorType == "Parking" && item.siteName == this.defaultSiteName ? item.name : null;
+          });
+
+          if (this.editData !== null) {
+            let data = this.floorList.filter((item: any) => {
+              return item.id == this.editData.floorId ? item.name : '';
+            });
+            this.formGroup.get('floorName')?.setValue(data[0].id);
+          }
+        }
       });
     }
-
-    getSelectFloor(event: any){
-      let data = event.value ?? event;
-      if(data !== ''){
-        this.service.getfloorDetails().subscribe((res: any) =>{
-          if (res && res.data) {
-            this.floorList = res.data.filter((item: any) =>{
-              return item.wingName == data && item.floorType == "Parking" && item.siteName == this.defaultSiteName ? item.name : null;
-            });
-
-            if (this.editData !== null) {
-              let data = this.floorList.filter((item: any) => {
-                return item.id == this.editData.floorId ? item.name : '';
-              });
-              this.formGroup.get('floorName')?.setValue(data[0].id);
-            }
-          }
-        });
-      }
-    }
+  }
 }

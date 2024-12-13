@@ -120,11 +120,11 @@ export class DashboardComponent implements OnInit {
           this.visitorBookingList = res.data;
           this.visitorBookingList.map((item: any) => {
             if(item.visitorType === 'allNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (All)';
+              item.visitorType = 'Walk-In Visitor (All)';
               item['icon'] = 'fa fa-user-slash';
               item['color'] = '#3faae3';
             } else if(item.visitorType === 'todayNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (Today)';
+              item.visitorType = 'Walk-In Visitor (Today)';
               item['icon'] = 'fa fa-user-slash';
               item['color'] = '#f96787';
             } else if(item.visitorType === 'allInvitedVisitor') {
@@ -149,11 +149,11 @@ export class DashboardComponent implements OnInit {
           this.visitorBookingList = list.data;
           this.visitorBookingList.map((item: any) => {
             if(item.visitorType === 'allNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (All)';
+              item.visitorType = 'Walk-In Visitor (All)';
               item['icon'] = 'fa fa-user-slash';
               item['color'] = '#3faae3';
             } else if(item.visitorType === 'todayNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (Today)';
+              item.visitorType = 'Walk-In Visitor (Today)';
               item['icon'] = 'fa fa-user-slash';
               item['color'] = '#f96787';
             } else if(item.visitorType === 'allInvitedVisitor') {
@@ -178,11 +178,11 @@ export class DashboardComponent implements OnInit {
           this.visitorBookingList = res.data;
           this.visitorBookingList.map((item: any) => {
             if(item.visitorType === 'allNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (All)';
+              item.visitorType = 'Walk-In Visitor (All)';
               item['icon'] = 'fa fa-user-slash';
               item['color'] = '#3faae3';
             } else if(item.visitorType === 'todayNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (Today)';
+              item.visitorType = 'Walk-In Visitor (Today)';
               item['icon'] = 'fa fa-user-slash';
               item['color'] = '#f96787';
             } else if(item.visitorType === 'allInvitedVisitor') {
@@ -207,11 +207,11 @@ export class DashboardComponent implements OnInit {
           this.visitorBookingList = data.data;
           this.visitorBookingList.map((item: any) => {
             if(item.visitorType === 'allNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (All)';
+              item.visitorType = 'Walk-In Visitor (All)';
               item['icon'] = 'fa fa-user-times';
               item['color'] = '#3faae3';
             } else if(item.visitorType === 'todayNonInvitedVisitor') {
-              item.visitorType = 'Non-Invited (Today)';
+              item.visitorType = 'Walk-In Visitor (Today)';
               item['icon'] = 'fa fa-user-times';
               item['color'] = '#f96787';
             } else if(item.visitorType === 'allInvitedVisitor') {

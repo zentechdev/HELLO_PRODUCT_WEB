@@ -11,6 +11,13 @@
                     <mat-error *ngIf="parkingType.get('type')?.hasError('required')">
                         Parking Type  <strong>required</strong>
                     </mat-error>
+
+                    <mat-error *ngIf="parkingType.get('type')?.hasError('pattern')">
+                        <strong>
+                            Special Character are not allowed  
+                        </strong>
+                    </mat-error>
+
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Select Status</mat-label>

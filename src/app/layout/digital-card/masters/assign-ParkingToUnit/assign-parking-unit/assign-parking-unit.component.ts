@@ -23,6 +23,7 @@ export class AssignParkingUnitComponent implements OnInit {
   roleName: any;
   value: any;
   isActiveList: any;
+  siteId: any;
   constructor(
     private service: AsignParkingUnitService,
     private alertify: AlertifyService,
@@ -30,6 +31,8 @@ export class AssignParkingUnitComponent implements OnInit {
     private EncryptedData: StorageEncryptionService) { }
 
   ngOnInit(): void {
+    let sietId = String(localStorage.getItem('siteId'));
+    this.siteId = this.EncryptedData.decryptData(sietId);
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.EncryptedData.decryptData(roleName);
     this.getParkingUnitData();
@@ -40,7 +43,7 @@ export class AssignParkingUnitComponent implements OnInit {
     this.service.getParkingUnitList().subscribe({
       next: (res: any) => {
         if (res.isSuccess == true) {
-          this.data = res.data;
+          this.data = res.data.filter((item: any) => item.siteId == this.siteId);
           this.dataSource = new MatTableDataSource(this.data);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -90,7 +93,7 @@ export class AssignParkingUnitComponent implements OnInit {
 
 
   deleteData(Id: any) {
-    this.alertify.confirm('Delete state', 'Are you sure to delete state',
+    this.alertify.confirm('Delete Assign Parking', 'Are you sure to delete assign parking',
       () => {
         this.service.deleteParkingUnit(Id)
           .subscribe({

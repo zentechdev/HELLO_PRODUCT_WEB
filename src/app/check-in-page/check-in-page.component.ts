@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CheckInService } from '../service/check-in/check-in.service';
 import { StorageEncryptionService } from '../service/encryption/storage-encryption.service';
 import { UnitService } from '../service/masters/unit.service';
@@ -13,6 +13,10 @@ import { SiteDetailsService } from '../service/client-details/site-details.servi
   styleUrls: ['./check-in-page.component.css']
 })
 export class CheckInPageComponent implements OnInit {
+  @ViewChild('videoElement') videoElement!: ElementRef;
+  @ViewChild('canvasElement') canvasElement!: ElementRef;
+  
+  capturedImage: string | null = null;
   siteId: any;
   unitlist: any;
   logo: any;
@@ -23,7 +27,8 @@ export class CheckInPageComponent implements OnInit {
   imagePreview!: string | ArrayBuffer | null;
   qrNumber: any;
   isConfirmed: boolean = false;
-  
+  submitCheckinForm: boolean = false;
+
   constructor(
     private service: CheckInService,
     private acitveRoute: ActivatedRoute,
@@ -50,7 +55,8 @@ export class CheckInPageComponent implements OnInit {
       if (mobileNumber.length === 10) {
         this.getCheckVisitor_DetailsAlreadyExitOrNo(mobileNumber);
       }
-    })
+    });
+    this.startCamera();
   }
 
   getAllUnitList() {
@@ -72,6 +78,7 @@ export class CheckInPageComponent implements OnInit {
   }
 
   checkIn() {
+    this.submitCheckinForm = true;
     let data = {
       unitId: this.check_InForm.value.unitId,
       siteId: this.siteId,
@@ -96,7 +103,7 @@ export class CheckInPageComponent implements OnInit {
             this.check_InForm.reset();
             this.image = null;
           } else {
-            this.alertify.confirm('Check-Out', 'Your number already exists. Please check out first.', 
+            this.alertify.confirm('Check-Out', 'Already checked in. Please check out first', 
               ()=> {
                 this.service.checkOut(this.check_InForm.value.mobileNo).subscribe((checkout: any) => {
                   if (checkout?.isSuccess == true) {
@@ -113,6 +120,8 @@ export class CheckInPageComponent implements OnInit {
       } else {
         this.confirmAction();
       }
+    } else {
+      this.alertify.warning('Please fill required fields');
     }
     
   }
@@ -138,10 +147,10 @@ export class CheckInPageComponent implements OnInit {
     }
   }
 
-  filterUnits(searchTerm: KeyboardEvent): void {
-    const lowerSearchTerm = searchTerm;
+  filterUnits(event: KeyboardEvent): void {
+    const input = (event.target as HTMLInputElement).value.toLowerCase();
     this.filteredUnitList = this.unitlist.filter((unit: any) =>
-      unit.name.toLowerCase().includes(lowerSearchTerm)
+      unit.name.toLowerCase().includes(input) || unit.unitNumberName.includes(input)
     );
   }
 
@@ -161,7 +170,6 @@ export class CheckInPageComponent implements OnInit {
         this.check_InForm.get('fullName')?.setValue(res.data[0].visitorName);
         this.check_InForm.get('location')?.setValue(res.data[0].location);
         this.image = res.data[0].image;
-        this.check_InForm.get('unitId')?.setValue(res.data[0].unitId);
       }
     });
   }
@@ -185,4 +193,30 @@ export class CheckInPageComponent implements OnInit {
         this.alertify.error('Cancel');
       });
   }
+
+  startCamera() {
+    navigator.mediaDevices.getUserMedia({video: { facingMode: { exact: "environment" } } })
+      .then(stream => {
+        this.videoElement.nativeElement.srcObject = stream;
+      })
+      .catch(error => {
+        console.error('Error accessing camera: ', error);
+      });
+  }
+
+  // Function to capture the image
+  captureImage() {
+    const video = this.videoElement.nativeElement;
+    const canvas = this.canvasElement.nativeElement;
+
+    // Draw the current frame from the video element onto the canvas
+    const context = canvas.getContext('2d');
+    if (context) {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Convert the canvas to a data URL (image)
+      this.image = canvas.toDataURL('image/jpeg');
+    }
+  }
+  
 }

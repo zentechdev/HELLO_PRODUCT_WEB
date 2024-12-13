@@ -27,7 +27,6 @@ export class ParkingTypeDialogComponent implements OnInit {
   ngOnInit(): void {
     this.initiateParkingForm();
     this.getStatusList();
-    console.log(this.editData);
   }
 
   getStatusList(){
@@ -40,17 +39,14 @@ export class ParkingTypeDialogComponent implements OnInit {
 
   initiateParkingForm(){
     this.parkingType = new FormGroup({
-      type: new FormControl(this.editData?.parkingType ?? '', [Validators.required]),
+      type: new FormControl(this.editData?.parkingType ?? '', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]*$/)]),
       isActive: new FormControl(this.editData?.isActive ?? '', [Validators.required])
     });
   }
 
   selectedStatus(value: any){
-    let data = this.ActiveList.find((item: any) => {
-      return item.isActive == value.value ?? item.isActiveId
-    });
-    this.selectedStatusId = data.isActiveId; 
-    console.log(this.selectedStatusId);
+    let data = this.ActiveList.find((item: any) => item.isActive == value.value ? item.isActiveId : '');
+    this.selectedStatusId = data.isActiveId;
   }
 
   addParkingType(){
@@ -58,30 +54,34 @@ export class ParkingTypeDialogComponent implements OnInit {
       parkingType: this.parkingType.get('type')?.value,
       isActiveId: this.selectedStatusId
     }
-    if(this.editData === null) {
-      this.service.postParkingType(body).subscribe({
-        next: (list: any) => {
-          if(list) {
-            this.alertify.success(list.message);
-            this.parkingType.reset();
+    if (this.parkingType.valid) {
+      if(this.editData === null) {
+        this.service.postParkingType(body).subscribe({
+          next: (list: any) => {
+            if(list) {
+              this.alertify.success(list.message);
+              this.parkingType.reset();
+              this.dialogRef.close('SAVE');
+            } else {
+              this.alertify.error(list.message);
+            }
+          },
+          error: (error: any) => {
+            this.alertify.error(error);
+          }
+        });
+      } else {
+        this.service.updateParkingType(body, this.editData?.id).subscribe((update: any) => {
+          if (update) {
+            this.alertify.success(update.message);
             this.dialogRef.close('SAVE');
           } else {
-            this.alertify.error(list.message);
+            this.alertify.error(update.message);
           }
-        },
-        error: (error: any) => {
-          this.alertify.error(error);
-        }
-      });
+        });
+      }
     } else {
-      this.service.updateParkingType(body, this.editData?.id).subscribe((update: any) => {
-        if (update) {
-          this.alertify.success(update.message);
-          this.dialogRef.close('SAVE');
-        } else {
-          this.alertify.error(update.message);
-        }
-      });
+      this.alertify.warning('Please fill the required field');
     }
   }
 }

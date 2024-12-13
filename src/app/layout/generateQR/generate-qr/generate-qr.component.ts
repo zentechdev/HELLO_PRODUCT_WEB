@@ -17,7 +17,6 @@ export class GenerateQRComponent implements OnInit {
   ) { 
     this.siteId = String(localStorage.getItem('siteId'));
     // this.siteId = this.storageEncryptionService.decryptData(siteId)
-
   }
 
   ngOnInit(): void {

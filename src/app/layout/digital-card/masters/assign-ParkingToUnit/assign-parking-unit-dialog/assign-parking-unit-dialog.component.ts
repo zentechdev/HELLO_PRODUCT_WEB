@@ -23,12 +23,13 @@ export class AssignParkingUnitDialogComponent implements OnInit {
   siteId: any;
   wingList: any;
   employeeCode: any;
-  unitList: any;
+  unitList: any = [];
   filteredDropdown: any;
   dropdownList: { label: string; value: string }[] = [];
   selectedParkingList: { label: string; value: string }[] = [];
   parkingType: any;
   parkingList: any;
+  
   constructor(
     private service: AsignParkingUnitService,
     private wingService: WingService,
@@ -115,7 +116,6 @@ export class AssignParkingUnitDialogComponent implements OnInit {
           let data = res.data.filter((item: any) => {
             return item?.clientId == this.clientId && item.siteId == this.siteId ? item?.name : ''
           });
-
           this.unitList = data.sort((a: any, b: any) => a.id - b.id);
           this.filteredDropdown = this.unitList;
         }

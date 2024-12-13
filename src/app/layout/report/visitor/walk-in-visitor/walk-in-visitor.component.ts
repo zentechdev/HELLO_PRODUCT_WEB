@@ -171,7 +171,6 @@ export class WalkInVisitorComponent implements OnInit {
   }
 
   setStatusColor(status: any) {
-    console.log(status);
     switch(status) {
       case 'Rejected':
         return 'orange';

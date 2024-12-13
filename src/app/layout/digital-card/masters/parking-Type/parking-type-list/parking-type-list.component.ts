@@ -13,7 +13,7 @@ import { ParkingTypeDialogComponent } from '../parking-type-dialog/parking-type-
   styleUrls: ['./parking-type-list.component.css']
 })
 export class ParkingTypeListComponent implements OnInit, AfterContentInit {
-  @ViewChild('Paginator') Paginator!: MatPaginator;
+  @ViewChild(MatPaginator) Paginator!: MatPaginator;
   @ViewChild('Sort') Sort!: MatSort;
   displayedColumns: any = ['id', 'parkingType', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
@@ -107,7 +107,6 @@ export class ParkingTypeListComponent implements OnInit, AfterContentInit {
 
   selectStatus(event: any) {
     const value = event.value;
-    console.log('enter in select Status function', value);
     let list;
     if (value == 0) {
       list = this.parkingDetails;

@@ -21,4 +21,8 @@ export class ParkingService {
   getParkingDataByUnitId(ID: any) {
     return this.http.get(`${baseUrl}/api/OccupiedParking/getOccupiedParkingByUnit/${ID}`);
   }
+
+  getCurrentDateParkingDetail(){
+    return this.http.get(`${baseUrl}/api/OccupiedParking/getTodaysOccupiedParking`);
+  }
 }
