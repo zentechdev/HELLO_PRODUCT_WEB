@@ -13,10 +13,10 @@ export class GenerateQRComponent implements OnInit {
   qrNumber: any;
   
   constructor(
-    private storageEncryptionService: StorageEncryptionService,
+    private decodeService:  StorageEncryptionService
   ) { 
     this.siteId = String(localStorage.getItem('siteId'));
-    // this.siteId = this.storageEncryptionService.decryptData(siteId)
+    // this.siteId = this.decodeService.decryptData(siteId);
   }
 
   ngOnInit(): void {
@@ -58,5 +58,6 @@ export class GenerateQRComponent implements OnInit {
     WindowPrt.print();
     WindowPrt.close();
   }
+
 
 }

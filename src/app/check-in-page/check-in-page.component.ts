@@ -6,7 +6,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertifyService } from '../service/alertify/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { SiteDetailsService } from '../service/client-details/site-details.service';
-
 @Component({
   selector: 'app-check-in-page',
   templateUrl: './check-in-page.component.html',
@@ -39,12 +38,23 @@ export class CheckInPageComponent implements OnInit {
     private decodeData: StorageEncryptionService
   ) {
     this.acitveRoute.queryParams.subscribe(params => {
-      let siteId = params['siteId'];
+      let encryptedSiteId = params['siteId'];
+      if (encryptedSiteId) {
+        try {
+          this.siteId = this.decodeData.decryptData(encryptedSiteId);
+          this.confirmAction();
+        } catch (error) {
+          console.error('Decryption failed:', error);
+          this.alertify.error('Invalid site ID.');
+          this.siteId = null;
+        }
+      } else {
+        this.alertify.error('No site ID provided.');
+        this.siteId = null;
+      }
     });
-    let siteId = String(localStorage.getItem('siteId'));
-    this.siteId = this.decodeData.decryptData(siteId);
-    this.confirmAction();
   }
+  
 
   ngOnInit(): void {
     this.getSiteDetailById(this.siteId);
