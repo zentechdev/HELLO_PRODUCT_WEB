@@ -58,7 +58,7 @@ import { CheckInPageComponent } from './check-in-page/check-in-page.component';
     AuthModule,
     SharedModule,
     LayoutModule,
-
+    NgxQRCodeModule,
     NgSelect2Module,
     FormsModule,
     BrowserAnimationsModule,

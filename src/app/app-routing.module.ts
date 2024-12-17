@@ -13,7 +13,6 @@ import { QrCodePassComponent } from './visitor-management/template/qr-code-pass/
 import { CheckInPageComponent } from './check-in-page/check-in-page.component';
 
 
-
 const routes: Routes = [
   {
     path: '',

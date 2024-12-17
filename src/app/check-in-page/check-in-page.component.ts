@@ -4,8 +4,9 @@ import { StorageEncryptionService } from '../service/encryption/storage-encrypti
 import { UnitService } from '../service/masters/unit.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertifyService } from '../service/alertify/alertify.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SiteDetailsService } from '../service/client-details/site-details.service';
+import { baseUrl } from 'src/environments/environment';
 @Component({
   selector: 'app-check-in-page',
   templateUrl: './check-in-page.component.html',
@@ -24,10 +25,10 @@ export class CheckInPageComponent implements OnInit {
   filteredUnitList: any;
   file: any;
   imagePreview!: string | ArrayBuffer | null;
-  qrNumber: any;
-  isConfirmed: boolean = false;
   submitCheckinForm: boolean = false;
-
+  saveStatus: any;
+  showPopup: boolean = false;
+  
   constructor(
     private service: CheckInService,
     private acitveRoute: ActivatedRoute,
@@ -35,14 +36,15 @@ export class CheckInPageComponent implements OnInit {
     public fb: FormBuilder,
     private alertify: AlertifyService,
     private siteService: SiteDetailsService,
-    private decodeData: StorageEncryptionService
+    private decodeData: StorageEncryptionService,
+    private router: Router
   ) {
     this.acitveRoute.queryParams.subscribe(params => {
       let encryptedSiteId = params['siteId'];
       if (encryptedSiteId) {
         try {
           this.siteId = this.decodeData.decryptData(encryptedSiteId);
-          this.confirmAction();
+          this.showVisitorPolicy();
         } catch (error) {
           console.error('Decryption failed:', error);
           this.alertify.error('Invalid site ID.');
@@ -72,7 +74,13 @@ export class CheckInPageComponent implements OnInit {
   getAllUnitList() {
     this.unitService.getAllUnit().subscribe((res: any) => {
       if (res?.isSuccess == true) {
-        this.unitlist = res?.data.filter((item: any) => item.siteId == this.siteId);
+        const unitList = res?.data.filter((item: any) => item.siteId == this.siteId);
+        this.unitlist = unitList.reduce((unique: any[], item: any) => {
+          if (!unique.some((obj: any) => obj.name === item.name)) {
+            unique.push(item);
+          }
+          return unique;
+        }, []);
         this.filteredUnitList = [...this.unitlist];
       }
     });
@@ -89,6 +97,8 @@ export class CheckInPageComponent implements OnInit {
 
   checkIn() {
     this.submitCheckinForm = true;
+    let statusList = this.filteredUnitList.find((value: any) => value.id == this.check_InForm.value.unitId);
+    this.saveStatus = statusList?.accessStatus;
     let data = {
       unitId: this.check_InForm.value.unitId,
       siteId: this.siteId,
@@ -104,13 +114,24 @@ export class CheckInPageComponent implements OnInit {
       ],
       isActive: 1,
     }
+    
     if (this.check_InForm.valid) {
-      if (this.isConfirmed == true) {
-        this.service.checkIn(data).subscribe((res: any) => {
-          if (res?.isSuccess == true) {
-            this.alertify.success(res?.message);
+      this.service.checkIn(data).subscribe((res: any) => {
+        if (res?.isSuccess == true) {
+          if (this.saveStatus === 'Yes') {
+            this.alertify.success(`Thank you for checking in! We've sent a request for approval to your Unit Admin. 
+              Please wait for their response`);
             this.check_InForm.reset();
             this.image = null;
+            this.submitCheckinForm = false;
+          } else {
+            this.image = null;
+            const mobileNo = this.check_InForm.value.mobileNo || '';
+            this.router.navigate(['/qr-code-pass'], {
+              queryParams: { m: mobileNo }
+            });
+            this.check_InForm.reset();
+          }
           } else {
             this.alertify.confirm('Check-Out', 'Already checked in. Please check out first', 
               ()=> {
@@ -126,9 +147,6 @@ export class CheckInPageComponent implements OnInit {
             )
           }
         });
-      } else {
-        this.confirmAction();
-      }
     } else {
       this.alertify.warning('Please fill required fields');
     }
@@ -159,9 +177,10 @@ export class CheckInPageComponent implements OnInit {
   filterUnits(event: KeyboardEvent): void {
     const input = (event.target as HTMLInputElement).value.toLowerCase();
     this.filteredUnitList = this.unitlist.filter((unit: any) =>
-      unit.name.toLowerCase().includes(input) || unit.unitNumberName.includes(input)
+      unit.name?.toLowerCase().includes(input) || unit.unitNumberName?.includes(input)
     );
   }
+  
 
   getCheckout(){
     this.service.checkOut(this.check_InForm.value.mobileNo).subscribe({
@@ -192,16 +211,6 @@ export class CheckInPageComponent implements OnInit {
     });
   }
 
-  confirmAction(): void{
-    this.alertify.confirm('Acknowledge', 'We take your privacy seriously.Your entered details will be stored securely.Please proceed only if you agree',
-      ()=>{
-        this.isConfirmed = true;
-        this.alertify.success('Confirmed');
-      },
-      () => {
-        this.alertify.error('Cancel');
-      });
-  }
 
   startCamera() {
     navigator.mediaDevices.getUserMedia({video: { facingMode: { exact: "environment" } } })
@@ -226,6 +235,21 @@ export class CheckInPageComponent implements OnInit {
       // Convert the canvas to a data URL (image)
       this.image = canvas.toDataURL('image/jpeg');
     }
+  }
+
+  showVisitorPolicy(): void {
+    this.showPopup = true;
+  }
+
+  // Close the popup
+  closePopup(): void {
+    this.showPopup = false;
+  }
+
+  // Accept and close the popup
+  acceptPolicy(): void {
+    this.alertify.success('Thank you for acknowledging the policy.');
+    this.showPopup = false;
   }
   
 }

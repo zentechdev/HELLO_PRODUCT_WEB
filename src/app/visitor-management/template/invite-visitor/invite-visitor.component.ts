@@ -37,7 +37,6 @@ export class InviteVisitorComponent implements OnInit {
   // get parameter value from url which is send by backend 
 
   getParameter() {
-
     let querystring = window.location.search;
     let urlParam = new URLSearchParams(querystring);
 

@@ -73,7 +73,7 @@
                                     <mat-label>Select Unit</mat-label>
                                     <mat-select formControlName="unitId">
                                         <input matInput type="text" placeholder="Search unit name here..."
-                                            class="search-input" (keyup)="filterUnits($event)" style="text-align: center;"/>
+                                            class="search-input" (keyup)="filterUnits($event)" style="text-align: center; height: 38px;" />
                                         <mat-option *ngFor="let data of filteredUnitList" [value]="data?.id">
                                             {{ data?.name}} - {{data?.unitNumberName}}
                                         </mat-option>
@@ -97,4 +97,34 @@
             </div>
         </div>
     </div>
+</div>
+
+
+<!-- Popup Modal -->
+<div *ngIf="showPopup" class="modal-overlay">
+  <div class="modal-content">
+    <!-- Header -->
+    <div class="modal-header">
+      <h3 class="modal-title">Visitor Policy</h3>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <p>
+        We highly value both you and the information you provide. We make every effort to maintain 
+        the security of the information within our secure database. We do not disclose your information to third parties.
+      </p>
+      <h4>Information Collected:</h4>
+      <ul>
+        <li>Mobile number, Name, Photo</li>
+        <li>Location</li>
+        <li>Place of visit</li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button (click)="acceptPolicy()" class="accept-btn">ACCEPT</button>
+    </div>
+  </div>
 </div>

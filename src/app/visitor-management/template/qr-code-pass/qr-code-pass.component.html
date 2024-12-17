@@ -1,5 +1,5 @@
 
-<div  class="container" id="nonfooter">
+<div  class="container mt-3" id="nonfooter">
     <div class="padding">
         <div class="font print-container" >
             <div class="header">
@@ -16,15 +16,24 @@
                 <div class="edetails">
                     <p>{{memberName}}</p>
                     <p>{{mobileNumber}}</p>
-                    <p>{{checkIn}}</p>
+                    <p>
+                        {{checkIn}}
+                    </p>
                     <p>{{location}}</p>
                 </div>
             </div>
             <div>
-                <div class="barcode">
+                <div class="barcode" *ngIf="passValid">
                     <!-- <img [src]="QrImage" alt=""> -->
                     <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="qrNumber"
-                    alt="Demo QR Code" ></ngx-qrcode>
+                    [width]="150"
+                    alt="Demo QR Code"></ngx-qrcode>
+                </div>
+                <div class="barcod" *ngIf="passInvalid" style="text-align: center;">
+                    <img src="../../../assets\images\qr-image-sample.png" style="width: 150px; filter:blur(10px);">
+                    <div class="bg-text">
+                        <h1 style="font-size:60px; color: red;">Expired</h1>
+                    </div>
                 </div>
                 <div class="hostdetails">
                     <p>Host Details</p>

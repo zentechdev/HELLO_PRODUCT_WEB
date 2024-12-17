@@ -96,8 +96,8 @@ export class AttendanceListComponent implements OnInit {
             this.dataSource.sort = this.sort;
           }
           else if (this.roleName == "Unit Admin") {
-            this.data = res;
-            this.dataSource = new MatTableDataSource(this.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId));
+            this.data = res.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId && item.unitId == this.unitId);
+            this.dataSource = new MatTableDataSource(this.data);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
           }

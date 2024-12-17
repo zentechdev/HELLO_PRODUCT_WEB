@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgxQrcodeElementTypes, NgxQrcodeErrorCorrectionLevels } from '@techiediaries/ngx-qrcode';
@@ -16,14 +17,11 @@ export class QrCodePassComponent implements OnInit {
   token: any;
   valid: boolean = false;
   invalid: boolean = false;
-
+  currentDate: any;
+  qrDate: any;
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   siteImage: any;
-
-
-  constructor(private alertify: AlertifyService,private service:QrCodePassService) { }
-
   unitNumber!: string;
   image!: string;
   memberName!: string;
@@ -34,10 +32,18 @@ export class QrCodePassComponent implements OnInit {
   siteName!: string;
   qrNumber: any;
   hostName: any;
+  passValid: boolean = false;
+  passInvalid: boolean = false;
 
+  constructor(
+    private alertify: AlertifyService,
+    private service:QrCodePassService,
+    private datePipe: DatePipe) {}
 
   ngOnInit(): void {
     this.getParameter();
+    const now = new Date();
+    this.currentDate = this.datePipe.transform(now, 'd MMMM yyyy');
   }
 
   // get parameter value from url which is send by backend 
@@ -69,7 +75,7 @@ export class QrCodePassComponent implements OnInit {
     // }
 
     this.getByMobileNumber();
-
+    this.getPassValid();
   }
 
   // private isTokenExpired(token: string) {
@@ -78,7 +84,7 @@ export class QrCodePassComponent implements OnInit {
   // }
 
   getByMobileNumber() {
-    this.mobileNumber=String(localStorage.getItem('m'));
+    this.mobileNumber = String(localStorage.getItem('m'));
     return this.service.getVisitorByMobileNumber(this.mobileNumber)
       .subscribe({
         next: (data) => {  
@@ -90,6 +96,7 @@ export class QrCodePassComponent implements OnInit {
           this.mobileNumber = data.data[0].mobileNumber;
           this.location = data.data[0].location;
           this.checkIn = data.data[0].createdDate;
+          this.qrDate = this.datePipe.transform(data.data[0].createdDate, 'dd MMM yyyy');
           this.unitName = data.data[0].unitName;
           this.siteName = data.data[0].siteName;
           this.siteImage=data.data[0].siteImage;
@@ -101,6 +108,14 @@ export class QrCodePassComponent implements OnInit {
           this.alertify.error("Error While fetching The Records!!");
         }
       })
+  }
+
+  getPassValid(){
+    if (this.qrDate === this.currentDate) {
+      this.passValid = true;
+    } else {
+      this.passInvalid = true;
+    }
   }
 
 }

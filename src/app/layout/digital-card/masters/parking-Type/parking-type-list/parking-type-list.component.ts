@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AlertifyService } from 'src/app/service/alertify/alertify.service';
 import { ParkingTypeService } from 'src/app/service/masters/parking-type.service';
 import { ParkingTypeDialogComponent } from '../parking-type-dialog/parking-type-dialog.component';
+import { StorageEncryptionService } from 'src/app/service/encryption/storage-encryption.service';
 
 @Component({
   selector: 'app-parking-type-list',
@@ -18,19 +19,23 @@ export class ParkingTypeListComponent implements OnInit, AfterContentInit {
   displayedColumns: any = ['id', 'parkingType', 'isActive', 'Action'];
   dataSource!: MatTableDataSource<any>;
   parkingDetails: any;
- 
+  siteId: any;
   constructor(
     private service: ParkingTypeService,
     private alertify: AlertifyService,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog,
+    private decode: StorageEncryptionService
+  ) {
+    let siteData = String(localStorage.getItem('siteId'));
+    this.siteId = this.decode.decryptData(siteData);
+   }
 
   ngOnInit(): void {
     this.getParkingDetails();
   }
 
   getParkingDetails() {
-    this.service.getParkingType().subscribe({
+    this.service.getParkingType(this.siteId).subscribe({
       next: (list: any) => {
         if(list) {
           this.parkingDetails = list.data;

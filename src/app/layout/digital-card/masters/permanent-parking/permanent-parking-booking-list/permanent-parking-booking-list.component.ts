@@ -32,7 +32,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
     private dialog: MatDialog,
     private service: PermanentBookingService,
     private alertify: AlertifyService,
-    private encryptedData: StorageEncryptionService
+    private encryptedData: StorageEncryptionService,
   ) { }
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
           this.permanentParkingList = res.data.filter((item: any) => item.unitId == this.unitId);
           this.dataSource = new MatTableDataSource(this.permanentParkingList);
           this.dataSource.data = this.permanentParkingList;
-          this.dataSource.paginator = this.Paginator;
+          this.dataSource.paginator = this.Paginator1;
           this.dataSource.sort = this.Sort;
         } else {
           this.alertify.success(res.message)
@@ -116,10 +116,9 @@ export class PermanentParkingBookingListComponent implements OnInit {
       next: (res: any) => {
         if (res?.isSuccess === true) {
           this.availableParkingList = res.parkingData.filter((item: any) => item.unitId == this.unitId);
-          console.log(this.availableParkingList, this.unitId);
           this.availableParkingTableList = new MatTableDataSource(this.availableParkingList);
           this.availableParkingTableList.data = this.availableParkingList;
-          this.availableParkingTableList.paginator = this.Paginator1
+          this.availableParkingTableList.paginator = this.Paginator;
           this.availableParkingTableList.sort = this.Sort1;
         } else {
           this.alertify.error(res?.message);

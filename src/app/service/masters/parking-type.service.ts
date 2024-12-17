@@ -10,8 +10,9 @@ export class ParkingTypeService {
     public http: HttpClient
   ) { }
 
-  getParkingType(){
-    return this.http.get(`${baseUrl}/api/ParkingType/getAllParkingType`);
+  getParkingType(siteId: any){
+    // return this.http.get(`${baseUrl}/api/ParkingType/getAllParkingType`);
+    return this.http.get(`${baseUrl}/api/ParkingType/getParkingTypeBySiteId/${siteId}`);
   }
 
   postParkingType(body: any){
