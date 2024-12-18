@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -13,20 +13,30 @@ import { StorageEncryptionService } from 'src/app/service/encryption/storage-enc
   templateUrl: './permanent-parking-booking-list.component.html',
   styleUrls: ['./permanent-parking-booking-list.component.css']
 })
-export class PermanentParkingBookingListComponent implements OnInit {
+export class PermanentParkingBookingListComponent implements OnInit, AfterViewInit {
   
   displayedColumns: any = ['id', 'siteName', 'unitName', 'unitNumber', 'parkingNumber', 'memberName', 'isActive','action'];
+  // declare permanent parking tab pagination variable
+  @ViewChild('permanent_pagination') permanent_pagination!: MatPaginator;
+  @ViewChild('Sort') Sort!: MatSort; 
+  
+  // declare available Parking tab paginator variable
   AvilableParkingColumns: any = ['id', 'siteName', 'unitName', 'unitNumber', 'parkingNumber', 'vehicleType'];
-  @ViewChild(MatPaginator) Paginator!: MatPaginator;
-  @ViewChild(MatSort) Sort!: MatSort; 
+  @ViewChild('available_pagination') available_pagination!: MatPaginator;
+  @ViewChild('Sort1') Sort1!: MatSort; 
+
+  // declare permanent parking tab table variable
   dataSource!: MatTableDataSource<any>;
   permanentParkingList: any;
+
+
   roleName: any;
   unitId: any;
-  availableParkingList: any;
+
+  // available parking tab variables declared here
   availableParkingTableList!: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) Paginator1!: MatPaginator;
-  @ViewChild(MatSort) Sort1!: MatSort; 
+  availableParkingList: any;
+  
   value: any;
   constructor(
     private dialog: MatDialog,
@@ -63,10 +73,10 @@ export class PermanentParkingBookingListComponent implements OnInit {
           this.permanentParkingList = res.data.filter((item: any) => item.unitId == this.unitId);
           this.dataSource = new MatTableDataSource(this.permanentParkingList);
           this.dataSource.data = this.permanentParkingList;
-          this.dataSource.paginator = this.Paginator1;
+          this.dataSource.paginator = this.permanent_pagination;
           this.dataSource.sort = this.Sort;
         } else {
-          this.alertify.success(res.message)
+          this.alertify.error(res.message)
         }
       },
       error: (err) => {
@@ -74,6 +84,26 @@ export class PermanentParkingBookingListComponent implements OnInit {
       }
     });
   }
+
+   // avalilable parking data function
+   getAllAvilableParking(){
+    this.service.getAvailableParkingList().subscribe({
+      next: (res: any) => {
+        if (res?.isSuccess === true) {
+          this.availableParkingList = res.parkingData.filter((item: any) => item.unitId == this.unitId);
+          this.availableParkingTableList = new MatTableDataSource(this.availableParkingList);
+          this.availableParkingTableList.data = this.availableParkingList;
+          this.availableParkingTableList.paginator = this.available_pagination;
+          this.availableParkingTableList.sort = this.Sort1;
+        } else {
+          this.alertify.error(res?.message);
+        }
+      }
+    });
+  }
+
+
+
 
   editData(data: any){
     this.dialog.open(PermanentParkingBookingDialogComponent, {
@@ -95,7 +125,6 @@ export class PermanentParkingBookingListComponent implements OnInit {
             if (res?.isSuccess == true) {
               this.alertify.success('Permanent Parking Deleted Successfully');
               this.getPermanentBookingList();
-              this.getAllAvilableParking();
             } else {
               this.alertify.error('Permanent Parking Deleted Faild');
             }
@@ -110,23 +139,7 @@ export class PermanentParkingBookingListComponent implements OnInit {
       });
   }
 
-  // avalilable parking data function
-  getAllAvilableParking(){
-    this.service.getAvailableParkingList().subscribe({
-      next: (res: any) => {
-        if (res?.isSuccess === true) {
-          this.availableParkingList = res.parkingData.filter((item: any) => item.unitId == this.unitId);
-          this.availableParkingTableList = new MatTableDataSource(this.availableParkingList);
-          this.availableParkingTableList.data = this.availableParkingList;
-          this.availableParkingTableList.paginator = this.Paginator;
-          this.availableParkingTableList.sort = this.Sort1;
-        } else {
-          this.alertify.error(res?.message);
-        }
-      }
-    });
-  }
-
+ 
   applyFilter(type: any, event: any) {
     if (type == 'AssignedParking') {
       const filterValue = (event.target as HTMLInputElement).value;
@@ -150,14 +163,28 @@ export class PermanentParkingBookingListComponent implements OnInit {
       this.value = this.permanentParkingList;
       this.dataSource = new MatTableDataSource(this.value);
       this.dataSource.data = this.value;
-      this.dataSource.paginator = this.Paginator;
+      this.dataSource.paginator = this.permanent_pagination;
       this.dataSource.sort = this.Sort;
     } else {
       this.value = this.permanentParkingList.filter((item: any) => item.isActive == value);
       this.dataSource = new MatTableDataSource(this.value);
       this.dataSource.data = this.value;
-      this.dataSource.paginator = this.Paginator;
+      this.dataSource.paginator = this.permanent_pagination;
       this.dataSource.sort = this.Sort;
+    }
+  }
+
+  ngAfterViewInit(): void {
+    // Assign paginator and sort for permanent booking table
+    if (this.dataSource) {
+      this.dataSource.paginator = this.permanent_pagination;
+      this.dataSource.sort = this.Sort;
+    }
+  
+    // Assign paginator and sort for available parking table
+    if (this.availableParkingTableList) {
+      this.availableParkingTableList.paginator = this.available_pagination;
+      this.availableParkingTableList.sort = this.Sort1;
     }
   }
 }

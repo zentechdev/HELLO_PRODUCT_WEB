@@ -39,8 +39,8 @@
                                    <table mat-table matTableExporter [dataSource]="dataSource" #exporter="matTableExporter" class="mat-elevation-z8" >
                                     <ng-container matColumnDef="id">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
-                                        <td mat-cell *matCellDef="let row;let i = index;"> {{ Paginator.pageSize *
-                                            Paginator.pageIndex + i + 1 }}</td>
+                                        <td mat-cell *matCellDef="let row;let i = index;"> {{ permanent_pagination.pageSize *
+                                            permanent_pagination.pageIndex + i + 1 }}</td>
                                     </ng-container>
         
                                     <!-- site name column -->
@@ -98,7 +98,7 @@
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                    </table>
-                                    <mat-paginator #Paginator [pageSizeOptions]="[5, 10, 25, 100]"
+                                    <mat-paginator #permanent_pagination [pageSizeOptions]="[5, 10, 25, 100]"
                                     aria-label="Select page of users">
                                 </mat-paginator>
                                 </div>
@@ -151,8 +151,8 @@
                                    [dataSource]="availableParkingTableList" class="mat-elevation-z8">
                                     <ng-container matColumnDef="id">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header><b>ID</b></th>
-                                        <td mat-cell *matCellDef="let row;let i = index;"> {{ Paginator1.pageSize *
-                                            Paginator1.pageIndex + i + 1 }}</td>
+                                        <td mat-cell *matCellDef="let row;let i = index;"> {{ available_pagination.pageSize *
+                                            available_pagination.pageIndex + i + 1 }}</td>
                                     </ng-container>
         
                                     <!-- site name column -->
@@ -191,9 +191,9 @@
                                     <tr mat-header-row *matHeaderRowDef="AvilableParkingColumns"></tr>
                                     <tr mat-row *matRowDef="let row; columns: AvilableParkingColumns;"></tr>
                                    </table>
-                                <mat-paginator #Paginator1 [pageSizeOptions]="[5, 10, 25, 100]"
-                                    aria-label="Select page of users">
-                                </mat-paginator>
+                                   <mat-paginator #available_pagination [pageSizeOptions]="[5, 10, 25, 100]"
+                                   aria-label="Select page of users">
+                               </mat-paginator>
                                 </div>
                             </div>
                         </mat-card-content>
