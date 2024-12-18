@@ -40,10 +40,11 @@ export class CheckInPageComponent implements OnInit {
     private router: Router
   ) {
     this.acitveRoute.queryParams.subscribe(params => {
-      let encryptedSiteId = params['siteId'];
+      const encryptedSiteId = params['siteId'];
       if (encryptedSiteId) {
         try {
-          this.siteId = this.decodeData.decryptData(encryptedSiteId);
+          const siteId = String(localStorage.getItem('siteId'));
+          this.siteId = this.decodeData.decryptData(siteId);
           this.showVisitorPolicy();
         } catch (error) {
           console.error('Decryption failed:', error);
