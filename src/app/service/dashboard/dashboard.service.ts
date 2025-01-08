@@ -153,6 +153,18 @@ export class DashboardService {
     return this.http.get(`${baseUrl}/api/parkingDetails/getParkingBySiteId/` +Id);
   }
 
+  getCountForTotalParkingAssigned(){
+    return this.http.get(`${baseUrl}/api/parkingDetails/getAllParkingDetails`);
+  }
+
+  getCountForTotalFreeParking(){
+    return this.http.get(`${baseUrl}/api/ParkingNumber/getAllParkingNumber`);
+  }
+
+  getCountForAvailabelParking(){
+    return this.http.get(`${baseUrl}/api/PermanentParkingDetails/GetAvailableParking`);
+  }
+
   getUnitMember(){
     return this.http.get(`${baseUrl}/api/ManageUsers/getAllMembers`);
   }

@@ -5,6 +5,7 @@ import { DashboardService } from 'src/app/service/dashboard/dashboard.service';
 import { ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexStroke, ApexTooltip, ApexXAxis, ApexYAxis } from "ng-apexcharts";
 import jsPDF from 'jspdf';
 import * as html2canvasModule from 'html2canvas';
+import { forkJoin, map, Observable } from 'rxjs';
 
 
 export type ChartOptions = {
@@ -66,7 +67,10 @@ export class DashboardComponent implements OnInit {
   wingCounts: any = [];
   wingAUnit = 0;
   wingBUnit = 0;
-  
+  totalAssignedParking = 0;
+  activeParkingCount = 0;
+  countFreeParking = 0;
+
   constructor(
     private formBuilder: FormBuilder,
     private storageEncryptionService: StorageEncryptionService,
@@ -98,10 +102,14 @@ export class DashboardComponent implements OnInit {
     const unitName = String(localStorage.getItem('unitName'));
     this.unitName = this.storageEncryptionService.decryptData(unitName);
 
-    this.getParkingDetails(this.siteId);
+    
 
     await Promise.all([
       this.getCountAllVisitor(),
+      // this.getParkingDetails(this.siteId)
+      // this.getTotalAssignedParking(),
+      // this.getCountTotalParkingAvailabel(),
+      this.getMergeParkingCountFreeAndOccupied()
     ])
 
   }
@@ -236,191 +244,226 @@ export class DashboardComponent implements OnInit {
 
 
   visitorCount(data: any) {
-    const arrayName: any[] = [];
-    const arrayCount: any[] = [];
+    const arrayName: string[] = [];
+    const arrayCount: number[] = [];
+    
+    // Process data
     for (let i = 0; i < data.length; i++) {
       if (data[i].visitorType !== 'Invited (All)') {
         arrayCount.push(data[i].total);
         arrayName.push(data[i].visitorType);
       }
-      if (data[i].visitorType == 'Invited (Today)') {
-        this.todayInvitedVisitor = data[i].total
+      if (data[i].visitorType === 'Invited (Today)') {
+        this.todayInvitedVisitor = data[i].total;
       }
-      if (data[i].visitorType == 'Non-Invited (Today)') {
-        this.todayNonInvitedVisitor = data[i].total
+      if (data[i].visitorType === 'Walk-In Visitor (Today)') {
+        this.todayNonInvitedVisitor = data[i].total;
       }
-      if (data[i].visitorType == 'Invited (All)') {
-        this.allInvitedVisitor = data[i].total
+      if (data[i].visitorType === 'Invited (All)') {
+        this.allInvitedVisitor = data[i].total;
       }
-      if (data[i].visitorType == 'Non-Invited (All)') {
-        this.allNonInvitedVisitor = data[i].total
-      }
-      if (data[i].visitorType !== 'Invited (All)') {
-        this.allVisitor = this.todayInvitedVisitor + this.todayNonInvitedVisitor + this.allInvitedVisitor + this.allNonInvitedVisitor
+      if (data[i].visitorType === 'Walk-In Visitor (All)') {
+        this.allNonInvitedVisitor = data[i].total;
       }
     }
-
     
+    // Calculate total visitors
+    this.allVisitor = 
+      this.todayInvitedVisitor + 
+      this.todayNonInvitedVisitor + 
+      this.allInvitedVisitor + 
+      this.allNonInvitedVisitor;
+  
+    // Configure chart options
     this.chartOptions2 = {
-      series: [ 
-        this.todayInvitedVisitor, 
-        this.allInvitedVisitor, 
-        this.allNonInvitedVisitor, 
-        this.todayNonInvitedVisitor
-      ], 
+      series: [{
+        name: 'Visitors',
+        data: [
+          this.todayInvitedVisitor, 
+          this.allInvitedVisitor, 
+          this.allNonInvitedVisitor, 
+          this.todayNonInvitedVisitor
+        ]
+      }],
       chart: {
-        height: 330,
-        width: 430,
-        type: "radialBar" 
+        type: 'bar',
+        height: 350,
+        width: 450,
+        toolbar: {
+          show: true
+        }
       },
       plotOptions: {
-        radialBar: {
-          dataLabels: {
-            name: {
-              fontSize: '22px',
-            },
-            value: {
-              fontSize: '16px',
-            },
-            total: {
-              show: true,
-              label: 'Total',
-              formatter: () => {
-                return (this.allVisitor).toString();
-              }
-            }
-          }
+        bar: {
+          horizontal: false,
+          columnWidth: '50%',
+          endingShape: 'rounded'
         }
       },
-      labels: [
-        'Invited (Today)',
-        'Invited (All)', 
-        'Non Invited (All)', 
-        'Non Invited (Today)'
-      ], 
-      fill: {
-        type: 'gradient',
-        gradient: {
-          shade: 'dark',
-          type: 'horizontal',
-          shadeIntensity: 0.5,
-          gradientToColors: ['#ABE5A1', '#FF4560'],
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 100]
+      dataLabels: {
+        enabled: true,
+        style: {
+          colors: ['#000000']
         }
       },
-      colors: ['#00E396', '#dee827', '#e38120'],
       stroke: {
-        lineCap: 'round'
+        show: true,
+        width: 2,
+        colors: ['transparent']
+      },
+      xaxis: {
+        categories: [
+          'Invited (Today)', 
+          'Invited (All)', 
+          'Walk-In Visitor (All)', 
+          'Walk-In Visitor (Today)'
+        ],
+        title: {
+          text: 'Visitor Types'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Number of Visitors'
+        }
+      },
+      fill: {
+        opacity: 1,
+        colors: ['#00E396', '#008FFB', '#FEB019', '#FF4560']
       },
       tooltip: {
         enabled: true,
-        shared: false,
+        shared: true,
+        intersect: false,
         y: {
-          formatter: function(val: any) {
-            return val + " Visitors";
-          }
+          formatter: (val: number) => `${val} Visitors`
         }
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'center'
       }
     };
   }
+  
 
 
 
   // Parking functionality started here 
   addSpaceAndTitleCase(text: string): string {
     const spacedText = text.replace(/([A-Z])/g, ' $1');
-    // console.log(spacedText,spacedText.charAt(0).toUpperCase() + spacedText.slice(1).toLowerCase());
     return spacedText;
   }
 
-  getParkingDetails(siteId: any) {
-    this.service1.getAllParkingBySiteID(siteId).subscribe((res: any) => {
-      if (res && res.parkingfloor) {
-        const allParkingDetails = res.parkingfloor.filter((item: any) => item.siteId == siteId);
-        this.getCountParkingDetails(allParkingDetails);
-      }
-    });
+  getTotalAvailableParking(): Observable<any[]> {
+    return this.service1.getCountForAvailabelParking().pipe(
+      map((res: any) => {
+        if(res?.isSuccess == true && this.roleName == 'Unit Admin') {
+          return res.data.filter((item: any) => item.siteId == this.siteId && item.unitId == this.unitId);
+        }
+        return []
+      })
+    )
   }
 
-  getCountParkingDetails(data: any) {
-    let wingAParking = 0;
-    let wingBParking = 0;
-    let wingAUnit = 0;
-    let wingBUnit = 0;
-    data.forEach((detail: any) => {
-      if (detail.floorType === "Parking") {
-        if (detail.wingName === "A") {
-          wingAParking += detail.parking.length;
-          this.wingATotal += detail.parking.length;
-        } else if (detail.wingName === "B") {
-          wingBParking += detail.parking.length;
-          this.wingBTotal += detail.parking.length;
+  getTotalAssignedParking(): Observable<any[]> {
+    return this.service1.getCountForTotalParkingAssigned().pipe(
+      map((res: any) => {
+        if (res?.isSuccess == true && this.roleName == 'Site Admin') {
+          return res.data.filter((item: any) => item.siteId == this.siteId && item.isActive == 'Active' && item.assignId !== null);
+        } else if(res?.isSuccess == true && this.roleName == 'Unit Admin'){
+          return res.data.filter((item: any) => item.siteId == this.siteId && item.unitId == this.unitId &&item.isActive == 'Active' && item.assignId !== null);
         }
-      } else if (detail.floorType === "Unit") {
-        if (detail.wingName === "A") {
-          wingAUnit++;
-          this.wingAUnit++
-        } else if (detail.wingName === "B") {
-          wingBUnit = 15;
-          this.wingBUnit++;
+        return [];
+      })
+    );
+  }
+  
+  getCountTotalParkingAvailabel(): Observable<any[]> {
+    return this.service1.getCountForTotalFreeParking().pipe(
+      map((res: any) => {
+        if (res?.isSuccess == true && this.roleName == 'Site Admin') {
+          return res.data.filter((item: any) => item.siteId == this.siteId && item.isActive == 'Active');
+        } else if (res?.isSuccess == true && this.roleName == 'Unit Admin'){
+          return res.data.filter((item: any) => item.siteId == this.siteId &&  item.unitId == this.unitId && item.isActive == 'Active');
         }
-      }
+        return [];
+      })
+    );
+  }
+  
+  getMergeParkingCountFreeAndOccupied() {
+    forkJoin({
+      assignedParking: this.getTotalAssignedParking(),
+      freeParking: this.getCountTotalParkingAvailabel()
+    }).subscribe(({ assignedParking, freeParking }) => {
+      const parkingArray = [
+        {
+          assignedParking,
+          freeParking
+        }
+      ];
+      this.getCountParkingDetails(parkingArray);
     });
-    this.chartOptions = {
-      series: [{
-        name: 'count',
-        data: [
-          {
-            x: 'Parking',
-            y: wingAParking, wingBParking,
-            fillColor: '#008ffb'
-          },
-          {
-            x: 'Unit',
-            y: wingAUnit, wingBUnit,
-            fillColor: '#f96787'
-          },
-          
-        ]
+  }
+  
+  
+  getCountParkingDetails(parkingData: any) {
+    this.totalAssignedParking = 0;
+    this.activeParkingCount = 0;
+    this.countFreeParking = 0;
+  
+    const data = parkingData[0];
+    const assignedParkingArray = data.assignedParking;
+    const freeParkingArray = data.freeParking;
+
+    for(let i = 0 ; i < assignedParkingArray.length ; i++) {
+      if (assignedParkingArray[i].unitNumber) {
+        this.totalAssignedParking ++;
       }
+      if(assignedParkingArray[i].isActive == 'Active'){
+        this.activeParkingCount++;
+      }
+    }
+
+    for(let k = 0; k < freeParkingArray.length; k++) {
+      if (freeParkingArray[k].parkingNumber !== '' && freeParkingArray[k].isActive == 'Active') {
+        this.countFreeParking++;
+      }
+    }
+    // Configure chart options
+    this.chartOptions = {
+      series: [
+        {
+          name: 'Parking Data',
+          data: [
+            {
+              x: 'Active Parking',
+              y: this.activeParkingCount,
+              fillColor: '#00e396'
+            },
+            {
+              x: 'Assigned Parking',
+              y: this.totalAssignedParking,
+              fillColor: '#feb019'
+            },
+            {
+              x: 'Free Parking',
+              y: this.countFreeParking,
+              fillColor: '#ff69b4'
+            }
+          ]
+        }
       ],
       chart: {
         type: 'bar',
         width: 430,
         stacked: true,
-        toolbar: {
-          show: false
-        }
-      },
-      plotOptions: {
-        bar: {
-          distributed: true,
-        },
-      },
-      // title: {
-      //   text: 'Wing and Parking Details'
-      // },
-      dataLabels: {
-        enabled: false
-      },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: "bottom"
-            }
-          }
-        }]
-    };
+      }
+    }
   }
 
+  
 
   exportToPDF() {
     const pdfWidth = this.el.nativeElement.offsetWidth;

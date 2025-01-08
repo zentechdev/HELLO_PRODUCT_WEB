@@ -6,7 +6,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertifyService } from '../service/alertify/alertify.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SiteDetailsService } from '../service/client-details/site-details.service';
-import { baseUrl } from 'src/environments/environment';
 @Component({
   selector: 'app-check-in-page',
   templateUrl: './check-in-page.component.html',
@@ -15,7 +14,7 @@ import { baseUrl } from 'src/environments/environment';
 export class CheckInPageComponent implements OnInit {
   @ViewChild('videoElement') videoElement!: ElementRef;
   @ViewChild('canvasElement') canvasElement!: ElementRef;
-  
+
   capturedImage: string | null = null;
   siteId: any;
   unitlist: any;
@@ -28,7 +27,7 @@ export class CheckInPageComponent implements OnInit {
   submitCheckinForm: boolean = false;
   saveStatus: any;
   showPopup: boolean = false;
-  
+
   constructor(
     private service: CheckInService,
     private acitveRoute: ActivatedRoute,
@@ -57,14 +56,14 @@ export class CheckInPageComponent implements OnInit {
       }
     });
   }
-  
+
 
   ngOnInit(): void {
     this.getSiteDetailById(this.siteId);
     this.addFormControls();
     this.getAllUnitList();
     this.check_InForm.get('mobileNo')?.valueChanges.subscribe((x: any) => {
-      let mobileNumber = x.toString().replace(/\s+/g, ''); 
+      let mobileNumber = x.toString().replace(/\s+/g, '');
       if (mobileNumber.length === 10) {
         this.getCheckVisitor_DetailsAlreadyExitOrNo(mobileNumber);
       }
@@ -115,7 +114,7 @@ export class CheckInPageComponent implements OnInit {
       ],
       isActive: 1,
     }
-    
+
     if (this.check_InForm.valid) {
       this.service.checkIn(data).subscribe((res: any) => {
         if (res?.isSuccess == true) {
@@ -133,25 +132,25 @@ export class CheckInPageComponent implements OnInit {
             });
             this.check_InForm.reset();
           }
-          } else {
-            this.alertify.confirm('Check-Out', 'Already checked in. Please check out first', 
-              ()=> {
-                this.service.checkOut(this.check_InForm.value.mobileNo).subscribe((checkout: any) => {
-                  if (checkout?.isSuccess == true) {
-                    this.alertify.success(checkout.message);
-                  }
-                });
-              },
-              ()=> {
-                this.alertify.error('Cancel');
-              }
-            )
-          }
-        });
+        } else {
+          this.alertify.confirm('Check-Out', 'Already checked in. Please check out first',
+            () => {
+              this.service.checkOut(this.check_InForm.value.mobileNo).subscribe((checkout: any) => {
+                if (checkout?.isSuccess == true) {
+                  this.alertify.success(checkout.message);
+                }
+              });
+            },
+            () => {
+              this.alertify.error('Cancel');
+            }
+          )
+        }
+      });
     } else {
       this.alertify.warning('Please fill required fields');
     }
-    
+
   }
 
   onFileSelected(event: Event): void {
@@ -181,9 +180,9 @@ export class CheckInPageComponent implements OnInit {
       unit.name?.toLowerCase().includes(input) || unit.unitNumberName?.includes(input)
     );
   }
-  
 
-  getCheckout(){
+
+  getCheckout() {
     this.service.checkOut(this.check_InForm.value.mobileNo).subscribe({
       next: (res: any) => {
         if (res.isSuccess == true) {
@@ -193,16 +192,19 @@ export class CheckInPageComponent implements OnInit {
     });
   }
 
-  getCheckVisitor_DetailsAlreadyExitOrNo(data: any){
-    this.service.getVisitorByMobileNo(data).subscribe((res: any) => {
-      if (res?.isSuccess == true) {
-        this.check_InForm.get('fullName')?.setValue(res.data[0].visitorName);
-        this.check_InForm.get('location')?.setValue(res.data[0].location);
-        this.image = res.data[0].image;
-      }
-    });
+  getCheckVisitor_DetailsAlreadyExitOrNo(data: any) {
+    setTimeout(() => {
+      this.service.getVisitorByMobileNo(data).subscribe((res: any) => {
+        if (res?.isSuccess == true) {
+          this.check_InForm.get('fullName')?.setValue(res.data[0].visitorName);
+          this.check_InForm.get('location')?.setValue(res.data[0].location);
+          this.image = res.data[0].image;
+        }
+      });
+    }, 3000);
+
   }
-  
+
 
   getSiteDetailById(siteId: any) {
     this.siteService.getSiteDetailById(siteId).subscribe((res: any) => {
@@ -214,7 +216,7 @@ export class CheckInPageComponent implements OnInit {
 
 
   startCamera() {
-    navigator.mediaDevices.getUserMedia({video: { facingMode: { exact: "environment" } } })
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
       .then(stream => {
         this.videoElement.nativeElement.srcObject = stream;
       })
@@ -252,5 +254,5 @@ export class CheckInPageComponent implements OnInit {
     this.alertify.success('Thank you for acknowledging the policy.');
     this.showPopup = false;
   }
-  
+
 }

@@ -72,7 +72,7 @@
                                 <mat-form-field appearance="fill" class="w-100">
                                     <mat-label>Select Unit</mat-label>
                                     <mat-select formControlName="unitId">
-                                        <input matInput type="text" placeholder="Search unit name here..."
+                                        <input matInput type="text" placeholder="Search unit here..."
                                             class="search-input" (keyup)="filterUnits($event)" style="text-align: center; height: 38px;" />
                                         <mat-option *ngFor="let data of filteredUnitList" [value]="data?.id">
                                             {{ data?.name}} - {{data?.unitNumberName}}

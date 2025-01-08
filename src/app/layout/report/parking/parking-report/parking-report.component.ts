@@ -76,16 +76,14 @@ export class ParkingReportComponent implements OnInit {
       next: (res: any) => {
         if (res?.isSuccess) {
           // Filter data based on role
-          const filteredData = this.roleName === 'Unit Admin'
-            ? res.data.filter((item: any) =>{
-              item.unitId === this.unitId
-            })
-            : res.data.filter((item: any) => {
-              return item.siteId == this.siteId
-            });
-          // Assign filtered data to variables
-          this.data = filteredData;
-          this.dataSource = new MatTableDataSource(filteredData);
+          if (this.roleName == 'Unit Admin') {
+            this.data = res.data.filter((item: any) => item.unitId == this.unitId);
+          } else {
+            this.data = res.data.filter((item: any) => item.siteId == this.siteId);
+          }
+
+          console.log('data-------', this.data);
+          this.dataSource = new MatTableDataSource(this.data);
   
           // Set paginator and sort
           if (this.paginator) this.dataSource.paginator = this.paginator;
@@ -128,6 +126,7 @@ export class ParkingReportComponent implements OnInit {
       next: (res: any) => {
         if (this.roleName == 'Unit Admin') {
           let filteredData = res.data.filter((item: any) => item.unitId == this.unitId);
+          console.log(filteredData);
           this.dataSource = new MatTableDataSource(filteredData);
           this.dataSource.data = filteredData;
           this.dataSource.paginator = this.paginator;

@@ -34,7 +34,7 @@
                         <mat-label>Select Parking</mat-label>
                         <mat-select formControlName="parkingId" placeholder="select parking" >
                             <mat-option *ngFor="let data of parkingList" [value]="data?.parkingId">
-                                {{data?.parkingNumber}} - {{data?.parkingType}}
+                                {{data?.parkingNumber}} - {{data?.parkingType}} - {{data?.parkingfloor}}
                             </mat-option>
                         </mat-select>
                         <mat-error>
@@ -60,6 +60,9 @@
                         <mat-error>
                             Vehicle Number is<strong>required</strong>
                         </mat-error>
+                        <mat-error *ngIf="permanentParking.get('vehicleNumber')?.hasError('pattern')">
+                            Special character not allowed
+                        </mat-error>
                     </mat-form-field>
         
                     <mat-form-field appearance="outline">
@@ -81,7 +84,9 @@
         <div class="col-md-6 col-sm-12 d-flex" >
             <button mat-flat-button class="button button4" color="warn" mat-dialog-close style="margin-left:25px">CANCEL</button>
             <button mat-flat-button class="button button4" color="primary"
-             style="margin-left: 10px;" (click)="bookPermanentParking()">Submit</button>
+             style="margin-left: 10px;" (click)="bookPermanentParking()">
+             {{ editData == null ? 'Submit' : 'Update'}}
+             </button>
         </div>
     </div>
 </div>

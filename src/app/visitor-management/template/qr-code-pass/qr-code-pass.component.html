@@ -28,6 +28,7 @@
                     <ngx-qrcode [elementType]="elementType" [errorCorrectionLevel]="correctionLevel" [value]="qrNumber"
                     [width]="150"
                     alt="Demo QR Code"></ngx-qrcode>
+                    <span> Batch No:</span> {{qrNumber}}
                 </div>
                 <div class="barcod" *ngIf="passInvalid" style="text-align: center;">
                     <img src="../../../assets\images\qr-image-sample.png" style="width: 150px; filter:blur(10px);">

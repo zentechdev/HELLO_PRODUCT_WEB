@@ -31,8 +31,8 @@ export class AssignParkingUnitComponent implements OnInit {
     private EncryptedData: StorageEncryptionService) { }
 
   ngOnInit(): void {
-    let sietId = String(localStorage.getItem('siteId'));
-    this.siteId = this.EncryptedData.decryptData(sietId);
+    let siteId = String(localStorage.getItem('siteId'));
+    this.siteId = this.EncryptedData.decryptData(siteId);
     let roleName = String(localStorage.getItem('roleName'));
     this.roleName = this.EncryptedData.decryptData(roleName);
     this.getParkingUnitData();

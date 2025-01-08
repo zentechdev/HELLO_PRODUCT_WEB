@@ -226,16 +226,34 @@ export class ManageUsersDialogComponent implements OnInit {
             this.unitList = res.data;
           }
           else if (this.roleName == "Super Admin") {
-            this.unitList = res.data.filter((item: any) => item.clientId == this.clientId);
+            const unitList = res.data.filter((item: any) => item.clientId == this.clientId);
+            this.unitList = unitList.reduce((unique: any[], item: any) => {
+              if (!unique.some((obj: any) => obj.name === item.name)) {
+                unique.push(item);
+              }
+              return unique;
+            }, []);
             this.filteredUnitList = this.unitList;
           }
           else if (this.roleName == "Site Admin") {
-            this.unitList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
-            this.filteredUnitList = this.unitList;
+            const unitList = res?.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
+            this.unitList = unitList.reduce((unique: any[], item: any) => {
+              if (!unique.some((obj: any) => obj.name === item.name)) {
+                unique.push(item);
+              }
+              return unique;
+            }, []);
+            this.filteredUnitList = [...this.unitList];
           }
           else if (this.roleName == "Unit Admin") {
-            this.unitList = res.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
-            this.filteredUnitList = this.unitList;
+            const unitList = res?.data.filter((item: any) => item.clientId == this.clientId && item.siteId == this.siteId);
+            this.unitList = unitList.reduce((unique: any[], item: any) => {
+              if (!unique.some((obj: any) => obj.name === item.name)) {
+                unique.push(item);
+              }
+              return unique;
+            }, []);
+            this.filteredUnitList = [...this.unitList];
           }
         },
         error: (res) => {

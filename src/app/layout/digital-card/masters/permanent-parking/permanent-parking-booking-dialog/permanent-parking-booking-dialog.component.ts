@@ -38,12 +38,15 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       this.employeeCode = this.decode.decryptData(employeeCode);
     }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.initiateForm();
-    this.getVehicleTypeList();
-    this.getParkingNumberList();
-    this.getStatusList();
-    this.getAllMemberList();
+    await Promise.all([
+      this.getVehicleTypeList(),
+      this.getParkingNumberList(),
+      this.getStatusList(),
+      this.getAllMemberList()
+    ]);
+
     if (this.editData !== null) {
       this.permanentParking.get('ownerName')?.setValue(this.editData?.memberName);
       this.permanentParking.get('mobileNumber')?.setValue(this.editData?.mobileNumber);
@@ -57,7 +60,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     this.permanentParking = this.fb.group({
       ownerName: ['', [Validators.required]],
       mobileNumber: ['', [Validators.required]],
-      vehicleNumber: [ '', [Validators.required]],
+      vehicleNumber: [ '', [Validators.required, Validators.pattern(/^[A-Za-z0-9]*$/)]],
       vehicleTypeId: ['', [Validators.required]],
       parkingId: ['', [Validators.required]],
       isActiveId: ['', [Validators.required]]
@@ -76,24 +79,29 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
       createdBy: this.employeeCode
     }
 
-    if (this.editData == null) {
-      this.service.postPermanentParkingData(body).subscribe((res: any) => {
-        if(res) {
-          this.alertify.success('Permanent Parking Booking Added Successfully');
-          this.dialogRef.close();
-        } else {
-          this.alertify.error('Permanent Parking Booking failed');
-        }
-      })
+    if (this.permanentParking.valid) {
+      if (this.editData == null) {
+        this.service.postPermanentParkingData(body).subscribe((res: any) => {
+          if(res) {
+            this.alertify.success('Permanent Parking Booking Added Successfully');
+            this.dialogRef.close();
+          } else {
+            this.alertify.error('Permanent Parking Booking failed');
+          }
+        })
+      } else {
+        this.service.updatePermanentParkingData(this.editData?.id, body).subscribe((res: any) =>{
+          if(res) {
+            this.alertify.success('Permanent Parking Booking Updated Successfully');
+            this.dialogRef.close();
+          } else {
+            this.alertify.error('Permanent Parking Booking failed');
+          }
+        });
+      }
+      
     } else {
-      this.service.updatePermanentParkingData(this.editData?.id, body).subscribe((res: any) =>{
-        if(res) {
-          this.alertify.success('Permanent Parking Booking Updated Successfully');
-          this.dialogRef.close();
-        } else {
-          this.alertify.error('Permanent Parking Booking failed');
-        }
-      });
+      this.permanentParking.markAllAsTouched();
     }
   }
 

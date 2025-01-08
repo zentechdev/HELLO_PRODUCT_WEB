@@ -118,7 +118,7 @@ export class PermanentParkingBookingListComponent implements OnInit, AfterViewIn
   }
 
   deleteData(Id: any){
-    this.alertify.confirm('Delete Permanent Parking', 'Are you sure do you really want to delete',
+    this.alertify.confirm('Delete Permanent Parking', 'Are you sure want to delete permanent parking ',
       ()=>{
         this.service.deletePermanentParking(Id).subscribe({
           next: (res: any) => {

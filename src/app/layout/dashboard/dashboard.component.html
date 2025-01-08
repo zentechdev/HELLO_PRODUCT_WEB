@@ -122,75 +122,30 @@
       <div class="row">
         <div class="row">
           <div class="col-md-12">
-            <h3 style="display: flex; justify-content: center"><strong>Parking and Unit Details</strong></h3>
+            <h3 style="display: flex; justify-content: center"><strong>Parking Details</strong></h3>
           </div>
         </div>
         <div class="col-md-6">
           <table class="table table-bordered border-primary">
             <thead>
               <tr>
-                <th scope="colgroup" colspan="2" style="text-align: center;">Parking</th>
-                <th scope="colgroup" colspan="2" style="text-align: center;">Unit</th>
-                <!-- <th scope="col" rowspan="2" >Total</th> -->
+                <th scope="colgroup" colspan="3" style="text-align: center;">Parking</th>
               </tr>
               <tr>
-                <th scope="col" style="text-align: center;">A</th>
-                <th scope="col" style="text-align: center;">B</th>
-                <th scope="col" style="text-align: center;">A</th>
-                <th scope="col" style="text-align: center;">B</th>
+                <th scope="col" style="text-align: center;">Occupied</th>
+                <th scope="col" style="text-align: center;">Active</th>
+                <th scope="col" style="text-align: center;">Free</th>
               </tr>
             </thead>
             <tbody>
               <tr style="text-align: center;">
-                <td> {{ wingATotal }} </td>
-                <td> {{ wingBTotal}} </td>
-                <td> {{ wingAUnit}} </td>
-                <td> {{ wingBUnit}} </td>
-                <!-- <td> {{ detail.name }}</td> -->
+                <td> {{ totalAssignedParking }} </td>
+                <td> {{ activeParkingCount}} </td>
+                <td> {{ countFreeParking}} </td>
               </tr>
             </tbody>              
           </table>
           
-          <!-- <div class="wing-floor-container">
-            <div class="grid-header">Wing Type</div>
-            <div class="grid-header">Floor Type</div>
-            <div class="grid-header">Total</div>
-            
-            <ng-container *ngFor="let detail of parkingDetails">
-              <div class="wing-floor-item">
-                <div class="wing-type">
-                  <strong>Wing A:</strong> 
-                  <span [ngClass]="{'active': detail.wingName === 'A', 'inactive': detail.wingName !== 'A'}">
-                    {{ detail.wingName === 'A' ? 'Yes' : 'No' }}
-                  </span>
-                </div>
-                <div class="wing-type">
-                  <strong>Wing B:</strong> 
-                  <span [ngClass]="{'active': detail.wingName === 'B', 'inactive': detail.wingName !== 'B'}">
-                    {{ detail.wingName === 'B' ? 'Yes' : 'No' }}
-                  </span>
-                </div>
-          
-                <div class="floor-type">
-                  <strong>Parking:</strong>
-                  <span [ngClass]="{'active': detail.floorType === 'Parking', 'inactive': detail.floorType !== 'Parking'}">
-                    {{ detail.floorType === 'Parking' ? 'Yes' : 'No' }}
-                  </span>
-                </div>
-                <div class="floor-type">
-                  <strong>Unit:</strong>
-                  <span [ngClass]="{'active': detail.floorType === 'Unit', 'inactive': detail.floorType !== 'Unit'}">
-                    {{ detail.floorType === 'Unit' ? 'Yes' : 'No' }}
-                  </span>
-                </div>
-              </div>
-            </ng-container>
-          
-            <div class="totals">
-              <strong>Total:</strong>
-              <span>{{ wingATotal + wingBTotal + parkingTotal + unitTotal }}</span>
-            </div>
-          </div> -->
           
         </div>
         <div class="col-md-6">
@@ -207,7 +162,7 @@
       </div>
     </div>
 
-    <div class="card" style="padding: 15px;" *ngIf="roleName == 'Unit Admin'">
+    <!-- <div class="card" style="padding: 15px;" *ngIf="roleName !== 'Unit Admin'">
       <div class="row">
         <div class="row">
           <div class="col-md-12">
@@ -237,5 +192,5 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
