@@ -22,13 +22,23 @@ export class StorageEncryptionService {
 
   encryptData(data: any): string {
     const encryptedData = CryptoJS.AES.encrypt(JSON.stringify(data), this.SECRET_KEY).toString();
-    return encryptedData;
+  
+    // Replace Base64 characters with URL-safe ones
+    const urlSafeEncryptedData = encryptedData.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return urlSafeEncryptedData;
   }
-
+  
   decryptData(encryptedData: string): any {
-    const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, this.SECRET_KEY);
-    const decryptedData = JSON.parse(decryptedBytes.toString(CryptoJS.enc.Utf8));
-    return decryptedData;
+    const base64Data = encryptedData.replace(/-/g, '+').replace(/_/g, '/');
+  
+    try {
+      const decryptedBytes = CryptoJS.AES.decrypt(base64Data, this.SECRET_KEY);
+      const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
+      return JSON.parse(decryptedData);
+    } catch (error) {
+      console.error('Decryption failed:', error);
+      return null;
+    }
   }
 
 }
