@@ -39,7 +39,8 @@ export class CheckInPageComponent implements OnInit {
     private router: Router
   ) {
     this.acitveRoute.queryParams.subscribe(params => {
-      const encryptedSiteId = params['siteId'];
+      const encryptedSiteId = decodeURIComponent(params['siteId']);
+      localStorage.setItem('siteId', encryptedSiteId);
       if (encryptedSiteId) {
         try {
           const siteId = String(localStorage.getItem('siteId'));
