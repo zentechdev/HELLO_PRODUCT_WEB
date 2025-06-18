@@ -44,8 +44,8 @@
     <h2>Visitor Approval</h2>
 
     <div class="approval-buttons">
-      <button mat-button class="mat-raised-button approve-button" (click)="approveVisitor()">Approve</button>
-      <button mat-button class="mat-raised-button reject-button" (click)="rejectVisitor()">Reject</button>
+      <button mat-button class="mat-raised-button approve-button" (click)="approveVisitor()" [disabled]="approval">Approve</button>
+      <button mat-button class="mat-raised-button reject-button" (click)="rejectVisitor()" [disabled]="approval">Reject</button>
     </div>
   </div>
 

@@ -10,7 +10,7 @@ import { VisitorApprovalService } from 'src/app/service/template/visitor-approva
 export class ApproveVisitorComponent implements OnInit {
   parmValue!: string | null;
   statusId!: number;
-
+  approval: boolean = false;
   constructor(public service: VisitorApprovalService, public alertify: AlertifyService) { }
 
   async ngOnInit(): Promise<void> {
@@ -45,6 +45,7 @@ export class ApproveVisitorComponent implements OnInit {
         next: (res) => {
           if (res.isSuccess == true) {
             this.alertify.success(res.message);
+            this.approval = true;
           }
           else {
             this.alertify.error(res.message);
@@ -67,6 +68,7 @@ export class ApproveVisitorComponent implements OnInit {
         next: (res) => {
           if (res.isSuccess == true) {
             this.alertify.success(res.message);
+            this.approval = true;
           }
           else {
             this.alertify.success(res.message);
@@ -75,7 +77,7 @@ export class ApproveVisitorComponent implements OnInit {
         error: (res) => {
           this.alertify.error("500 Internal Server Error")
         }
-      })
+      });
   }
 
 }

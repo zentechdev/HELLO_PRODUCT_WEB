@@ -56,12 +56,12 @@
                     <mat-form-field appearance="outline" class="me-5">
                         <mat-label>Vehicle Number</mat-label>
                         <input matInput placeholder="Enter vehicle Number" autocomplete="off" 
-                        formControlName="vehicleNumber" maxlength="9">
-                        <mat-error>
+                        formControlName="vehicleNumber" maxlength="10">
+                        <mat-error *ngIf="permanentParking.get('vehicleNumber')?.hasError('required')">
                             Vehicle Number is<strong>required</strong>
                         </mat-error>
                         <mat-error *ngIf="permanentParking.get('vehicleNumber')?.hasError('pattern')">
-                            Special character not allowed
+                            Invalid Vehicle Number Format
                         </mat-error>
                     </mat-form-field>
         

@@ -60,7 +60,7 @@ export class PermanentParkingBookingDialogComponent implements OnInit {
     this.permanentParking = this.fb.group({
       ownerName: ['', [Validators.required]],
       mobileNumber: ['', [Validators.required]],
-      vehicleNumber: [ '', [Validators.required, Validators.pattern(/^[A-Za-z0-9]*$/)]],
+      vehicleNumber: [ '', [Validators.required, Validators.pattern(/^[A-Z]{2}[0-9]{2}[A-Z]{0,3}[0-9]{4}$/)]],
       vehicleTypeId: ['', [Validators.required]],
       parkingId: ['', [Validators.required]],
       isActiveId: ['', [Validators.required]]

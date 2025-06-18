@@ -77,7 +77,8 @@ export class LoginComponent implements OnInit {
             this.status = decodedToken.status;
             this.employeeTechAccessId=decodedToken.employeeTechAccessId;
             this.isActive = decodedToken.isActive;
-            if (this.roleName !="Employee" && this.isActive == 'Active') {
+            if (this.roleName !== "Employee" && this.roleName !== 'Guard' && this.isActive == 'Active') {
+              console.log('enter in if condition', this.roleName);
               const encryptedData = this.storageEncryptionService.encryptData(this.memberId);
               localStorage.setItem('memberId', encryptedData);
               const encryptedData1 = this.storageEncryptionService.encryptData(this.clientId);
@@ -112,8 +113,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('visitorTechAccessId', encryptedData14);
               this.router.navigate(['/layout/dashboard']);
               this.alertify.success(res.message)
-            }
-            else {
+            } else {
               // this.router.navigate(['token-expired-dialog']);
               this.alertify.error("Login Faild!!");
             }
